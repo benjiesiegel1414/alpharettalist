@@ -6,5 +6,5 @@ window.WL_CONFIG = {
   // Inbox used by the email fallback if the form endpoint is unavailable.
   fallbackEmail: "hello@alpharettalist.com",
   // GA4 measurement ID, for example "G-XXXXXXXXXX". Leave empty to disable analytics.
-  ga4: ""
+  ga4: "G-4MGTEFBS06"
 };
