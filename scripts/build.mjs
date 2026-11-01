@@ -107,7 +107,8 @@ const CATS = [
 const catLabel = (id) => (CATS.find(c => c.id === id) || { label: "Local" }).label;
 const fmtDate = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 const fmtShort = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
-const dateChip = (e, yr) => { const d = new Date(e.start + "T12:00:00"); const mon = d.toLocaleDateString("en-US", { month: "short" }); return e.dateNote ? `<b style="font-size:17px">${mon}</b><small>TBA</small>` : `<b>${d.getDate()}</b><small>${mon}${yr ? " " + d.getFullYear() : ""}</small>`; };
+const dateChip = (e, yr) => { const d = new Date(e.start + "T12:00:00"); const mon = d.toLocaleDateString("en-US", { month: "short" }); return `<b>${d.getDate()}</b><small>${mon}${yr ? " " + d.getFullYear() : ""}</small>`; };
+const evWhen = (e) => fmtDate(e.start) + (e.end && e.end !== e.start ? " to " + fmtDate(e.end) : "");
 const mapsLink = (p) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(p.name + " " + (p.address || "Alpharetta, GA"));
 
 // ---------- Shared chrome ----------
@@ -258,7 +259,7 @@ const add = (urlPath, html, priority = "0.7", lastmod = BUILD_DATE) => { write(u
     </ul>
   </div>
   <aside class="rail" id="events"><div><h3>Coming up</h3>
-    <ul class="events">${events.slice(0, 4).map(e => `<li><div class="date">${dateChip(e)}</div><div><strong><a href="/events/#${e.slug}">${esc(e.title)}</a></strong><span>${esc(e.venue)}</span></div></li>`).join("")}</ul>
+    <ul class="events">${events.slice(0, 5).map(e => `<li>${e.image ? `<a class="ev-thumb" href="/events/#${e.slug}"><img src="${e.image}" alt="" loading="lazy" width="96" height="64"></a>` : `<div class="date">${dateChip(e)}</div>`}<div><strong><a href="/events/#${e.slug}">${esc(e.title)}</a></strong><span>${fmtShort(e.start)}${e.end && e.end !== e.start ? " - " + fmtShort(e.end) : ""} &middot; ${esc(e.venue)}</span></div></li>`).join("")}</ul>
     <a class="btn btn-ghost" href="/submit-event/">Submit an event</a></div>
     ${sponsor("rect")}
   </aside></div>
@@ -523,9 +524,9 @@ for (const p of places) {
     offers: { "@type": "Offer", url: e.url || SITE + "/events/#" + e.slug, availability: "https://schema.org/InStock", validFrom: e.start, ...(e.price !== undefined ? { price: String(e.price), priceCurrency: "USD" } : {}) } }));
   const body = pageHead(crumbs, "Events in Alpharetta, GA", "Festivals, concerts, markets and community events happening in and around Alpharetta.") + `<div class="wrap">${sponsor()}</div>
 <div class="wrap body-grid"><div>
-  <ul class="event-list">${events.map(e => `<li class="event-item" id="${e.slug}"><div class="date">${dateChip(e, true)}</div>
-    <div><h3>${esc(e.title)}</h3><div class="when">${e.dateNote ? esc(e.dateNote) : fmtDate(e.start) + (e.end && e.end !== e.start ? " to " + fmtDate(e.end) : "")}</div>
-    <p>${esc(e.desc)}</p><p><strong>${e.venueSlug ? `<a href="/places/${e.venueSlug}/">${esc(e.venue)}</a>` : esc(e.venue)}</strong>${e.address ? ", " + esc(e.address) : ""}</p>${e.url ? `<p><a href="${esc(e.url)}" rel="noopener" target="_blank">Event details</a></p>` : ""}</div></li>`).join("")}</ul>
+  <ul class="event-list">${events.map(e => `<li class="event-item" id="${e.slug}">${e.image ? `<div class="ev-img"><img src="${e.image}" alt="${esc(e.title)}" loading="lazy" width="320" height="180"><div class="date">${dateChip(e, true)}</div></div>` : `<div class="date">${dateChip(e, true)}</div>`}
+    <div><h3>${esc(e.title)}</h3><div class="when">${evWhen(e)}${e.time ? " &middot; " + esc(e.time) : ""}</div>
+    ${e.estimated ? `<p class="ev-est">Estimated date: ${esc(e.estimated)}.</p>` : ""}<p>${esc(e.desc)}</p><p><strong>${e.venueSlug ? `<a href="/places/${e.venueSlug}/">${esc(e.venue)}</a>` : esc(e.venue)}</strong>${e.address ? ", " + esc(e.address) : ""}</p>${e.priceText ? `<p class="ev-price">${esc(e.priceText)}</p>` : ""}${e.url ? `<p><a href="${esc(e.url)}" rel="noopener" target="_blank">Event details</a></p>` : ""}</div></li>`).join("")}</ul>
   <div class="claim" style="margin-top:32px">Hosting something in Alpharetta? <a href="/submit-event/">Submit your event</a> and we will add it to the calendar for free.</div>
 </div><aside><div class="sticky-rail">${sponsor("rect")}</div></aside></div>
 <div class="wrap">${sponsor()}</div>${newsletter}`;
@@ -645,6 +646,7 @@ fs.writeFileSync(path.join(OUT, "assets/site.css"), read("assets/base.css") + re
 for (const f of ["main.js", "config.js"]) fs.copyFileSync(path.join(SRC, "assets", f), path.join(OUT, "assets", f));
 for (const f of fs.readdirSync(path.join(SRC, "static"))) fs.copyFileSync(path.join(SRC, "static", f), path.join(OUT, f.startsWith("asset-") ? "assets/" + f.slice(6) : f));
 
+if (fs.existsSync(path.join(SRC, "events"))) { fs.mkdirSync(path.join(OUT, "assets/events"), { recursive: true }); for (const f of fs.readdirSync(path.join(SRC, "events"))) fs.copyFileSync(path.join(SRC, "events", f), path.join(OUT, "assets/events", f)); }
 if (fs.existsSync(path.join(SRC, "covers"))) { fs.mkdirSync(path.join(OUT, "assets/covers"), { recursive: true }); for (const f of fs.readdirSync(path.join(SRC, "covers"))) fs.copyFileSync(path.join(SRC, "covers", f), path.join(OUT, "assets/covers", f)); }
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

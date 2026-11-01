@@ -154,3 +154,13 @@
 .prose table{width:100%;border-collapse:collapse;margin:18px 0 24px;font-size:15px;display:block;overflow-x:auto}
 .prose th,.prose td{text-align:left;padding:10px 12px;border-bottom:1px solid rgba(0,0,0,.1);vertical-align:top}
 .prose thead th{font-weight:600;border-bottom:2px solid rgba(0,0,0,.18)}
+
+  .event-item{grid-template-columns:240px 1fr}
+  .ev-img{position:relative}
+  .ev-img img{width:240px;height:135px;object-fit:cover;border-radius:10px;display:block}
+  .ev-img .date{position:absolute;left:10px;top:10px;background:#fff;min-width:54px;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+  .ev-est{font-size:13.5px;color:#8A6414!important;font-style:italic}
+  .ev-price{font-weight:600;color:var(--ink)!important}
+  .events li{grid-template-columns:96px 1fr;align-items:center}
+  .ev-thumb img{width:96px;height:64px;object-fit:cover;border-radius:6px}
+  @media (max-width:640px){.event-item{grid-template-columns:1fr}.ev-img img{width:100%;height:auto;aspect-ratio:16/9}}
