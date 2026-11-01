@@ -1,0 +1,90 @@
+name: Build site
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 9 * * *"   # daily at about 5am Eastern, pulls approved submissions from Google Sheets
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Unpack uploaded source bundle (if present)
+        run: |
+          if [ -f bundle.txt ]; then
+            base64 -d bundle.txt | tar -xJf -
+            rm bundle.txt
+          fi
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Rename manually uploaded covers
+        run: |
+          mkdir -p src/covers
+          if [ -f src/covers/rename.txt ]; then
+            while read -r from to; do
+              if [ -n "$from" ] && [ -f "src/covers/$from" ]; then mv "src/covers/$from" "src/covers/$to"; fi
+            done < src/covers/rename.txt
+            rm src/covers/rename.txt
+          fi
+      - name: Stock covers for posts without one (Pexels, only if PEXELS_API_KEY is set)
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        run: |
+          if [ -z "$PEXELS_API_KEY" ]; then echo "No PEXELS_API_KEY, skipping stock covers"; exit 0; fi
+          node --input-type=module <<'JS'
+          import fs from "fs";
+          const posts = JSON.parse(fs.readFileSync("src/data/posts.json", "utf8"));
+          for (const p of posts) {
+            const out = `src/covers/${p.slug}.jpg`;
+            if (fs.existsSync(out)) continue;
+            const q = p.coverQuery || `${p.category || "Florida"} Florida`;
+            try {
+              const r = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}&orientation=landscape&per_page=5`, { headers: { Authorization: process.env.PEXELS_API_KEY } });
+              const j = await r.json();
+              const photo = (j.photos || [])[0];
+              if (!photo) { console.warn("No stock photo for", p.slug, q); continue; }
+              const img = await fetch(photo.src.original + "?auto=compress&cs=tinysrgb&w=1600&h=900&fit=crop");
+              if (!img.ok) throw new Error("download " + img.status);
+              fs.writeFileSync(out, Buffer.from(await img.arrayBuffer()));
+              console.log("Stock cover:", out, "photo by", photo.photographer, photo.url);
+            } catch (e) { console.warn("Stock cover failed for", p.slug, e.message); }
+          }
+          JS
+      - name: Compress covers
+        run: |
+          command -v mogrify >/dev/null || (sudo apt-get update && sudo apt-get install -y imagemagick)
+          for f in src/covers/*; do
+            [ -f "$f" ] || continue
+            case "$f" in *.jpg) ;; *) continue ;; esac
+            if [ "$(stat -c%s "$f")" -gt 350000 ]; then mogrify -resize '1600x>' -strip -quality 78 "$f"; fi
+          done
+      - name: Generate images (first run only)
+        run: |
+          if [ ! -f src/static/asset-og.jpg ]; then
+            npm i --no-save playwright@1.48.2
+            npx playwright install --with-deps chromium
+            node scripts/images.mjs
+          fi
+      - name: Build
+        env:
+          SHEET_BUSINESSES_CSV: ${{ vars.SHEET_BUSINESSES_CSV }}
+          SHEET_EVENTS_CSV: ${{ vars.SHEET_EVENTS_CSV }}
+        run: node scripts/build.mjs
+      - name: Commit changes
+        run: |
+          git config user.name "alpharettalist-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Build site $(date -u +%Y-%m-%d)"
+          for i in 1 2 3; do git pull --rebase -X theirs origin main && git push && break; sleep 5; done

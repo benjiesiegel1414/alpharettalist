@@ -1,0 +1,137 @@
+[
+ {
+  "slug": "alpharetta-womens-half-2026",
+  "title": "Alpharetta Women's Half Marathon & 5K",
+  "start": "2026-11-07",
+  "end": "2026-11-08",
+  "dateNote": "Early November 2026 (check official site for race day)",
+  "venue": "Avalon",
+  "venueSlug": "avalon",
+  "address": "2200 Avalon Blvd, Alpharetta, GA 30009",
+  "desc": "The annual women's half marathon and 5K through Alpharetta, finishing at Avalon."
+ },
+ {
+  "slug": "season-of-celebration-tree-lighting-2026",
+  "title": "Season of Celebration Tree Lighting",
+  "start": "2026-11-21",
+  "end": "2026-11-21",
+  "dateNote": "Late November 2026 (date announced by the city)",
+  "venue": "Downtown Alpharetta",
+  "venueSlug": "downtown-alpharetta",
+  "desc": "Downtown Alpharetta kicks off the holidays with its annual tree lighting, lighting up the city with some 10,000 bulbs, followed by holiday activities on the Town Green through December."
+ },
+ {
+  "slug": "lighting-of-avalon-2026",
+  "title": "Lighting of Avalon & Avalon on Ice",
+  "start": "2026-11-22",
+  "end": "2027-01-18",
+  "dateNote": "Late November 2026; the ice rink runs to about mid-January",
+  "venue": "Avalon",
+  "venueSlug": "avalon",
+  "address": "2200 Avalon Blvd, Alpharetta, GA 30009",
+  "desc": "Avalon's tree lighting with music, free family activities and Santa, opening the Avalon on Ice skating rink for the season."
+ },
+ {
+  "slug": "menorah-lighting-avalon-2026",
+  "title": "Menorah Lighting at Avalon",
+  "start": "2026-12-09",
+  "end": "2026-12-09",
+  "dateNote": "December 2026 (during Hanukkah; check Avalon's calendar)",
+  "venue": "Avalon",
+  "venueSlug": "avalon",
+  "desc": "Avalon's annual community menorah lighting during Hanukkah."
+ },
+ {
+  "slug": "noon-years-eve-2026",
+  "title": "Noon Year's Eve at The Hotel at Avalon",
+  "start": "2026-12-31",
+  "end": "2026-12-31",
+  "venue": "The Hotel at Avalon",
+  "venueSlug": "the-hotel-at-avalon",
+  "address": "9000 Avalon Blvd, Alpharetta, GA 30009",
+  "desc": "A family-friendly early New Year's party with a balloon drop at noon, so the kids can celebrate without the midnight bedtime."
+ },
+ {
+  "slug": "farmers-market-2027",
+  "title": "Alpharetta Farmers Market (2027 season)",
+  "start": "2027-04-03",
+  "end": "2027-11-13",
+  "dateNote": "Saturday mornings, April through November",
+  "venue": "Town Green, Downtown Alpharetta",
+  "venueSlug": "alpharetta-farmers-market",
+  "address": "2 Park Plaza, Alpharetta, GA 30009",
+  "desc": "Local growers, bakers, makers and artisans on the Town Green every Saturday morning, 8:30 a.m. to 12:30 p.m., April through November."
+ },
+ {
+  "slug": "food-truck-alley-2027",
+  "title": "Alpharetta Food Truck Alley (2027 season)",
+  "start": "2027-04-22",
+  "end": "2027-10-28",
+  "dateNote": "4th Thursday of the month, April through October, 5 to 9 p.m.",
+  "venue": "Old Roswell Street, Downtown",
+  "venueSlug": "alpharetta-food-truck-alley",
+  "address": "37 Old Roswell St, Alpharetta, GA 30009",
+  "desc": "Ten or more food trucks plus live music one Thursday evening a month. Seating is limited, so bring a chair or blanket; pets are not permitted."
+ },
+ {
+  "slug": "celebrate-freedom-rodeo-2027",
+  "title": "Celebrate Freedom Rodeo",
+  "start": "2027-05-01",
+  "end": "2027-05-02",
+  "dateNote": "Early May 2027",
+  "venue": "Wills Park Equestrian Center",
+  "venueSlug": "wills-park-equestrian-center",
+  "address": "11915 Wills Rd, Alpharetta, GA 30009",
+  "desc": "A two-day western rodeo at the Wills Park Equestrian Center."
+ },
+ {
+  "slug": "taste-of-alpharetta-2027",
+  "title": "Taste of Alpharetta",
+  "start": "2027-05-13",
+  "end": "2027-05-13",
+  "dateNote": "May 2027 (date announced by the city)",
+  "venue": "Downtown Alpharetta",
+  "venueSlug": "downtown-alpharetta",
+  "desc": "An evening of samples from 60+ local restaurants with cooking demos and entertainment. Admission is free; food tickets are sold on site."
+ },
+ {
+  "slug": "arts-streetfest-2027",
+  "title": "Alpharetta Arts Streetfest",
+  "start": "2027-05-29",
+  "end": "2027-05-31",
+  "dateNote": "Memorial Day weekend 2027",
+  "venue": "The Grove at Wills Park",
+  "venueSlug": "wills-park",
+  "desc": "An outdoor art festival with 100+ artists at The Grove at Wills Park."
+ },
+ {
+  "slug": "brew-moon-fest-2027",
+  "title": "Alpharetta Brew Moon Fest",
+  "start": "2027-06-12",
+  "end": "2027-06-12",
+  "dateNote": "June 2027 (date announced by the city)",
+  "venue": "Downtown Alpharetta",
+  "venueSlug": "downtown-alpharetta",
+  "desc": "Downtown Alpharetta's annual evening beer festival."
+ },
+ {
+  "slug": "july-4-wills-park-2027",
+  "title": "4th of July Celebration at Wills Park",
+  "start": "2027-07-04",
+  "end": "2027-07-04",
+  "venue": "Wills Park",
+  "venueSlug": "wills-park",
+  "address": "11915 Wills Rd, Alpharetta, GA 30009",
+  "desc": "Alpharetta's annual Independence Day picnic at Wills Park, with fireworks at dusk."
+ },
+ {
+  "slug": "wire-and-wood-2027",
+  "title": "Wire & Wood Alpharetta Songwriters Festival",
+  "start": "2027-10-08",
+  "end": "2027-10-09",
+  "dateNote": "October 2027",
+  "venue": "Downtown Alpharetta",
+  "venueSlug": "downtown-alpharetta",
+  "desc": "A free festival with 30+ songwriters performing on six outdoor stages across downtown."
+ }
+]
