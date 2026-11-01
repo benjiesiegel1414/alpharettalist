@@ -409,6 +409,37 @@
   .dir-body .dir-tools{margin-bottom:6px}
   .dir-body .count-note{margin:14px 0 22px}
   @media (max-width:640px){.page-head .wrap{padding-top:44px;padding-bottom:48px}.page-head .page-search{flex-direction:row}}
+  /* Advertise nav link + page */
+  nav.main a.nav-ad{font-weight:700;color:#9A7426}
+  nav.main a.nav-ad:hover{border-color:#C9A24A}
+  nav.main a.nav-ad[aria-current="page"]{border-color:#C9A24A}
+  .ad-hero-cta{margin-top:28px}
+  .ad-hero-btn{font-size:16px;padding:14px 24px}
+  .ad-sec{padding-top:48px;padding-bottom:56px}
+  .ad-intro{max-width:780px}
+  .ad-h{font-family:var(--serif);font-weight:500;font-size:clamp(26px,3vw,34px);letter-spacing:-.01em;margin:52px 0 20px}
+  .ad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .ad-grid-2{grid-template-columns:repeat(2,1fr)}
+  .ad-card{border:1px solid var(--line);border-radius:12px;padding:26px;background:#fff}
+  .ad-card h3{font-family:var(--serif);font-weight:500;font-size:22px;margin:12px 0 8px}
+  .ad-card p{margin:0;color:var(--muted);line-height:1.6}
+  .ad-ico{width:30px;height:38px;color:#B98F39}
+  .ad-note{color:var(--muted);margin-top:18px}
+  .ad-steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:s}
+  .ad-steps li{counter-increment:s;border-top:3px solid #C9A24A;padding-top:16px}
+  .ad-steps li::before{content:counter(s);font-family:var(--serif);font-size:30px;color:#B98F39;display:block;margin-bottom:4px}
+  .ad-steps strong{display:block;font-size:17px;margin-bottom:4px}
+  .ad-steps span{color:var(--muted);line-height:1.55}
+  .ad-contact{margin-top:56px;background:var(--mesh);color:#fff;border-radius:14px;padding:36px 40px;display:flex;gap:28px;align-items:center;justify-content:space-between}
+  .ad-contact h2{font-family:var(--serif);font-weight:500;font-size:28px;margin:0 0 8px}
+  .ad-contact p{margin:0;color:#E4DCC9;max-width:60ch}
+  .ad-contact a:not(.btn){color:#E9C877}
+  .ad-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+  .ad-faq summary{font-weight:600;cursor:pointer;font-size:17px}
+  .ad-faq details p{color:var(--muted);margin:10px 0 0;max-width:72ch}
+  @media (max-width:860px){.ad-grid,.ad-grid-2,.ad-steps{grid-template-columns:1fr}.ad-contact{flex-direction:column;align-items:flex-start;padding:28px 24px}.ad-hero-btn{width:100%;text-align:center}}
+  @media (max-width:1100px) and (min-width:861px){nav.main{gap:14px}}
+  @media (max-width:640px){.head-stats{gap:6px 18px}.head-stats span+span::before{display:none}}
 
 .foot-h{font-size:14px;color:#fff;margin:0 0 14px;font-weight:600;font-family:var(--sans)}
 .h4{font-family:var(--serif);font-weight:500;font-size:22px;margin:2px 0 0;line-height:1.2}

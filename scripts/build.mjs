@@ -116,7 +116,7 @@ const logoSymbol = read("assets/logo-symbol.svg");
 const sprite = `<svg width="0" height="0" style="position:absolute" aria-hidden="true">${logoSymbol}</svg>`;
 const logo = (light) => `<a class="brand" href="/" aria-label="Alpharetta List home"><span class="logo-tile${light ? " logo-tile-light" : ""}"><svg width="36" height="36" viewBox="0 0 64 64"><use href="#logo"/></svg></span><span class="brand-name">Alpharetta List<span>Alpharetta, Georgia</span></span></a>`;
 
-const NAV = [["/blog/", "News"], ["/directory/", "Directory"], ["/restaurants/", "Eat and Drink"], ["/services/", "Services"], ["/things-to-do/", "Things to Do"], ["/events/", "Events"]];
+const NAV = [["/blog/", "News"], ["/directory/", "Directory"], ["/restaurants/", "Eat and Drink"], ["/services/", "Services"], ["/things-to-do/", "Things to Do"], ["/events/", "Events"], ["/advertise/", "Advertise"]];
 
 // ---------- Sponsors: not used on AlpharettaList (no ad slots on this site) ----------
 const sponsorBar = "", sponsorRails = "", sponsorShowcase = "";
@@ -131,7 +131,7 @@ const footer = `
       <div><h2 class="foot-h">Read</h2><ul><li><a href="/blog/">News and guides</a></li><li><a href="/events/">Events</a></li><li><a href="/things-to-do/">Things to do</a></li><li><a href="/directory/?cat=parks">Parks and trails</a></li></ul></div>
       <div><h2 class="foot-h">Find</h2><ul><li><a href="/restaurants/">Restaurants</a></li><li><a href="/directory/?cat=shopping">Shopping</a></li><li><a href="/services/">Local services</a></li><li><a href="/directory/">Full directory</a></li></ul></div>
       <div><h2 class="foot-h">Popular guides</h2><ul><li><a href="/blog/best-restaurants-alpharetta-ga/">Best restaurants</a></li><li><a href="/blog/things-to-do-alpharetta-ga/">Things to do</a></li><li><a href="/blog/moving-to-alpharetta-ga-guide/">Moving to Alpharetta</a></li><li><a href="/blog/best-coffee-shops-alpharetta-ga/">Coffee shops</a></li></ul></div>
-      <div><h2 class="foot-h">Work with us</h2><ul><li><a href="/add-your-business/">Add your business</a></li><li><a href="/submit-event/">Submit an event</a></li><li><a href="/about/">About</a></li></ul></div>
+      <div><h2 class="foot-h">Work with us</h2><ul><li><a href="/add-your-business/">Add your business</a></li><li><a href="/submit-event/">Submit an event</a></li><li><a href="/advertise/">Advertise</a></li><li><a href="/about/">About</a></li></ul></div>
     </div>
     <div class="legal"><span>&copy; <span id="yr">${new Date().getFullYear()}</span> Alpharetta List. Independent and not affiliated with the City of Alpharetta.</span><span><a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a> &nbsp; <a href="/privacy/">Privacy</a> &nbsp; <a href="/about/">About</a></span></div>
   </div>
@@ -181,7 +181,7 @@ ${sprite}
 <a class="sr" href="#main">Skip to content</a>
 <header class="site"><div class="wrap">
   ${logo(false)}
-  <nav class="main" id="mainnav" aria-label="Main">${NAV.map(([h, l]) => `<a href="${h}"${urlPath.startsWith(h) ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
+  <nav class="main" id="mainnav" aria-label="Main">${NAV.map(([h, l]) => `<a href="${h}"${h === "/advertise/" ? ' class="nav-ad"' : ""}${urlPath.startsWith(h) ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
   <a class="btn btn-primary header-cta" href="/add-your-business/">Add your business</a>
   <button class="menu-toggle" aria-expanded="false" aria-controls="mainnav">Menu</button>
 </div></header>
@@ -611,6 +611,57 @@ formPage({
     "Send events at least a week ahead when possible. We may lightly edit descriptions for length."),
   side: `<div class="info-card"><strong>Good to know</strong><ul class="tips"><li>Listing events is free</li><li>We focus on events in or near Alpharetta</li><li>Recurring events can go in one email</li></ul></div>`
 });
+
+// ---------- Advertise ----------
+{
+  const crumbs = [["Home", "/"], ["Advertise", "/advertise/"]];
+  const nPlaces = places.length, nEvents = events.length;
+  const subj = encodeURIComponent("Advertising on Alpharetta List");
+  const mailBtn = (cls = "btn btn-primary") => `<a class="${cls}" href="mailto:${MAIL}?subject=${subj}">Email ${MAIL}</a>`;
+  const card = (t, d) => `<div class="ad-card"><svg class="ad-ico" viewBox="0 0 64 64" aria-hidden="true"><use href="#logo"/></svg><h3>${t}</h3><p>${d}</p></div>`;
+  const faq = [
+    ["Who reads Alpharetta List?", "People searching for Alpharetta, Georgia businesses, restaurants, things to do and events: residents, families who just moved to the area, people who work in Alpharetta's office corridors and visitors planning a trip to Avalon or downtown."],
+    ["How much does it cost?", "Rates depend on the placement, the category and how long you want to run. Email us with what you have in mind and we'll send current availability and pricing."],
+    ["Are sponsored placements labeled?", "Yes. Every paid placement is clearly marked as sponsored, so readers can trust the rest of the guide and your brand gets the credibility of appearing alongside it."],
+    ["Do I have to advertise to be listed?", "No. Basic listings are always free. Advertising is for businesses that want more visibility than a standard listing."],
+    ["How fast can a campaign go live?", "Usually within a few business days of receiving your artwork, copy and link."]
+  ];
+  const body = pageHead(crumbs, "Advertise on Alpharetta List", "Put your business in front of people actively searching for Alpharetta restaurants, services, things to do and events.",
+    `<div class="ad-hero-cta">${mailBtn("btn btn-primary ad-hero-btn")}</div>
+  <div class="head-stats"><span><b>${nPlaces}</b> local listings</span><span><b>${CATS.filter(c => places.some(p => p.cat === c.id)).length}</b> categories</span><span><b>${nEvents}</b> upcoming events</span></div>`) + `
+<section class="wrap ad-sec">
+  <div class="ad-intro"><p class="lede">Alpharetta List is the independent local guide to Alpharetta, Georgia. When someone looks up the best sushi near Avalon, a plumber in North Fulton or what's happening downtown this weekend, they land on our pages. Sponsoring Alpharetta List puts your business right where those decisions get made.</p></div>
+  <h2 class="ad-h">Why sponsor Alpharetta List</h2>
+  <div class="ad-grid">
+    ${card("High-intent local readers", "Our visitors aren't scrolling past. They're looking for a place to eat, a service to hire or something to do in Alpharetta, right now.")}
+    ${card("100% Alpharetta focused", "No wasted reach across all of metro Atlanta. Every page is about Alpharetta and the neighborhoods around it, from Avalon to Windward to downtown.")}
+    ${card("A trusted, uncluttered guide", "We keep the site clean, with no pop-ups and no wall of banner ads. A sponsor stands out instead of getting lost.")}
+  </div>
+  <h2 class="ad-h">Ways to sponsor</h2>
+  <div class="ad-grid ad-grid-2">
+    ${card("Directory sponsor", "Become the presenting sponsor of the Alpharetta List directory or one category, like Eat and Drink, Home services or Health and medical, with your brand at the top of the page.")}
+    ${card("Featured listing", "Pin your business to the top of its category with a highlighted card, your logo and a direct link to your site or booking page.")}
+    ${card("Sponsored guide", "A dedicated, clearly labeled article about your business, menu, opening or offer, written for local readers and promoted across the site.")}
+    ${card("Events calendar sponsor", "Promote your event or venue at the top of the Alpharetta events calendar, one of the most-visited pages for things to do.")}
+  </div>
+  <p class="ad-note">Have something else in mind? Grand openings, seasonal promotions and multi-location packages are welcome. Just ask.</p>
+  <h2 class="ad-h">How it works</h2>
+  <ol class="ad-steps">
+    <li><strong>Email us</strong><span>Tell us about your business and which placement interests you.</span></li>
+    <li><strong>Get rates and availability</strong><span>We'll reply with current pricing and open dates, usually within one business day.</span></li>
+    <li><strong>Go live</strong><span>Send your logo, copy and link, and your placement launches within a few business days.</span></li>
+  </ol>
+  <div class="ad-contact">
+    <div><h2>Let's get your business in front of Alpharetta</h2><p>Email us at <a href="mailto:${MAIL}?subject=${subj}">${MAIL}</a> and include your business name, website, the placement you're interested in and your ideal start date.</p></div>
+    ${mailBtn("btn btn-primary ad-hero-btn")}
+  </div>
+  <h2 class="ad-h">Questions</h2>
+  <div class="ad-faq">${faq.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join("")}</div>
+  <p class="ad-note" style="margin-top:28px">Just want a free listing? <a href="/add-your-business/">Add your business here</a>.</p>
+</section>`;
+  const ld = [crumbsLD(crumbs), { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }];
+  add("/advertise/", layout({ title: "Advertise on Alpharetta List | Sponsor the Alpharetta, GA Directory", description: "Sponsor the Alpharetta List directory and reach people searching for Alpharetta, Georgia restaurants, businesses, services and events. Email us for rates.", urlPath: "/advertise/", body, jsonld: ld }), "0.6");
+}
 
 // ---------- About, privacy, 404 ----------
 {
