@@ -581,34 +581,33 @@ const formPage = ({ urlPath, crumb, h1, sub, title, description, form, side }) =
 const hp = `<span class="hp"><label>Leave blank<input name="website_url_hp" tabindex="-1" autocomplete="off"></label></span>`;
 const catOptions = CATS.filter(c => c.id !== "coming-soon" && c.id !== "nearby").map(c => `<option>${c.label}</option>`).join("");
 
+const MAIL = "hello@alpharettalist.com";
+const emailBox = (subject, intro, items, note) => `<div class="email-box">
+  <p class="lede" style="margin-top:0">${intro}</p>
+  <a class="btn btn-primary email-btn" href="mailto:${MAIL}?subject=${encodeURIComponent(subject)}">Email ${MAIL}</a>
+  <h2 style="font-family:var(--serif);font-weight:500;font-size:24px;margin:28px 0 10px">What to include</h2>
+  <ul class="tips">${items.map(t => `<li>${t}</li>`).join("")}</ul>
+  <p style="color:var(--muted);margin-top:18px">${note}</p>
+</div>`;
 formPage({
   urlPath: "/add-your-business/", crumb: "Add your business", h1: "Add your business to Alpharetta List",
-  sub: "Free listings for Alpharetta businesses. Submit your details and we will review and publish your listing, usually within a few days.",
+  sub: "Listings are free for Alpharetta businesses. Email us your details and we'll add or update your listing, usually within a few days.",
   title: "Add Your Business to Alpharetta List | Free Alpharetta, GA Business Listing",
   description: "Get your Alpharetta, Georgia business listed free on Alpharetta List, the local directory for Alpharetta residents. Claim or update an existing listing.",
-  form: `<form class="form" data-wl-form="Businesses" data-success="Thanks! We received your listing and will review it shortly.">
-    <input type="hidden" name="claim_listing" value="">
-    <div class="row"><label>Business name<input name="business_name" required></label><label>Category<select name="category" required><option value="">Choose one</option>${catOptions}</select></label></div>
-    <div class="row"><label>Type of business <span class="hint">For example: sushi, pool service, pediatrics</span><input name="subcategory"></label><label>Phone<input name="phone" type="tel" autocomplete="tel"></label></div>
-    <label>Street address<input name="address" placeholder="123 S Main St, Alpharetta, GA 30009"></label>
-    <div class="row"><label>Website<input name="website" type="url" placeholder="https://"></label><label>Your email <span class="hint">Not published</span><input name="email" type="email" required autocomplete="email"></label></div>
-    <label>Short description <span class="hint">Two or three sentences about what you do</span><textarea name="description" maxlength="600"></textarea></label>
-    ${hp}<button class="btn btn-primary" type="submit">Submit listing</button><div class="status" role="status"></div></form>`,
-  side: `<div class="info-card"><strong>What happens next</strong><ul class="tips"><li>We verify the business is in or serves Alpharetta</li><li>Your listing goes live with its own page</li><li>Spot an error on an existing listing? Use this form to suggest an edit</li></ul></div>`
+  form: emailBox("Add my business to Alpharetta List", "To add a new listing, or to claim or correct an existing one, send us an email with the details below.",
+    ["Business name", "Category and type of business (for example: sushi restaurant, HVAC, pediatric dentist)", "Street address in Alpharetta", "Phone number and website", "Hours of operation", "A two- or three-sentence description of what you do", "If you're updating an existing listing, the link to its page"],
+    "Prefer to copy and paste? Put everything in the body of one email and we'll take it from there."),
+  side: `<div class="info-card"><strong>What happens next</strong><ul class="tips"><li>We verify the business is in or serves Alpharetta</li><li>Your listing goes live with its own page</li><li>Spot an error on an existing listing? Email us the correction</li></ul></div>`
 });
 formPage({
   urlPath: "/submit-event/", crumb: "Submit an event", h1: "Submit an Alpharetta event",
   sub: "Community events, fundraisers, grand openings, shows and classes in or near Alpharetta. Free to submit.",
   title: "Submit an Event | Alpharetta, GA Events Calendar",
   description: "Add your Alpharetta, Georgia event to the Alpharetta List events calendar for free. Community events, fundraisers, grand openings and more.",
-  form: `<form class="form" data-wl-form="Events" data-success="Thanks! Your event was submitted and will appear after a quick review.">
-    <label>Event name<input name="event_name" required></label>
-    <div class="row"><label>Start date<input name="start_date" type="date" required></label><label>End date <span class="hint">Optional</span><input name="end_date" type="date"></label></div>
-    <div class="row"><label>Start time<input name="start_time" type="time"></label><label>Venue<input name="venue" required></label></div>
-    <label>Address<input name="address"></label>
-    <div class="row"><label>Event link<input name="link" type="url" placeholder="https://"></label><label>Your email <span class="hint">Not published</span><input name="email" type="email" required autocomplete="email"></label></div>
-    <label>Description<textarea name="description" maxlength="800"></textarea></label>
-    ${hp}<button class="btn btn-primary" type="submit">Submit event</button><div class="status" role="status"></div></form>`
+  form: emailBox("Event for the Alpharetta List calendar", "Hosting something in Alpharetta? Email us the details below and we'll add it to the calendar for free.",
+    ["Event name", "Date(s) and start and end time", "Venue name and street address", "Price, or free", "A short description of the event", "Link to the official event page or tickets", "A photo or flyer, if you have one (attach it)"],
+    "Send events at least a week ahead when possible. We may lightly edit descriptions for length."),
+  side: `<div class="info-card"><strong>Good to know</strong><ul class="tips"><li>Listing events is free</li><li>We focus on events in or near Alpharetta</li><li>Recurring events can go in one email</li></ul></div>`
 });
 
 // ---------- About, privacy, 404 ----------
@@ -628,9 +627,9 @@ formPage({
   add("/privacy/", layout({ title: "Privacy Policy | Alpharetta List", description: "How Alpharetta List handles information submitted through our forms and analytics.", urlPath: "/privacy/",
     body: pageHead(crumbs, "Privacy policy", "") + `<div class="wrap" style="padding:44px 0"><div class="prose prose-narrow">
     <p>Last updated ${fmtDate(BUILD_DATE)}. This policy explains what information AlpharettaList.com ("Alpharetta List," "we") collects, how we use it, and your choices. Alpharetta List is an independent local publication and is not affiliated with the City of Alpharetta.</p>
-    <h2>Information you give us</h2><p>When you submit a form on this site, such as adding a business or submitting an event, we collect what you enter: for example your name, email address, phone number, business or event details, and any message. We use it to review and publish your listing or event, respond to you, and run the site.</p>
-    <h2>How submissions are processed</h2><p>Form submissions are stored privately. To keep the directory accurate and free of spam, business and event submissions may be reviewed automatically using an AI service (Anthropic's Claude), which may check publicly available information on the web. A person may also review any submission. Only approved business and event details are published.</p>
-    <h2>What we publish</h2><p>Business and event details you submit for publication (such as name, address, phone, website and description) may appear on the site and in search engines. We never publish the contact email address you give us on a submission form.</p>
+    <h2>Information you give us</h2><p>When you email us, for example to add a business or submit an event, we receive what you send: for example your name, email address, phone number, business or event details, and any message. We use it to review and publish your listing or event, respond to you, and run the site.</p>
+    <h2>How submissions are processed</h2><p>Emails are kept privately. To keep the directory accurate and free of spam, business and event submissions may be reviewed automatically using an AI service (Anthropic's Claude), which may check publicly available information on the web. A person may also review any submission. Only approved business and event details are published.</p>
+    <h2>What we publish</h2><p>Business and event details you submit for publication (such as name, address, phone, website and description) may appear on the site and in search engines. We never publish the email address you contact us from.</p>
     <h2>Analytics and cookies</h2><p>If analytics are enabled, we use Google Analytics to understand how visitors use the site, such as which pages are viewed, how long visits last, the general location (city or region) and the type of device and browser. Google Analytics uses cookies and similar technologies, and Google may process this data under its own privacy policy. We do not use this data to identify you personally. You can block cookies in your browser settings or use the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener nofollow">Google Analytics opt-out browser add-on</a>. We do not sell your personal information.</p>
     <h2>Links</h2><p>This site links to other websites, including businesses we list. We are not responsible for the privacy practices of other sites.</p>
     <h2>How long we keep information</h2><p>We keep submissions as long as needed to operate the directory and respond to you. You can ask us to update or delete a listing or your submission at any time.</p>
