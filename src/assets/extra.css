@@ -167,3 +167,17 @@
 
   .email-box{border:1px solid var(--line);border-radius:12px;padding:28px;background:#fff}
   .email-btn{font-size:16px;padding:14px 22px}
+  /* Mini hero for directory pages */
+  .page-head .wrap{padding-top:64px;padding-bottom:68px}
+  .page-head .page-search{margin-top:30px;max-width:640px;align-items:center}
+  .page-head .page-search input{flex:1;border:0;font:400 16px var(--sans);padding:14px 16px;background:transparent;color:var(--ink)}
+  .page-head .page-search input:focus{outline:none}
+  .page-search-ico{color:#8A7A55;padding:0 14px;display:flex}
+  .head-stats{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:20px;font-size:14px;color:#D9CDB0;letter-spacing:.01em}
+  .head-stats span{display:flex;align-items:center;gap:5px}
+  .head-stats span+span::before{content:"";width:4px;height:4px;border-radius:50%;background:#C9A24A;margin-right:9px}
+  .head-stats b{color:#fff;font-weight:600}
+  .dir-body{padding-top:40px;padding-bottom:40px}
+  .dir-body .dir-tools{margin-bottom:6px}
+  .dir-body .count-note{margin:14px 0 22px}
+  @media (max-width:640px){.page-head .wrap{padding-top:44px;padding-bottom:48px}.page-head .page-search{flex-direction:row}}
