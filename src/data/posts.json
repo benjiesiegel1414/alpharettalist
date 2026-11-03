@@ -226,5 +226,85 @@
         "url": "https://www.awesomealpharetta.com/santa-sightings/"
       }
     ]
+  },
+  {
+    "slug": "north-point-mall-redevelopment-nhl-arena-alpharetta",
+    "title": "North Point Mall Redevelopment and NHL Arena in Alpharetta, GA: What's Planned (2026)",
+    "seoTitle": "North Point Mall NHL Arena Plan in Alpharetta, GA (2026): Vote, Fulton Funding & What's Next",
+    "h1": "North Point Mall Redevelopment and the Proposed NHL Arena: Where Things Stand",
+    "description": "What's planned at North Point Mall in Alpharetta, GA: the 20,000-seat NHL-ready arena, apartments, hotels and offices, the 4-3 council vote, Fulton County's $192.4 million TAD deal and why it all depends on an NHL team.",
+    "category": "News",
+    "published": "2026-11-03",
+    "updated": "2026-11-03",
+    "readMins": 6,
+    "coverPrompt": "Photorealistic twilight aerial-style view of a large suburban shopping mall site being reimagined as a sports and entertainment district, a modern glass-and-steel hockey arena glowing in the foreground, mid-rise apartment and hotel towers, tree-lined walking paths and a green park, highway traffic light trails in the distance, warm charcoal and gold tones, no text, no logos, no readable signs, no recognizable real people",
+    "faq": [
+      {
+        "q": "Is North Point Mall closing?",
+        "a": "Not yet. The mall is still open and managed by Jamestown. Developers have said major demolition or construction is likely a year or more away, and the redevelopment only moves forward if the NHL awards a team to the site."
+      },
+      {
+        "q": "Did Alpharetta approve the North Point NHL arena?",
+        "a": "Yes. Alpharetta City Council voted 4-3 at its Aug. 24, 2026 meeting to rezone the nearly 100-acre North Point Mall site for a plan that includes a 20,000-seat NHL-ready arena, apartments, hotels, offices and retail."
+      },
+      {
+        "q": "Does Atlanta have an NHL team coming?",
+        "a": "No team has been awarded. The NHL has 32 teams and has said it is exploring expansion interest, with a Texas group described as further along than Atlanta or Arizona. Alpharetta's North Point plan and The Gathering at South Forsyth are both pursuing a team."
+      },
+      {
+        "q": "What happens if Alpharetta doesn't get an NHL team?",
+        "a": "The approved plan does not happen. The city set an Aug. 24, 2031 deadline for an NHL team award, and developers have said they would need a new plan and new city approval without one."
+      },
+      {
+        "q": "How is the North Point project being funded?",
+        "a": "Through the North Point tax allocation district, which sets aside future growth in property taxes inside the district for improvements there rather than creating a new tax. Fulton County approved up to $192.4 million in future tax revenue on Oct. 21, 2026, contingent on an NHL franchise."
+      }
+    ],
+    "sources": [
+      {
+        "name": "AJC: Alpharetta approves North Point Mall redevelopment plan targeting NHL expansion",
+        "url": "https://www.ajc.com/business/2026/08/alpharetta-approves-north-point-mall-redevelopment-plan-targeting-nhl-expansion/"
+      },
+      {
+        "name": "AJC: NHL feasibility becomes top question after North Point Mall rezoning",
+        "url": "https://www.ajc.com/business/2026/09/nhl-feasibility-becomes-top-question-after-north-point-mall-rezoning/"
+      },
+      {
+        "name": "CBS Atlanta: North Point Mall's redevelopment plan advances despite uncertainty over NHL team",
+        "url": "https://www.cbsnews.com/atlanta/news/north-point-malls-massive-redevelopment-plan-advances-despite-uncertainty-over-nhl-team/"
+      },
+      {
+        "name": "Atlanta News First: Alpharetta City Council approves North Point Mall redevelopment",
+        "url": "https://www.atlantanewsfirst.com/2026/08/25/alpharetta-oks-north-point-mall-redevelopment/"
+      },
+      {
+        "name": "Bisnow: Developers get approval to turn mall into NHL arena",
+        "url": "https://www.bisnow.com/news/atlanta/hospitality-entertainment/nhl-alpharetta-north-point-mall-jamestown-machete-new-york-life"
+      },
+      {
+        "name": "REBusinessOnline: Alpharetta approves North Point Mall rezoning",
+        "url": "https://rebusinessonline.com/city-of-alpharetta-approves-north-point-mall-rezoning-for-planned-hockey-anchored-mixed-use-village/"
+      },
+      {
+        "name": "Appen Media: Alpharetta approves tax district for North Point area",
+        "url": "https://www.appenmedia.com/business/alpharetta-approves-exclusive-tax-district-for-north-point-area/article_895306f3-8824-4826-be2f-6b9498dae9b9.html"
+      },
+      {
+        "name": "North Atlanta Star: North Point wins Fulton funding, but an NHL team must follow",
+        "url": "https://northatlantastar.com/fulton-north-point-funding-nhl-conditions/"
+      },
+      {
+        "name": "Alpharetta-Milton Chronicle: Old Milton, North Point projects face long wait",
+        "url": "https://alpharettamiltonchronicle.com/articles/alpharetta-s-old-milton-north-point-projects-face-long-wait-mv0wqim4"
+      },
+      {
+        "name": "Daily Faceoff: Bettman says NHL not ready to expand right now",
+        "url": "https://www.dailyfaceoff.com/news/gary-bettman-nhl-expansion-not-ready-right-now-atlanta-houston-phoenix"
+      },
+      {
+        "name": "TSN / The Canadian Press: NHL expansion update",
+        "url": "https://www.tsn.ca/nhl/article/nhl-expected-to-announce-update-on-expansion-houston-likely-main-target/"
+      }
+    ]
   }
 ]
