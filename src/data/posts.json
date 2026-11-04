@@ -306,5 +306,93 @@
         "url": "https://www.tsn.ca/nhl/article/nhl-expected-to-announce-update-on-expansion-houston-likely-main-target/"
       }
     ]
+  },
+  {
+    "slug": "thanksgiving-alpharetta-ga-2026",
+    "title": "Thanksgiving in Alpharetta, GA (2026): Turkey Trots, Dinner Out and Holiday Week Guide",
+    "seoTitle": "Thanksgiving in Alpharetta, GA (2026): Turkey Trots, Dinner & Events",
+    "h1": "Thanksgiving in Alpharetta 2026: Your Holiday Week Guide",
+    "description": "Plan Thanksgiving 2026 in Alpharetta, GA: the Gobble Wobble 5K at Halcyon, nearby turkey trots, Thanksgiving dinner downtown, Fulton County Schools break dates and holiday events all week.",
+    "category": "Things to Do",
+    "published": "2026-11-04",
+    "updated": "2026-11-04",
+    "readMins": 5,
+    "coverPrompt": "Photorealistic early morning scene of a festive Thanksgiving Day 5K fun run on a tree-lined suburban town-center street in late autumn, runners and families seen from behind and at a distance wearing warm layers, golden and amber fall leaves, soft low sunrise light with long shadows, a table with paper cups and small pumpkins near the finish area, warm charcoal and gold tones, no text, no logos, no readable signs, no recognizable real people",
+    "faq": [
+      {
+        "q": "When is Thanksgiving 2026?",
+        "a": "Thanksgiving is Thursday, November 26, 2026."
+      },
+      {
+        "q": "Is there a turkey trot in Alpharetta on Thanksgiving?",
+        "a": "Yes. The 11th annual Thanksgiving Day Gobble Wobble 5K and Kids Fun Run starts at Halcyon, 6365 Halcyon Way, on Nov. 26, 2026. The 5K begins at 8 a.m. and the Kids Fun Run at 9:15 a.m. Registration is $50 for the 5K and $30 for the Kids Fun Run, and donations benefit Meals by Grace."
+      },
+      {
+        "q": "When is Thanksgiving break for Fulton County Schools in 2026?",
+        "a": "Fulton County Schools is closed for Thanksgiving Break from Monday, Nov. 23 through Friday, Nov. 27, 2026."
+      },
+      {
+        "q": "Which Alpharetta restaurants are open on Thanksgiving Day 2026?",
+        "a": "Up On The Roof in downtown Alpharetta is open 11 a.m. to 10 p.m. on Thanksgiving Day with a $49 three-course Thanksgiving menu. Other restaurants post holiday hours closer to the date, so call ahead before you go."
+      },
+      {
+        "q": "What holiday events are happening around Thanksgiving in Alpharetta?",
+        "a": "The weekend before brings The Hamilton tree lighting (Nov. 20), the Season of Celebration tree lighting downtown (Nov. 21) and the Lighting of Avalon (Nov. 22), when Avalon on Ice opens. The Alpharetta Symphony's holiday concert is Saturday, Nov. 28."
+      }
+    ],
+    "sources": [
+      {
+        "name": "RunSignup: Thanksgiving Day Gobble Wobble 5K & Fun Run",
+        "url": "https://runsignup.com/Race/GA/Alpharetta/ThanksgivingDayGobbleWobble5KFunRun"
+      },
+      {
+        "name": "RunSignup: Five Star Thanksgiving Turkey Trot",
+        "url": "https://runsignup.com/Race/GA/JohnsCreek/FiveStarThanksgivingTurkeyTrot5K10K15KHalfMarathon"
+      },
+      {
+        "name": "Atlanta Mom: Thanksgiving Day Races In & Around Atlanta",
+        "url": "https://atlantamom.com/holidays/thanksgiving-day-races-around-atlanta/"
+      },
+      {
+        "name": "Fulton County Schools: District Calendar",
+        "url": "https://www.fultonschools.org/calendar"
+      },
+      {
+        "name": "Eat Up Drink Up: Rooftop Thanksgiving Dinner in Alpharetta",
+        "url": "https://eatupdrinkup.net/events/thanksgiving-alpharetta/"
+      },
+      {
+        "name": "Avalon: Thanksgiving at Avalon",
+        "url": "https://experienceavalon.com/events/thanksgiving-at-avalon"
+      },
+      {
+        "name": "Awesome Alpharetta: Alpharetta Farmers Market",
+        "url": "https://www.awesomealpharetta.com/events/alpharetta-farmers-market/"
+      },
+      {
+        "name": "Awesome Alpharetta: Avalon on Ice",
+        "url": "https://www.awesomealpharetta.com/avalon-on-ice/"
+      },
+      {
+        "name": "Awesome Alpharetta: Santa Sightings",
+        "url": "https://www.awesomealpharetta.com/santa-sightings/"
+      },
+      {
+        "name": "Awesome Alpharetta: Season of Celebration Tree Lighting",
+        "url": "https://www.awesomealpharetta.com/event/season-of-celebration/"
+      },
+      {
+        "name": "Awesome Alpharetta: The Lighting of Avalon",
+        "url": "https://www.awesomealpharetta.com/event/the-lighting-of-avalon/"
+      },
+      {
+        "name": "Awesome Alpharetta: Artists Holiday Market",
+        "url": "https://www.awesomealpharetta.com/event/artist-holiday-market"
+      },
+      {
+        "name": "The Velvet Note: Events",
+        "url": "https://thevelvetnote.com/events/list/"
+      }
+    ]
   }
 ]
