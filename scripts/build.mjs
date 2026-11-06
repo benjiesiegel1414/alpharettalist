@@ -700,6 +700,12 @@ for (const f of fs.readdirSync(path.join(SRC, "static"))) fs.copyFileSync(path.j
 
 if (fs.existsSync(path.join(SRC, "events"))) { fs.mkdirSync(path.join(OUT, "assets/events"), { recursive: true }); for (const f of fs.readdirSync(path.join(SRC, "events"))) fs.copyFileSync(path.join(SRC, "events", f), path.join(OUT, "assets/events", f)); }
 if (fs.existsSync(path.join(SRC, "covers"))) { fs.mkdirSync(path.join(OUT, "assets/covers"), { recursive: true }); for (const f of fs.readdirSync(path.join(SRC, "covers"))) fs.copyFileSync(path.join(SRC, "covers", f), path.join(OUT, "assets/covers", f)); }
+// Remove pages left over from earlier builds (e.g. listings for businesses that closed) so they 404 instead of lingering.
+{
+  const keep = new Set(pages.map(([u]) => u === "/" ? "index.html" : u.replace(/^\//, "") + "index.html"));
+  const walk = (dir) => { for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const full = path.join(dir, e.name); if (e.isDirectory()) { if (e.name !== "assets") walk(full); } else if (e.name === "index.html") { const rel = path.relative(OUT, full).split(path.sep).join("/"); if (!keep.has(rel)) { fs.rmSync(full); try { fs.rmdirSync(dir); } catch (err) {} console.log("Pruned stale page /" + rel.replace(/index\.html$/, "")); } } } };
+  walk(OUT);
+}
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${pages.map(([u, m, pr]) => `  <url><loc>${SITE}${u}</loc><lastmod>${m}</lastmod><priority>${pr}</priority></url>`).join("\n")}
