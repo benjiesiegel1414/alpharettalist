@@ -379,6 +379,7 @@ const SERVICE_PAGES = [
   { slug: "law-firms", noun: "Law Firms", re: /law\b|attorney|legal/i, cats: ["services"], blurb: "family law, estate planning, probate and business matters", tips: ["Most firms offer an initial consultation, so ask what it costs", "Ask who will actually handle your case day to day", "Get the fee structure in writing, whether hourly, flat or contingency"] },
   { slug: "preschools", noun: "Preschools and Daycares", re: /preschool|montessori|goddard|kindercare|academy alpharetta/i, cats: ["schools", "kids"], blurb: "preschool, pre-K, Montessori and early learning programs", tips: ["Tour at drop-off or pickup time to see the real routine", "Ask about teacher ratios, turnover and curriculum approach", "Waitlists are common, so start looking six months or more ahead"] }
 ];
+const SERVICE_GUIDES = JSON.parse(fs.readFileSync(path.join(SRC, "data/service-guides.json"), "utf8"));
 const SVC_CATS = ["home", "health", "pets", "realestate", "fitness", "beauty", "services", "kids", "schools"];
 const servicePagesBuilt = [];
 for (const sp of SERVICE_PAGES) {
@@ -388,10 +389,10 @@ for (const sp of SERVICE_PAGES) {
   const url = `/services/${sp.slug}/`;
   const faqs = [
     { q: `How do I find the best ${sp.noun.toLowerCase()} in Alpharetta, GA?`, a: `Start with providers based in or regularly serving Alpharetta, check licensing and reviews, and get more than one quote for bigger jobs. This page lists ${list.length} options for ${sp.blurb}.` },
-    ...(sp.faqs || []),
+    ...(sp.faqs || []), ...((SERVICE_GUIDES[sp.slug] || {}).faqs || []).map(f => ({ q: esc(f.q), a: esc(f.a) })),
     { q: `Do these ${sp.noun.toLowerCase()} serve all of Alpharetta?`, a: `Most serve all Alpharetta ZIP codes, including 30004, 30005, 30009 and 30022, plus nearby Milton, Roswell and Johns Creek. Call to confirm they cover your address.` }
   ];
-  const intro = listIntro(`<p>Looking for the best ${sp.noun.toLowerCase()} in Alpharetta, Georgia? Here are ${list.length} local providers for ${sp.blurb} in and around Alpharetta, with addresses and phone numbers where available.</p>${sp.guide || ""}<h2 style="font-family:var(--serif);font-weight:500;font-size:24px;margin:22px 0 8px">Tips for hiring ${sp.noun.toLowerCase()} in Alpharetta</h2><ul>${sp.tips.map(t => `<li>${t}</li>`).join("")}</ul><p>Own one of these businesses? <a href="/add-your-business/">Claim or add your listing</a> for free.</p>`)
+  const intro = listIntro(`<p>Looking for the best ${sp.noun.toLowerCase()} in Alpharetta, Georgia? Here are ${list.length} local providers for ${sp.blurb} in and around Alpharetta, with addresses and phone numbers where available.</p>${sp.guide || ""}${SERVICE_GUIDES[sp.slug] && SERVICE_GUIDES[sp.slug].paras ? `<h2 style="font-family:var(--serif);font-weight:500;font-size:24px;margin:22px 0 8px">${esc(SERVICE_GUIDES[sp.slug].heading)}</h2>${SERVICE_GUIDES[sp.slug].paras.map(t => `<p>${esc(t)}</p>`).join("")}` : ""}<h2 style="font-family:var(--serif);font-weight:500;font-size:24px;margin:22px 0 8px">Tips for hiring ${sp.noun.toLowerCase()} in Alpharetta</h2><ul>${sp.tips.map(t => `<li>${t}</li>`).join("")}</ul><p>Own one of these businesses? <a href="/add-your-business/">Claim or add your listing</a> for free.</p>`)
     + `<div class="prose prose-narrow" style="margin:28px 0"><h2 style="font-family:var(--serif);font-weight:500;font-size:24px">Frequently asked questions</h2>${faqs.map(f => `<h3 style="font-size:17px;margin:16px 0 4px">${f.q}</h3><p>${f.a}</p>`).join("")}</div>`;
   directoryPage({
     urlPath: url, crumbs: [["Home", "/"], ["Local services", "/services/"], [sp.noun, url]],
