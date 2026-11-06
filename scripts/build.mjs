@@ -131,9 +131,9 @@ const footer = `
       <div><h2 class="foot-h">Read</h2><ul><li><a href="/blog/">News and guides</a></li><li><a href="/events/">Events</a></li><li><a href="/things-to-do/">Things to do</a></li><li><a href="/directory/?cat=parks">Parks and trails</a></li></ul></div>
       <div><h2 class="foot-h">Find</h2><ul><li><a href="/restaurants/">Restaurants</a></li><li><a href="/directory/?cat=shopping">Shopping</a></li><li><a href="/services/">Local services</a></li><li><a href="/directory/">Full directory</a></li></ul></div>
       <div><h2 class="foot-h">Popular guides</h2><ul><li><a href="/blog/best-restaurants-alpharetta-ga/">Best restaurants</a></li><li><a href="/blog/things-to-do-alpharetta-ga/">Things to do</a></li><li><a href="/blog/moving-to-alpharetta-ga-guide/">Moving to Alpharetta</a></li><li><a href="/blog/best-coffee-shops-alpharetta-ga/">Coffee shops</a></li></ul></div>
-      <div><h2 class="foot-h">Work with us</h2><ul><li><a href="/add-your-business/">Add your business</a></li><li><a href="/submit-event/">Submit an event</a></li><li><a href="/advertise/">Advertise</a></li><li><a href="/about/">About</a></li></ul></div>
+      <div><h2 class="foot-h">Work with us</h2><ul><li><a href="/add-your-business/">Add your business</a></li><li><a href="/submit-event/">Submit an event</a></li><li><a href="/advertise/">Advertise</a></li><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li></ul></div>
     </div>
-    <div class="legal"><span>&copy; <span id="yr">${new Date().getFullYear()}</span> Alpharetta List. Independent and not affiliated with the City of Alpharetta.</span><span><a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a> &nbsp; <a href="/privacy/">Privacy</a> &nbsp; <a href="/about/">About</a></span></div>
+    <div class="legal"><span>&copy; <span id="yr">${new Date().getFullYear()}</span> Alpharetta List. Independent and not affiliated with the City of Alpharetta.</span><span><a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a> &nbsp; <a href="/privacy/">Privacy</a> &nbsp; <a href="/terms/">Terms</a> &nbsp; <a href="/contact/">Contact</a> &nbsp; <a href="/about/">About</a></span></div>
   </div>
 </footer>`;
 
@@ -425,6 +425,17 @@ const AREA_TEXT = {
   "Encore Park": "at Encore Park on Encore Parkway, home of Ameris Bank Amphitheatre",
   "McFarland Pkwy": "on McFarland Parkway at Alpharetta's northern edge"
 };
+const AREA_GUIDE = {
+  "Downtown Alpharetta": "Downtown is built for walking. City Center, with the Town Green, City Hall and the library, sits a block off Main Street, and free public parking decks are spread around the district, so most people park once and walk. Canton Street and Milton Avenue are lined with restaurants and shops, the Town Green hosts concerts and festivals, and the paved Alpha Loop links downtown to Avalon. On Saturday mornings from spring through fall, the <a href=\"/places/alpharetta-farmers-market/\">Alpharetta Farmers Market</a> sets up on Old Canton Street.",
+  "Avalon": "Avalon is an 86-acre walkable district off Old Milton Parkway with restaurants, shops, a movie theater, a hotel and a central plaza. Parking is in decks throughout the property, and on busy weekend evenings it pays to arrive a little early. The plaza hosts seasonal events, including an ice rink in winter, and the Alpha Loop connects Avalon with Downtown Alpharetta about a mile away.",
+  "Windward": "The Windward area wraps around Windward Parkway and GA 400 exit 11 on Alpharetta's north side. It mixes office campuses with shopping centers and restaurants along Windward Parkway, and it's an easy hop to Halcyon and Forsyth County to the north. Most businesses here have their own surface parking.",
+  "North Point": "The North Point area runs along North Point Parkway near GA 400, anchored by North Point Mall and lined with shopping centers, restaurants and medical offices. The Big Creek Greenway trail runs nearby, and Ameris Bank Amphitheatre is a short drive west. Expect easy parking but busy traffic around the mall and GA 400 interchanges at rush hour.",
+  "Old Milton Pkwy": "Old Milton Parkway is the east-west corridor that ties GA 400 to Avalon and downtown. It's lined with shopping centers, restaurants and offices, and most stops have their own parking lots. Traffic is heaviest at rush hour near the GA 400 interchange.",
+  "North Main St": "North Main Street (Highway 9) runs north from Downtown Alpharetta toward Milton. Businesses here mostly sit in shopping centers with their own parking, a quick drive from the restaurants and shops of downtown.",
+  "Crabapple": "Crabapple sits on Alpharetta's west side near the Milton line, known for its rolling, horse-country feel, larger lots and the historic Crabapple crossroads just over the line in Milton. Most businesses here are in small shopping centers with easy parking.",
+  "Haynes Bridge": "Haynes Bridge Road crosses GA 400 in south Alpharetta, close to the Big Creek Greenway and Old Milton Parkway. Businesses here are mostly in shopping centers and office parks with their own parking.",
+  "McGinnis Ferry": "McGinnis Ferry Road runs along Alpharetta's northeast edge near the Johns Creek and Forsyth County lines. It's a busy commuter route with shopping centers, medical offices and neighborhoods on both sides."
+};
 const CAT_TIPS = {
   restaurants: ["Hours and menus change, so check the restaurant's website or call ahead before you go", "Weekend evenings at Avalon and downtown are the busiest times, so book ahead", "Many Alpharetta restaurants offer takeout and delivery through their own sites"],
   home: ["Ask whether the company is licensed and insured in Georgia before work begins", "Get a written estimate, and compare at least two quotes for bigger jobs", "Ask about maintenance plans, which can lower costs over time"],
@@ -453,7 +464,7 @@ for (const p of places) {
     ...(p.phone ? [{ q: `What is the phone number for ${p.name}?`, a: `You can reach ${p.name} at ${p.phone}.` }] : [])
   ];
   const ldPlace = {
-    "@context": "https://schema.org", "@type": p.schema || "LocalBusiness", name: p.name, description: p.desc, url: `${SITE}/places/${p.slug}/`,
+    "@context": "https://schema.org", "@type": p.schema || "LocalBusiness", name: p.name, description: p.about && p.about.length ? p.about.join(" ") : p.desc, url: `${SITE}/places/${p.slug}/`,
     ...(addrParts ? { address: { "@type": "PostalAddress", streetAddress: addrParts[1], addressLocality: addrParts[2], addressRegion: "GA", postalCode: addrParts[3], addressCountry: "US" } } : { address: { "@type": "PostalAddress", addressLocality: isNearby ? city : "Alpharetta", addressRegion: "GA", addressCountry: "US" } }),
     ...(p.phone ? { telephone: p.phone } : {}), ...(p.openingHours ? { openingHours: p.openingHours } : {}), ...(p.priceRange ? { priceRange: p.priceRange } : {}), ...(p.cuisine ? { servesCuisine: p.cuisine } : {}), ...(p.website ? { sameAs: [p.website] } : {})
   };
@@ -467,6 +478,7 @@ for (const p of places) {
       ${p.hours ? `<div><dt>Hours</dt><dd>${esc(p.hours)}</dd></div>` : ""}
       ${p.phone ? `<div><dt>Phone</dt><dd><a href="${telHref}">${esc(p.phone)}</a></dd></div>` : ""}
       ${p.website ? `<div><dt>Website</dt><dd><a href="${esc(p.website)}" rel="noopener nofollow" target="_blank">${esc(hostOf(p.website))}</a></dd></div>` : ""}
+      ${p.checked ? `<div><dt>Details checked</dt><dd>${new Date(p.checked + "T12:00:00Z").toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })}</dd></div>` : ""}
     </dl>`;
   const miniList = (title, list) => list.length ? `<section class="pl-section"><h2>${title}</h2><ul class="pl-mini">${list.map(x => `<li><a href="/places/${x.slug}/"><strong>${esc(x.name)}</strong><span>${esc(x.type)}${x.area ? " &middot; " + esc(x.area) : ""}</span></a></li>`).join("")}</ul></section>` : "";
   const extras = [p.hours ? "Hours" : "", p.phone ? "Phone" : "", p.cat === "restaurants" ? "Menu" : "", street ? "Address" : ""].filter(Boolean).slice(0, 3);
@@ -484,10 +496,11 @@ for (const p of places) {
   <article class="pl-main">
     <section class="pl-section"><h2>About ${esc(p.name)}</h2>
       ${p.status ? `<p class="pl-lede" style="border-left:4px solid #c9a227;padding-left:12px"><strong>Status:</strong> ${esc(p.status)}</p>` : ""}
-      <p class="pl-lede">${esc(p.desc)}</p>
+      ${p.about && p.about.length ? p.about.map((t, i) => `<p${i === 0 ? ' class="pl-lede"' : ""}>${esc(t)}</p>`).join("") : `<p class="pl-lede">${esc(p.desc)}</p>`}
       <p>${esc(p.name)} is ${areaText}. ${p.cat === "restaurants" ? `It is one of ${places.filter(x => x.cat === "restaurants").length} places to eat and drink in our <a href="/restaurants/">Alpharetta restaurant guide</a>${p.cuisine ? `, and part of the city's ${esc(p.cuisine)} dining scene` : ""}.` : `Browse more ${esc(catLabel(p.cat).toLowerCase())} in our <a href="${listUrl}">Alpharetta directory</a>.`}</p>
       ${p.link ? `<p><a href="${p.link}">Read our full guide</a></p>` : ""}
     </section>
+    ${AREA_GUIDE[p.area] ? `<section class="pl-section"><h2>Visiting ${esc(p.area)}</h2><p>${AREA_GUIDE[p.area]}</p></section>` : ""}
     ${(postsByPlace[p.slug] || []).length ? `<section class="pl-section"><h2>Featured in our Alpharetta guides</h2><ul class="tips">${postsByPlace[p.slug].slice(0, 6).map(x => `<li><a href="/blog/${x.slug}/">${esc(x.h1)}</a></li>`).join("")}</ul></section>` : ""}
     ${tips.length ? `<section class="pl-section"><h2>Good to know</h2><ul class="tips">${tips.map(t => `<li>${esc(t)}</li>`).join("")}</ul></section>` : ""}
     <section class="pl-section"><h2>Frequently asked questions</h2><div class="faq" style="margin-top:0">${faq.map(f => `<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join("")}</div></section>
@@ -575,10 +588,11 @@ for (const p of places) {
 }
 
 // ---------- Forms ----------
-const formPage = ({ urlPath, crumb, h1, sub, title, description, form, side }) => {
+const formPage = ({ urlPath, crumb, h1, sub, title, description, form, side, faqs = [] }) => {
   const crumbs = [["Home", "/"], [crumb, urlPath]];
-  const body = pageHead(crumbs, h1, sub) + `<div class="wrap body-grid"><div>${form}</div><aside><div class="sticky-rail">${side || sponsor("rect")}</div></aside></div>${newsletter}`;
-  add(urlPath, layout({ title, description, urlPath, body, jsonld: [crumbsLD(crumbs)] }), "0.5");
+  const faqHTML = faqs.length ? `<div class="prose" style="margin-top:36px"><h2 style="font-family:var(--serif);font-weight:500;font-size:26px">Frequently asked questions</h2>${faqs.map(f => `<h3 style="font-size:17px;margin:18px 0 4px">${f.q}</h3><p>${f.a}</p>`).join("")}</div>` : "";
+  const body = pageHead(crumbs, h1, sub) + `<div class="wrap body-grid"><div>${form}${faqHTML}</div><aside><div class="sticky-rail">${side || sponsor("rect")}</div></aside></div>${newsletter}`;
+  add(urlPath, layout({ title, description, urlPath, body, jsonld: [crumbsLD(crumbs), ...(faqs.length ? [{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a.replace(/<[^>]+>/g, "") } })) }] : [])] }), "0.5");
 };
 const hp = `<span class="hp"><label>Leave blank<input name="website_url_hp" tabindex="-1" autocomplete="off"></label></span>`;
 const catOptions = CATS.filter(c => c.id !== "coming-soon" && c.id !== "nearby").map(c => `<option>${c.label}</option>`).join("");
@@ -599,6 +613,13 @@ formPage({
   form: emailBox("Add my business to Alpharetta List", "To add a new listing, or to claim or correct an existing one, send us an email with the details below.",
     ["Business name", "Category and type of business (for example: sushi restaurant, HVAC, pediatric dentist)", "Street address in Alpharetta", "Phone number and website", "Hours of operation", "A two- or three-sentence description of what you do", "If you're updating an existing listing, the link to its page"],
     "Prefer to copy and paste? Put everything in the body of one email and we'll take it from there."),
+  faqs: [
+    { q: "Is it really free to list my business?", a: "Yes. Basic listings on Alpharetta List are free and always will be. Each listing gets its own page with your address, hours, phone, website, a description and practical tips for customers." },
+    { q: "Which businesses can be listed?", a: "Businesses with a location in Alpharetta, or service businesses that regularly serve Alpharetta homes and companies. That includes restaurants, shops, home services, health and wellness practices, schools, real estate, fitness, pets and family activities." },
+    { q: "How long does it take for my listing to go live?", a: "Usually a few days. We check the details against your website or public records before publishing so that customers can rely on what they read." },
+    { q: "How do I correct or remove my listing?", a: "Email us the link to your listing page and what should change. Use the \"Claim this listing\" link at the bottom of any listing page to start an email with the right details filled in." },
+    { q: "Can I pay to be featured?", a: "Basic listings and their placement aren't for sale, but we offer clearly labeled sponsorships. See our <a href=\"/advertise/\">advertising page</a> for options." }
+  ],
   side: `<div class="info-card"><strong>What happens next</strong><ul class="tips"><li>We verify the business is in or serves Alpharetta</li><li>Your listing goes live with its own page</li><li>Spot an error on an existing listing? Email us the correction</li></ul></div>`
 });
 formPage({
@@ -609,6 +630,12 @@ formPage({
   form: emailBox("Event for the Alpharetta List calendar", "Hosting something in Alpharetta? Email us the details below and we'll add it to the calendar for free.",
     ["Event name", "Date(s) and start and end time", "Venue name and street address", "Price, or free", "A short description of the event", "Link to the official event page or tickets", "A photo or flyer, if you have one (attach it)"],
     "Send events at least a week ahead when possible. We may lightly edit descriptions for length."),
+  faqs: [
+    { q: "What kinds of events do you list?", a: "Community festivals, concerts, markets, fundraisers, holiday events, grand openings, classes and family activities in Alpharetta or close by in Milton, Roswell and Johns Creek. Events should be open to the public." },
+    { q: "Does it cost anything to add an event?", a: "No. Adding an event to the <a href=\"/events/\">Alpharetta events calendar</a> is free." },
+    { q: "How far ahead should I send my event?", a: "At least a week ahead is best, and earlier for big seasonal events. We check event details against the official event page before publishing." },
+    { q: "Can I update an event after it's listed?", a: "Yes. Email us the event name and what changed, such as a new date, time, venue or price, and we'll update the listing." }
+  ],
   side: `<div class="info-card"><strong>Good to know</strong><ul class="tips"><li>Listing events is free</li><li>We focus on events in or near Alpharetta</li><li>Recurring events can go in one email</li></ul></div>`
 });
 
@@ -663,28 +690,72 @@ formPage({
   add("/advertise/", layout({ title: "Advertise on Alpharetta List | Sponsor the Alpharetta, GA Directory", description: "Sponsor the Alpharetta List directory and reach people searching for Alpharetta, Georgia restaurants, businesses, services and events. Email us for rates.", urlPath: "/advertise/", body, jsonld: ld }), "0.6");
 }
 
-// ---------- About, privacy, 404 ----------
+// ---------- About, contact, terms, privacy, 404 ----------
 {
   const crumbs = [["Home", "/"], ["About", "/about/"]];
-  add("/about/", layout({ title: "About Alpharetta List | Independent Local Guide to Alpharetta, GA", description: "Alpharetta List is an independent, locally focused guide to Alpharetta, Georgia covering restaurants, things to do, events and local businesses.", urlPath: "/about/",
-    body: pageHead(crumbs, "About Alpharetta List", "") + `<div class="wrap" style="padding:44px 0"><div class="prose prose-narrow">
+  const nPlaces = places.length;
+  add("/about/", layout({ title: "About Alpharetta List | Independent Local Guide to Alpharetta, GA", description: "Who runs Alpharetta List, how we research our guides and directory, our editorial standards and how to reach us.", urlPath: "/about/",
+    body: pageHead(crumbs, "About Alpharetta List", "An independent local guide to Alpharetta, Georgia.") + `<div class="wrap" style="padding:44px 0"><div class="prose prose-narrow">
     <p class="lede">Alpharetta List is an independent local guide to Alpharetta, Georgia, built for the people who live, work and visit here.</p>
-    <p>Alpharetta has one of the best downtowns in metro Atlanta, a nationally known dining and shopping district at Avalon, miles of greenway, a packed events calendar and hundreds of technology companies, but there has never been one place that brings it all together. That is what we are building: honest guides, local news in plain English, an events calendar and a directory of the businesses that make Alpharetta work.</p>
-    <h2>Our standards</h2><p>We link to our sources, label any paid content clearly and update our guides when facts change.</p>
-    <h2>Get in touch</h2><p>Have a news tip, an event or a correction? <a href="/submit-event/">Send it here</a>. Own a business? <a href="/add-your-business/">Add your listing</a> for free.</p>
-    <p>Prefer email? Reach us anytime at <a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a></p>
-    <p>Alpharetta List is independent and is not affiliated with the City of Alpharetta.</p></div></div>`, jsonld: [crumbsLD(crumbs)] }), "0.4");
+    <p>Alpharetta has one of the best downtowns in metro Atlanta, a nationally known dining and shopping district at Avalon, miles of greenway, a packed events calendar and hundreds of technology companies, but there has never been one simple place that brings it all together. That is what we are building: local news in plain English, honest guides, an events calendar and a directory of ${nPlaces} restaurants, shops, services and places to go across the 30004, 30005, 30009 and 30022 ZIP codes.</p>
+    <h2>Who runs Alpharetta List</h2>
+    <p>Alpharetta List was founded by Ben Siegel, a self-taught entrepreneur who builds and runs a small network of independent websites, including <a href="https://wellingtonlist.com" rel="noopener">Wellington List</a>, a local guide to Wellington, Florida. He started Alpharetta List to give Alpharetta the same kind of useful, no-nonsense local guide: one place to check what's new, what's happening this weekend and who to call. Ben oversees the news stories, guides and business directory.</p>
+    <h2>What you'll find here</h2>
+    <ul>
+      <li><a href="/blog/">Local news and guides</a> on city decisions, new openings, schools, roads, seasonal events and the best places to eat and play.</li>
+      <li>An <a href="/events/">events calendar</a> with dates, times, venues and prices for festivals, concerts, markets and holiday events.</li>
+      <li>A <a href="/directory/">business directory</a> with addresses, hours, phone numbers and practical tips for <a href="/restaurants/">restaurants</a>, <a href="/things-to-do/">things to do</a> and <a href="/services/">local services</a>.</li>
+    </ul>
+    <h2>How we research</h2>
+    <p>News stories and guides are based on official sources such as the City of Alpharetta, Fulton County, Fulton County Schools and the State of Georgia, along with public records and local news reporting. We link to our sources at the end of every story. Directory details are checked against each business's own website or reliable public listings, and listing pages show when the details were last checked. We use software tools, including AI tools, to help gather and organize information and draft summaries, and we check facts against the sources before anything is published.</p>
+    <h2>Our editorial standards</h2>
+    <ul>
+      <li><strong>Sourced facts.</strong> If we can't confirm a detail, we leave it out.</li>
+      <li><strong>Both sides.</strong> When there's a local debate, we explain what supporters and critics say, using their own words where we can, and we don't take sides.</li>
+      <li><strong>Corrections.</strong> When facts change or we get something wrong, we update the page and add a dated note to news stories. Send corrections to <a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a></li>
+      <li><strong>Independence.</strong> Basic listings are free. Advertising and sponsorships are clearly labeled, and advertisers never pay for coverage in our news stories or guides. A listing is not an endorsement.</li>
+    </ul>
+    <h2>Get in touch</h2><p>Have a news tip, an event or a correction? <a href="/contact/">Contact us</a>. Own a business? <a href="/add-your-business/">Add your listing</a> for free. Interested in reaching Alpharetta readers? See <a href="/advertise/">advertising options</a>.</p>
+    <p>Alpharetta List is independent and is not affiliated with the City of Alpharetta.</p></div></div>`, jsonld: [crumbsLD(crumbs), { "@context": "https://schema.org", "@type": "AboutPage", name: "About Alpharetta List", url: SITE + "/about/" }] }), "0.4");
+}
+{
+  const crumbs = [["Home", "/"], ["Contact", "/contact/"]];
+  add("/contact/", layout({ title: "Contact Alpharetta List | News Tips, Listings and Corrections", description: "How to reach Alpharetta List with news tips, corrections, business listings, events and advertising questions.", urlPath: "/contact/",
+    body: pageHead(crumbs, "Contact us", "News tips, corrections, listings and advertising.") + `<div class="wrap" style="padding:44px 0"><div class="prose prose-narrow">
+    <p class="lede">The best way to reach Alpharetta List is by email at <a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a></p>
+    <p>We read every message and usually reply within a few business days.</p>
+    <h2>News tips and corrections</h2><p>Know about something happening in Alpharetta, or spot a mistake in one of our stories or listings? Email us with the details and any links or documents that help us check it. We fix errors quickly and note corrections on news stories.</p>
+    <h2>Business listings</h2><p>To add your business for free, see <a href="/add-your-business/">add your business</a>. To update or remove an existing listing, use the "Claim this listing" link at the bottom of your business's page, or email us with the page link and the change.</p>
+    <h2>Events</h2><p>Festivals, fundraisers, concerts, classes and grand openings are welcome. See <a href="/submit-event/">submit an event</a> for what to include.</p>
+    <h2>Advertising</h2><p>See our <a href="/advertise/">advertising options</a> or email us to ask about current rates.</p>
+    <p>Alpharetta List is independent and is not affiliated with the City of Alpharetta. For city services, permits or emergencies, contact the <a href="https://www.alpharetta.ga.us" rel="noopener">City of Alpharetta</a> directly, or call 911 in an emergency.</p></div></div>`, jsonld: [crumbsLD(crumbs), { "@context": "https://schema.org", "@type": "ContactPage", name: "Contact Alpharetta List", url: SITE + "/contact/" }] }), "0.4");
+}
+{
+  const crumbs = [["Home", "/"], ["Terms of use", "/terms/"]];
+  add("/terms/", layout({ title: "Terms of Use | Alpharetta List", description: "The terms that apply to using AlpharettaList.com.", urlPath: "/terms/",
+    body: pageHead(crumbs, "Terms of use", "") + `<div class="wrap" style="padding:44px 0"><div class="prose prose-narrow">
+    <p>Last updated ${fmtDate(BUILD_DATE)}. These terms apply to your use of AlpharettaList.com ("Alpharetta List," "we," "us"). By using the site, you agree to them. If you don't agree, please don't use the site.</p>
+    <h2>Information on the site</h2><p>Alpharetta List publishes local news, guides, events and a business directory for general information only. We work to keep it accurate and link to our sources, but details such as business hours, phone numbers, prices, event dates and government decisions can change. Please confirm important details with the business, organizer or agency before relying on them. Nothing on the site is legal, financial, medical or professional advice.</p>
+    <h2>Business listings</h2><p>Listings are based on information from businesses, their websites and public sources. A listing is not an endorsement. Business owners can ask us to correct or remove a listing at any time by emailing <a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a></p>
+    <h2>Your submissions</h2><p>When you send us a business, event, tip or other content, you confirm that the information is accurate and that you have the right to share it, and you give us permission to edit and publish it on the site and related channels. We may decline or remove any submission.</p>
+    <h2>Advertising and links</h2><p>Advertisements and sponsorships are labeled. The site links to other websites, including listed businesses and our sources. We don't control those sites and aren't responsible for their content, products or privacy practices.</p>
+    <h2>Use of our content</h2><p>The text, design and original images on Alpharetta List belong to us unless noted otherwise. You're welcome to share links to our pages and quote short excerpts with credit and a link. Please don't copy whole articles or scrape the directory without permission.</p>
+    <h2>Acceptable use</h2><p>Don't use the site or our email to send spam, false information, or anything unlawful or harmful, and don't try to interfere with how the site works.</p>
+    <h2>No warranty and limitation of liability</h2><p>The site is provided "as is," without warranties of any kind. To the fullest extent allowed by law, Alpharetta List is not liable for any loss or damage arising from your use of the site or reliance on its content.</p>
+    <h2>Changes and governing law</h2><p>We may update these terms from time to time, and the date at the top shows the latest version. These terms are governed by the laws of the State of Georgia.</p>
+    <h2>Contact</h2><p>Questions about these terms? Email <a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a> See also our <a href="/privacy/">privacy policy</a>.</p></div></div>`, jsonld: [crumbsLD(crumbs)] }), "0.2");
 }
 {
   const crumbs = [["Home", "/"], ["Privacy", "/privacy/"]];
-  add("/privacy/", layout({ title: "Privacy Policy | Alpharetta List", description: "How Alpharetta List handles information submitted through our forms and analytics.", urlPath: "/privacy/",
+  add("/privacy/", layout({ title: "Privacy Policy | Alpharetta List", description: "How Alpharetta List handles information you send us, analytics, cookies and advertising.", urlPath: "/privacy/",
     body: pageHead(crumbs, "Privacy policy", "") + `<div class="wrap" style="padding:44px 0"><div class="prose prose-narrow">
     <p>Last updated ${fmtDate(BUILD_DATE)}. This policy explains what information AlpharettaList.com ("Alpharetta List," "we") collects, how we use it, and your choices. Alpharetta List is an independent local publication and is not affiliated with the City of Alpharetta.</p>
-    <h2>Information you give us</h2><p>When you email us, for example to add a business or submit an event, we receive what you send: for example your name, email address, phone number, business or event details, and any message. We use it to review and publish your listing or event, respond to you, and run the site.</p>
-    <h2>How submissions are processed</h2><p>Emails are kept privately. To keep the directory accurate and free of spam, business and event submissions may be reviewed automatically using an AI service (Anthropic's Claude), which may check publicly available information on the web. A person may also review any submission. Only approved business and event details are published.</p>
-    <h2>What we publish</h2><p>Business and event details you submit for publication (such as name, address, phone, website and description) may appear on the site and in search engines. We never publish the email address you contact us from.</p>
-    <h2>Analytics and cookies</h2><p>If analytics are enabled, we use Google Analytics to understand how visitors use the site, such as which pages are viewed, how long visits last, the general location (city or region) and the type of device and browser. Google Analytics uses cookies and similar technologies, and Google may process this data under its own privacy policy. We do not use this data to identify you personally. You can block cookies in your browser settings or use the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener nofollow">Google Analytics opt-out browser add-on</a>. We do not sell your personal information.</p>
-    <h2>Links</h2><p>This site links to other websites, including businesses we list. We are not responsible for the privacy practices of other sites.</p>
+    <h2>Information you give us</h2><p>When you email us, for example to add a business, submit an event or ask about advertising, we receive what you send: for example your name, email address, phone number, business or event details, and any message. We use it to review and publish your listing or event, respond to you, and run the site.</p>
+    <h2>How submissions are processed</h2><p>Emails are kept privately. To keep the directory accurate and free of spam, business and event submissions may be reviewed with the help of an AI service (Anthropic's Claude), which may check publicly available information on the web. A person may also review any submission. Only approved business and event details are published.</p>
+    <h2>What we publish</h2><p>Business and event details you send for publication (such as name, address, phone, website and description) may appear on the site and in search engines. We never publish the email address you contact us from.</p>
+    <h2>Analytics and cookies</h2><p>We use Google Analytics to understand how visitors use the site, such as which pages are viewed, how long visits last, the general location (city or region) and the type of device and browser. Google Analytics uses cookies and similar technologies, and Google may process this data under its own privacy policy. We do not use this data to identify you personally. You can block cookies in your browser settings or use the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener nofollow">Google Analytics opt-out browser add-on</a>. We do not sell your personal information.</p>
+    <h2>Advertising</h2><p>We may show ads served by Google AdSense. Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this website or other websites. Google's use of advertising cookies enables it and its partners to serve ads to you based on your visits to this site and/or other sites on the Internet. You may opt out of personalized advertising by visiting <a href="https://adssettings.google.com" rel="noopener nofollow">Google Ads Settings</a>, or opt out of some third-party vendors' use of cookies for personalized advertising at <a href="https://www.aboutads.info/choices/" rel="noopener nofollow">aboutads.info</a>. Learn more about <a href="https://policies.google.com/technologies/partner-sites" rel="noopener nofollow">how Google uses information from sites that use its services</a>.</p>
+    <h2>Sponsors and links</h2><p>Any paid sponsorships on the site are labeled. This site links to other websites, including businesses we list. We are not responsible for the privacy practices of other sites.</p>
     <h2>How long we keep information</h2><p>We keep submissions as long as needed to operate the directory and respond to you. You can ask us to update or delete a listing or your submission at any time.</p>
     <h2>Children</h2><p>This site is intended for a general audience and is not directed to children under 13. We do not knowingly collect personal information from children.</p>
     <h2>Your choices and contact</h2><p>To correct or remove a listing, or to ask about the information we hold about you, email <a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a> We may update this policy from time to time, and the date at the top shows the latest version.</p></div></div>`, jsonld: [crumbsLD(crumbs)] }), "0.2");
