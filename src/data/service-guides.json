@@ -428,5 +428,423 @@
     "a": "Ask who will perform the treatment and what license they hold, which licensed medical professional oversees the practice, what the risks and recovery look like, and how complications are handled."
    }
   ]
+ },
+ "hair-salons": {
+  "heading": "Choosing a hair salon in Alpharetta: what to know",
+  "paras": [
+   "Alpharetta has everything from one chair studios in salon suite buildings to busy full service salons with a dozen stylists. Before you book, decide what you actually need. A precision cut, a big color change, extensions and keratin treatments all call for different skills, so look for a stylist whose portfolio shows recent work on hair like yours, not just polished photos from a product brand.",
+   "Georgia requires every salon to be licensed by the Georgia State Board of Cosmetology and Barbers before it opens, and Board rules say the salon license, or a printout of its online verification, must be posted within fifteen feet of the entrance. Each stylist must also display a current license, and the most recent inspection report has to be posted where customers can see it. In buildings divided into salon suites, licenses should make clear which business each stylist works under. If you cannot spot these documents, ask. A licensed professional will not mind.",
+   "For color or chemical services, ask whether the stylist does a consultation and a strand or patch test first, how long the appointment will take, and what the policy is if you are unhappy with the result. Red flags include tools that look unwashed, reused disposable items, and pressure to add services you did not request. Popular stylists in North Fulton often book out weeks ahead of holidays, proms and wedding season, so plan early for big events and confirm the cancellation policy in writing."
+  ],
+  "faqs": [
+   {
+    "q": "Do hair salons need a license in Georgia?",
+    "a": "Yes. Salons must be licensed by the Georgia State Board of Cosmetology and Barbers before doing business, and each stylist needs an individual license or permit. Both should be posted in an open area of the salon."
+   },
+   {
+    "q": "How can I check a salon's inspection record?",
+    "a": "Georgia Board rules require salons to post their most recent inspection report in an open area. You can ask to see it if it is not obvious when you walk in."
+   },
+   {
+    "q": "What should I ask before a major color change?",
+    "a": "Ask about a consultation, a strand test, the expected time in the chair, and the salon's policy for corrections. Bring photos of what you want and what you do not want."
+   }
+  ]
+ },
+ "barbershops": {
+  "heading": "Finding a good barbershop in Alpharetta: what to know",
+  "paras": [
+   "A good barber learns how your hair grows, how you wear it on an ordinary Tuesday, and how often you come back. In Alpharetta you will find classic walk in shops, appointment only studios and shops inside salon suite buildings, so start by deciding whether you value convenience or a consistent chair with the same barber every visit. Look at recent photos of fades, tapers, beard work and kids' cuts, and pick someone whose everyday work matches the style you want.",
+   "Barbershops in Georgia fall under the Georgia State Board of Cosmetology and Barbers. A shop must be licensed before it opens, its license or online verification must be displayed near the entrance, and every barber working there must post a current individual license. Shops also have to post their most recent inspection report and the state's health and sanitation rules. Clean clippers, fresh neck strips, disinfected combs and a tidy station are basic expectations, not extras.",
+   "Ask how the shop handles waits, whether online booking holds your spot, and what the policy is for late arrivals or no shows. If you are bringing a child for a first haircut, ask whether a barber is comfortable with young kids and which times are quietest. Weekends and the days before school starts in August tend to fill up fast around North Fulton, so book ahead. If a shop seems to rush every cut or will not answer basic questions, keep looking."
+  ],
+  "faqs": [
+   {
+    "q": "Do barbers need a license in Georgia?",
+    "a": "Yes. Barbers are licensed by the Georgia State Board of Cosmetology and Barbers, and Board rules require each barber's current license or online verification to be posted in the shop."
+   },
+   {
+    "q": "What is the difference between a barbershop and a salon in Georgia?",
+    "a": "Both are licensed by the same state board, and many shops hold a single salon or shop license. The real difference is usually the services and style each business focuses on."
+   },
+   {
+    "q": "How often should I get a fade touched up?",
+    "a": "Many people with short fades return every two to three weeks to keep the lines sharp. Ask your barber what interval suits your hair growth."
+   }
+  ]
+ },
+ "dermatologists": {
+  "heading": "Choosing a dermatologist in Alpharetta: what to know",
+  "paras": [
+   "Dermatology practices in Alpharetta range from large groups with several locations to small offices focused on cosmetic treatments. Start by being clear about why you are going. A skin check, a stubborn rash, acne care and cosmetic procedures are very different visits, and some practices lean heavily toward one type. Ask the office who will actually see you, whether a physician, a physician assistant or a nurse practitioner, and how follow up questions are handled between visits.",
+   "Every physician practicing in Georgia must be licensed by the Georgia Composite Medical Board, and the Board's free online lookup shows license status, the date it was first issued, its expiration date and any public Board orders. It is worth a quick search before your first appointment. You can also ask whether the doctor is board certified in dermatology, which reflects specialty training beyond a basic medical license, and whether the practice performs procedures in its own office.",
+   "Call your insurance plan or check its directory to confirm the practice is in network, and ask whether you need a referral from a primary care doctor. New patient waits can be long in North Fulton, so ask to be placed on a cancellation list. Be cautious if a practice pushes expensive product packages during a medical visit or will not explain the purpose of a recommended procedure. This guide is general consumer information, so talk with a qualified clinician about any specific skin concern."
+  ],
+  "faqs": [
+   {
+    "q": "How do I check a dermatologist's license in Georgia?",
+    "a": "Use the Georgia Composite Medical Board's online licensee search. It shows license status, issue and expiration dates, and any public orders issued by the Board."
+   },
+   {
+    "q": "Do I need a referral to see a dermatologist?",
+    "a": "It depends on your insurance plan. Many HMO style plans require a referral from your primary care doctor, so check with your insurer before booking."
+   },
+   {
+    "q": "Who might I see at a dermatology appointment?",
+    "a": "Many practices use physician assistants and nurse practitioners alongside dermatologists. Ask when booking if you want to see a physician specifically."
+   }
+  ]
+ },
+ "eye-doctors": {
+  "heading": "Choosing an eye doctor in Alpharetta: what to know",
+  "paras": [
+   "Start by knowing which kind of eye doctor fits your visit. Optometrists handle routine eye exams, glasses and contact lens prescriptions, and many common eye conditions. Ophthalmologists are medical doctors who also perform eye surgery and manage more complex disease. Around Alpharetta you will find optometrists in private practices and inside retail optical stores, while ophthalmology groups usually have dedicated offices and often see patients by referral.",
+   "In Georgia, optometrists are licensed through the State Board of Optometry under the Secretary of State, and ophthalmologists, as physicians, are licensed by the Georgia Composite Medical Board, which offers a free online lookup showing license status and any public orders. The optometry board notes that the standard of care for a virtual eye exam is the same as for an in person exam, so ask exactly what an online or kiosk style test includes before relying on it for a prescription.",
+   "Vision insurance and medical insurance often work separately, so ask the office which plan will be billed for your visit, especially if you are going for a problem like an infection or floaters rather than a routine exam. Ask whether a contact lens fitting is included or billed separately, and request a copy of your glasses prescription so you can shop around. Back to school season is busy for pediatric exams in North Fulton, so book early in summer. For sudden vision changes, contact a doctor right away rather than waiting for a routine appointment."
+  ],
+  "faqs": [
+   {
+    "q": "What is the difference between an optometrist and an ophthalmologist?",
+    "a": "Optometrists provide eye exams, prescriptions and care for many common eye conditions. Ophthalmologists are medical doctors who also perform surgery and treat more complex eye disease."
+   },
+   {
+    "q": "Can I get a copy of my glasses prescription?",
+    "a": "Ask the office for a copy after your exam so you can buy glasses wherever you like. Having it on file also helps if you switch providers."
+   },
+   {
+    "q": "Are virtual eye exams allowed in Georgia?",
+    "a": "The Georgia State Board of Optometry says optometrists can perform virtual eye exams, held to the same standard of care as an in person exam. Ask what testing is included before you book."
+   }
+  ]
+ },
+ "primary-care": {
+  "heading": "Finding a primary care doctor in Alpharetta: what to know",
+  "paras": [
+   "A primary care doctor is your long term home base for checkups, preventive screenings, everyday illnesses and referrals to specialists. Alpharetta has a mix of hospital affiliated practices, independent family medicine and internal medicine offices, and concierge style practices. Decide first whether you want one doctor for the whole family, which points to family medicine, or an adult focused internist, and whether the hospital system a practice belongs to matters to you.",
+   "Before you book, confirm the practice is in network with your insurance and accepting new patients, since many popular North Fulton offices have long waits for a first visit. Every physician practicing in Georgia must hold a license from the Georgia Composite Medical Board, and the Board's online lookup shows license status, issue and expiration dates and any public orders. A quick search takes a minute and is worth doing for any new doctor.",
+   "Ask practical questions too. How quickly can you get a same day sick visit? Who answers messages through the patient portal, and how long do replies take? Are labs drawn on site? Does the practice offer telehealth, and who covers after hours calls? Pay attention to how the front desk treats you on the phone, because you will deal with them often. Be wary of offices that cannot explain their billing or that rush through your history at the first visit. This guide is general consumer information, not medical advice."
+  ],
+  "faqs": [
+   {
+    "q": "How do I check a doctor's license in Georgia?",
+    "a": "Search the Georgia Composite Medical Board's online licensee lookup. It shows whether the license is active and lists any public Board orders."
+   },
+   {
+    "q": "What is the difference between family medicine and internal medicine?",
+    "a": "Family medicine doctors typically see patients of all ages, including children. Internal medicine doctors focus on adults."
+   },
+   {
+    "q": "What should I bring to a first primary care visit?",
+    "a": "Bring your insurance card, a photo ID, a list of current medications and past medical records or the contact details of your previous doctor."
+   }
+  ]
+ },
+ "movers": {
+  "heading": "Choosing a moving company in Alpharetta: what to know",
+  "paras": [
+   "Whether you are moving across town from Windward to downtown Alpharetta or relocating out of state, the first thing to check is who regulates your mover. For moves within Georgia, moving companies must hold a Certificate of Public Convenience and Necessity from the Georgia Department of Public Safety, which keeps a list of licensed household goods movers and publishes a maximum rate tariff that licensed movers cannot exceed. For moves that cross state lines, the Federal Motor Carrier Safety Administration oversees movers, and you can search a company by name or USDOT number on its Protect Your Move site.",
+   "Get written estimates from more than one company, ideally after an in person or video walkthrough. Federal guidance lists red flags that apply to any move: a quote given sight unseen, no written estimate, a company that says it will set the price after loading, demands for cash or a large deposit, and a website with no local address or registration information. For interstate moves, your mover should give you the federal booklet Your Rights and Responsibilities When You Move before the move.",
+   "On moving day, compare your inventory with the mover's and note any damage before you sign at delivery. Standard coverage is limited, so ask about added protection. For an in state move, Georgia requires a written claim to the mover within 90 days, and the Department of Public Safety may help if it is not resolved. Summer and the end of each month book up quickly across North Fulton, so reserve early."
+  ],
+  "faqs": [
+   {
+    "q": "Do movers need a license in Georgia?",
+    "a": "Yes. Movers handling household goods within Georgia must hold a Certificate of Public Convenience and Necessity from the Georgia Department of Public Safety, which publishes a list of licensed movers."
+   },
+   {
+    "q": "How do I check an interstate moving company?",
+    "a": "Use the Federal Motor Carrier Safety Administration's Protect Your Move site to search a mover or broker by name, USDOT number or MC number and see its complaint history."
+   },
+   {
+    "q": "How long do I have to file a damage claim on a Georgia move?",
+    "a": "For a move within Georgia, submit a written claim to the mover within 90 days. Interstate moves follow federal rules, which allow up to nine months after delivery."
+   }
+  ]
+ },
+ "house-cleaning": {
+  "heading": "Hiring a house cleaning service in Alpharetta: what to know",
+  "paras": [
+   "House cleaning in Alpharetta usually comes in two forms: an independent cleaner who works on their own, or a company that sends a crew. Independent cleaners often offer more consistency because the same person comes every visit, while companies can cover sick days and larger homes. Decide what you want before calling around. A recurring weekly or biweekly clean, a one time deep clean, a move out clean and post construction cleanup are different jobs, and a clear checklist helps you compare quotes fairly.",
+   "Ask every service whether it carries liability insurance and, for companies, whether workers are covered if they are injured in your home. Ask whether cleaners are employees or contractors, whether background checks are done, and who will actually show up. Find out what supplies they bring, whether they will use your products if you have pets, allergies or delicate surfaces, and how they handle keys, garage codes and alarm systems. A walkthrough before the first visit is a good sign.",
+   "Get the scope, schedule and cancellation policy in writing, along with what happens if something is damaged or a room is missed. Red flags include a service that will not put anything in writing, asks for large payments up front, or sends a different crew every time without notice. Spring cleaning, the weeks before Thanksgiving and the busy summer moving season in North Fulton fill calendars quickly, so book a deep clean or move out clean several weeks ahead."
+  ],
+  "faqs": [
+   {
+    "q": "Should a house cleaner be insured?",
+    "a": "Yes, ask for proof of liability insurance before the first visit. It protects you if something in your home is damaged during cleaning."
+   },
+   {
+    "q": "What is the difference between a regular clean and a deep clean?",
+    "a": "A regular clean maintains surfaces, floors, kitchens and bathrooms. A deep clean adds detailed work such as baseboards, inside appliances and built up grime, and usually takes much longer."
+   },
+   {
+    "q": "Should I tip my house cleaner?",
+    "a": "Tipping is common but optional. Many people tip for deep cleans, at the holidays, or when a cleaner goes beyond the usual checklist."
+   }
+  ]
+ },
+ "painters": {
+  "heading": "Hiring a house painter in Alpharetta: what to know",
+  "paras": [
+   "Painting looks simple, but most of the result comes from prep work: scraping, sanding, caulking, patching and protecting floors and trim. When you compare painters in Alpharetta, ask each one to describe their prep steps, which paint line and sheen they plan to use, how many coats are included, and whether the crew is their own employees or subcontractors. Get the same detailed scope from every bidder so the quotes are truly comparable.",
+   "Georgia's state consumer protection office notes that painters are among the specialty trades exempt from the state's residential and general contractor license, so a painter will not have a state license to check. That makes other proof more important. Ask for a certificate of liability insurance, confirm the business holds any required city or county business license, and call references for jobs similar to yours. If your home was built before 1978, ask how the crew handles possible lead paint during sanding and removal.",
+   "The state's consumer office lists warning signs that apply here: door to door solicitation, cash only payment, pressure for an immediate decision, an unusually long guarantee, and requests to pay for the entire job up front. Put start and finish dates, colors, warranty terms and a staged payment schedule in a written contract. Exterior work in North Fulton is easiest in spring and fall, when temperatures and humidity suit most paints, so good crews book those months early. If you live in an HOA community, get color approval before work begins."
+  ],
+  "faqs": [
+   {
+    "q": "Do painters need a license in Georgia?",
+    "a": "Painters are exempt from Georgia's state residential and general contractor license, according to Georgia's state consumer protection office. Most are still subject to city or county business licensing, so ask for that and proof of insurance."
+   },
+   {
+    "q": "How should I pay a painting contractor?",
+    "a": "Avoid paying for the whole job up front. Tie payments to completed stages of the work and keep a final payment until you have inspected the finished job."
+   },
+   {
+    "q": "What is the best time of year to paint a house exterior?",
+    "a": "Spring and fall are usually the easiest seasons in the Atlanta area because moderate temperatures and lower humidity help paint cure. Always follow the paint maker's temperature guidance."
+   }
+  ]
+ },
+ "garage-door": {
+  "heading": "Choosing a garage door company in Alpharetta: what to know",
+  "paras": [
+   "Garage doors are heavy, and the springs that lift them are under serious tension, so most repairs beyond a simple remote or sensor adjustment are best left to a trained technician. When you call a company in Alpharetta, describe the symptoms clearly: a door that will not open, a loud bang from a broken spring, a door that reverses, or cables that have come loose. A good company will explain the likely cause, give a written estimate before starting, and tell you whether the parts are standard or brand specific.",
+   "Ask whether the company has a physical local address, carries liability insurance and holds any city or county business license required where it operates. Georgia's consumer protection office notes that most contractors are subject to local licensing even when a trade is not state licensed. Ask about the warranty on parts and labor separately, and whether replacement springs are rated for more cycles than the originals. If you are replacing the whole door, ask about insulation, wind rating and HOA approval before ordering.",
+   "Watch for the warning signs Georgia's consumer office lists for home repair: pressure to decide immediately, a demand for full payment up front, cash only terms, and offers to use leftover materials from another job. Be cautious with online ads that show no local address and quote a low service call that grows once the technician arrives. Broken springs often fail on cold mornings, so knowing a reliable company before you need one can save a stressful wait."
+  ],
+  "faqs": [
+   {
+    "q": "Can I replace a garage door spring myself?",
+    "a": "Springs store a lot of tension and can cause serious injury if handled incorrectly. Most homeowners are safer hiring a trained technician for spring and cable work."
+   },
+   {
+    "q": "Why does my garage door reverse before it closes?",
+    "a": "A common cause is misaligned or blocked safety sensors near the bottom of the track. If cleaning and realigning them does not help, call a technician."
+   },
+   {
+    "q": "What should a garage door estimate include?",
+    "a": "It should list parts, labor, any trip charge and warranty terms in writing before work begins."
+   }
+  ]
+ },
+ "handymen": {
+  "heading": "Hiring a handyman in Alpharetta: what to know",
+  "paras": [
+   "A good handyman is ideal for the punch list that piles up in any house: patching drywall, hanging doors, fixing trim, mounting TVs, replacing fixtures and small carpentry jobs. Before you call, write down every task with photos so you can get a clear quote and avoid repeat trip charges. Ask whether the handyman bills by the hour or by the job, who buys materials, and whether they can finish everything in one visit or need to come back.",
+   "Georgia's state consumer protection office notes that repair handymen are generally exempt from the state's residential and general contractor license, but utility trades are different. Plumbing, electrical and air conditioning work is regulated by the Georgia Construction Industry Licensing Board, so a handyman should not be taking on that work unless properly licensed. Larger projects that go beyond repairs may also require a licensed contractor and building permits. Ask for proof of liability insurance and any city or county business license, and be wary if someone asks you to pull the permits yourself.",
+   "The state lists other red flags worth knowing: door to door solicitation, cash only payment, pressure to decide on the spot, and requests to pay for the whole job before work starts. Get the task list, completion date and price in writing, and pay in stages for anything larger than a short visit. Reliable handymen in North Fulton often book out a few weeks, especially before the holidays and in spring, so reach out early if you are preparing to sell or host guests."
+  ],
+  "faqs": [
+   {
+    "q": "Does a handyman need a license in Georgia?",
+    "a": "Georgia's consumer protection office says repair handymen are generally exempt from the state residential contractor license. Plumbing, electrical and HVAC work requires a license from the Georgia Construction Industry Licensing Board."
+   },
+   {
+    "q": "Should I pull permits for my handyman?",
+    "a": "Georgia's consumer office lists a contractor asking you to get the required permits as a warning sign. The person doing the work should know what permits are needed."
+   },
+   {
+    "q": "How do I get an accurate handyman quote?",
+    "a": "Send a written list of every task with photos and measurements. Ask whether the quote is hourly or fixed and whether materials are included."
+   }
+  ]
+ },
+ "auto-body": {
+  "heading": "Choosing an auto body shop in Alpharetta: what to know",
+  "paras": [
+   "After a fender bender on GA 400 or in a busy parking lot, the body shop you pick determines how well your car is put back together. Georgia uses a fault based system: the at fault driver's liability insurance pays for damage to others, and the state's Office of Commissioner of Insurance notes you can also file under your own collision coverage even when someone else caused the crash. Ask your agent which route makes more sense for your situation before you choose a shop.",
+   "You do not have to use the shop your insurer suggests. Georgia law says an insurer may not require you to use a particular repair facility to settle a claim if you can get the work done at the same cost elsewhere, and it may not suggest that using or avoiding a shop could lead to nonpayment. Get a written estimate, ask whether the shop follows the manufacturer's repair procedures, and find out whether it plans to use original equipment, aftermarket or used parts.",
+   "Ask about the shop's warranty on paint and workmanship, how it handles supplemental damage found after teardown, and whether it can recalibrate cameras and sensors that newer cars rely on. Request photos during the repair and a final invoice listing parts and labor. Red flags include pressure to sign a direction to pay before you have seen an estimate, vague answers about parts, and reluctance to let you inspect the car before pickup. Report hit and run damage to police promptly, since your insurer may ask for the report."
+  ],
+  "faqs": [
+   {
+    "q": "Can my insurance company make me use their body shop in Georgia?",
+    "a": "No. Georgia law says an insurer may not require you to use a particular repair facility to settle a claim if you can get the repairs at the same cost elsewhere."
+   },
+   {
+    "q": "Is Georgia an at fault state for car accidents?",
+    "a": "Yes. The at fault driver's liability coverage pays for others' damages, and you may also file under your own collision coverage if you carry it."
+   },
+   {
+    "q": "What parts will be used on my car?",
+    "a": "Ask the shop and your insurer whether the estimate calls for original equipment, aftermarket or used parts. Get the answer in writing."
+   }
+  ]
+ },
+ "insurance-agents": {
+  "heading": "Choosing an insurance agent in Alpharetta: what to know",
+  "paras": [
+   "Insurance agents in Alpharetta generally fall into two groups. Captive agents represent one company, while independent agents can quote several insurers for the same coverage. Neither is automatically better. A captive agent may know one company's products deeply, while an independent agent can shop your home and auto policies when rates change. Ask each agent which companies they represent, how they are paid, and who you will call when you have a claim.",
+   "Georgia requires all insurance agents, brokers and adjusters to be licensed by the Office of Commissioner of Insurance and Safety Fire, and agent licenses are renewed every year. The Commissioner's office offers a free online license lookup, so you can confirm an agent, agency or insurance company is licensed in Georgia before you sign anything. For auto coverage, Georgia law sets minimum liability limits, but many drivers choose higher limits along with uninsured motorist, collision and comprehensive coverage, so ask the agent to explain each piece.",
+   "A good agent reviews your full picture, including homes, cars, teen drivers and any business activity, and explains deductibles in plain terms. Ask about discounts the Commissioner's office lists, such as multiple vehicles, good student, safety and anti theft devices, low mileage and bundling home and auto. Red flags include pressure to sign the same day, reluctance to put quotes in writing, or a policy that costs far less than others without a clear reason. Review your coverage each year at renewal. This is general consumer information, not insurance or financial advice."
+  ],
+  "faqs": [
+   {
+    "q": "How do I check if an insurance agent is licensed in Georgia?",
+    "a": "Use the license lookup on the Georgia Office of Commissioner of Insurance and Safety Fire website. It covers agents, agencies and insurance companies."
+   },
+   {
+    "q": "What is the difference between a captive and an independent agent?",
+    "a": "A captive agent sells policies from one insurer. An independent agent can compare quotes from several insurers."
+   },
+   {
+    "q": "Is uninsured motorist coverage worth asking about in Georgia?",
+    "a": "The Commissioner's office explains that uninsured motorist coverage protects you if a driver without insurance damages your car or injures you. Ask your agent how it fits your policy."
+   }
+  ]
+ },
+ "tutoring": {
+  "heading": "Choosing a tutoring center in Alpharetta: what to know",
+  "paras": [
+   "Alpharetta families use tutoring for very different reasons: catching up in math, staying ahead in advanced classes, preparing for the SAT or ACT, or building study habits. Be specific about the goal before you compare options. Franchise learning centers often use a set curriculum and assessments, while independent tutors and small centers can tailor sessions to what your student is covering in class. Ask whether tutors work with the same course materials your child's Fulton County school uses and how they align lessons with classroom units.",
+   "Ask about tutor qualifications, subject expertise, background checks and how a tutor is matched to your child. Find out whether sessions are one on one or small group, how progress is measured and shared with parents, and what happens if your child does not click with a tutor. Georgia Milestones testing starts in grade 3, and many families look for help ahead of end of grade and end of course tests, so ask whether the center has experience with those standards if that is your concern.",
+   "If a center also offers after school pickup or supervision, ask whether it is licensed by Georgia's Department of Early Care and Learning or holds an approved exemption, since state law requires anyone caring for more than two children for pay to be licensed or exempt. Be cautious about long prepaid contracts, guaranteed score increases and pressure to enroll on the first visit. Spots fill quickly in August and before winter exams, so start your search a few weeks ahead."
+  ],
+  "faqs": [
+   {
+    "q": "When should my child start tutoring?",
+    "a": "It usually helps to start as soon as a teacher raises a concern or grades begin to slip, rather than right before a big test. Early support gives a tutor time to fix gaps."
+   },
+   {
+    "q": "Do tutoring centers in Georgia need a child care license?",
+    "a": "Georgia requires anyone caring for more than two children for pay to be licensed or exempt, and some instructional programs qualify for exemptions. Ask whether the center holds a DECAL license or an approved exemption."
+   },
+   {
+    "q": "What grades take Georgia Milestones tests?",
+    "a": "Georgia Milestones end of grade tests begin in grade 3 and continue through middle school, with end of course tests in certain high school subjects."
+   }
+  ]
+ },
+ "martial-arts": {
+  "heading": "Choosing a martial arts school in Alpharetta: what to know",
+  "paras": [
+   "Martial arts schools in Alpharetta teach a wide range of styles, from taekwondo and karate to Brazilian jiu jitsu, Krav Maga and kickboxing. Each feels very different, so start with your goal: fitness, self defense, competition, discipline and confidence for kids, or a lifelong hobby. Visit during a real class rather than just a sales tour, and watch how instructors correct students, how they handle beginners and whether classes are grouped sensibly by age and skill.",
+   "Ask about the head instructor's training lineage and how long they have taught, how belts or ranks are earned, and what testing involves. Clarify contract terms before signing. Many schools sell memberships with automatic renewals and separate testing or equipment charges, so get the cancellation policy, freeze options and all extra fees in writing. Be wary of high pressure enrollment on a first visit, promises of black belts on a fixed timeline, or reluctance to let you try a class first.",
+   "Safety matters most with contact styles. Ask how sparring is supervised, what protective gear is required, how mats are cleaned, and whether instructors have first aid training. Some schools run after school programs that include pickup from local elementary schools. Georgia law requires programs that care for more than two children for pay to be licensed by the Department of Early Care and Learning or hold an approved exemption, and the state treats classes where supervision is only incidental, such as martial arts lessons, under a separate exemption category. If you rely on pickup and supervision, ask which applies."
+  ],
+  "faqs": [
+   {
+    "q": "What age can kids start martial arts?",
+    "a": "Many schools offer classes starting around age 4 or 5, with programs grouped by age. Ask whether the school has a dedicated class for younger beginners."
+   },
+   {
+    "q": "Do martial arts after school programs need a license in Georgia?",
+    "a": "Programs that care for more than two children for pay must be licensed by DECAL or hold an approved exemption. Ask the school which applies to its after school program."
+   },
+   {
+    "q": "Should I sign a long martial arts contract?",
+    "a": "Try a few classes first and read the cancellation and renewal terms carefully. Get any promises about freezes or refunds in writing."
+   }
+  ]
+ },
+ "dance-studios": {
+  "heading": "Choosing a dance studio in Alpharetta: what to know",
+  "paras": [
+   "Dance studios in Alpharetta range from recreational schools where kids try ballet, tap and hip hop for fun to competition studios with demanding rehearsal schedules, plus adult programs in ballroom, salsa and fitness dance. Start by deciding how much time your family wants to commit. A recreational class once a week and a competition team that travels most weekends are very different experiences, and many studios offer both tracks.",
+   "Watch a class or book a trial before enrolling. Look at how teachers correct technique, whether younger students are taught age appropriate movement, and whether the floors are sprung or cushioned rather than concrete covered in vinyl. Ask about teacher training and experience, class sizes, and how students move between levels. Get a full picture of the season up front, including recital or competition costume fees, required dancewear, rehearsal requirements and any registration charges, so there are no surprises in the spring.",
+   "If the studio offers after school pickup or long camp days, ask how children are supervised between classes. Georgia law requires anyone caring for more than two children for pay to be licensed by the Department of Early Care and Learning or hold an approved exemption, and the state has a separate exemption category for classes such as dance lessons where supervision is only incidental. Ask which applies if you rely on the studio for care. Fall enrollment opens in late summer and popular classes fill quickly across North Fulton, so register early."
+  ],
+  "faqs": [
+   {
+    "q": "What age should a child start dance classes?",
+    "a": "Many studios offer creative movement or combination classes for preschoolers, with formal technique classes starting around school age. Ask about the studio's youngest class and what it covers."
+   },
+   {
+    "q": "What is the difference between a recreational and a competition dance studio?",
+    "a": "Recreational programs focus on weekly classes and an annual recital. Competition programs add extra rehearsals, travel and choreography fees, and require a bigger time commitment."
+   },
+   {
+    "q": "Do dance studios need a child care license in Georgia?",
+    "a": "Studios that care for more than two children for pay need a DECAL license or an approved exemption, and the state has an exemption category for lessons like dance. Ask the studio which applies to its programs."
+   }
+  ]
+ },
+ "hotels": {
+  "heading": "Choosing a hotel in Alpharetta: what to know",
+  "paras": [
+   "Where you stay in Alpharetta depends on why you are visiting. The city's tourism office lists hotels clustered around Avalon and Old Milton Parkway, along North Point Parkway, and on Windward Parkway. Business travelers often pick a hotel close to their meetings to avoid crossing GA 400 at rush hour, while leisure visitors may prefer to be within walking distance of Avalon's shops and restaurants or a short ride from downtown Alpharetta.",
+   "If you are coming for a concert at Ameris Bank Amphitheatre, a tournament or a wedding, book early. Big event weekends can fill rooms across the area, and group blocks usually have a cutoff date. Check whether the hotel offers a shuttle, since some Alpharetta properties do, and confirm parking arrangements, especially near Avalon. Alpharetta's tourism office notes the city is about 30 minutes from Atlanta, but traffic on GA 400 can stretch that considerably, so plan airport trips with extra time.",
+   "Before booking, compare the total stay rather than the nightly rate alone, including taxes, resort or parking fees and pet fees. Read the cancellation policy closely, especially on prepaid rates booked through third party sites, which can be harder to change. Ask whether breakfast is included, whether the hotel has meeting space or a pool if you need it, and how far the nearest restaurants are on foot. Booking directly with the hotel can make special requests and changes easier."
+  ],
+  "faqs": [
+   {
+    "q": "What areas of Alpharetta have hotels?",
+    "a": "Alpharetta's tourism office lists hotels around Avalon and Old Milton Parkway, along North Point Parkway and on Windward Parkway. Choose based on whether you need to be near offices, shopping or event venues."
+   },
+   {
+    "q": "How far is Alpharetta from Atlanta?",
+    "a": "Alpharetta's tourism office describes it as about 30 minutes from Atlanta. Rush hour traffic on GA 400 can add significant time."
+   },
+   {
+    "q": "Are there pet friendly hotels in Alpharetta?",
+    "a": "Yes, several Alpharetta hotels accept pets. Confirm the pet policy, weight limits and any fees when you book."
+   }
+  ]
+ },
+ "dog-grooming": {
+  "heading": "Choosing a dog groomer or boarding facility in Alpharetta: what to know",
+  "paras": [
+   "Grooming and boarding both mean handing your dog to someone else for hours or days, so trust matters more than convenience. In Georgia, kennel operators, a category the Georgia Department of Agriculture says includes groomers, trainers and boarders, are licensed and inspected by the department's companion animal program. The department offers a free online license search, so check that a groomer or boarding facility appears before your first visit, and use its complaint process if you see problems.",
+   "Expect a good facility to ask for proof of vaccinations. Fulton County requires dogs four months and older to be vaccinated against rabies and to carry a county license that runs on the same term as the vaccine, so keep your certificate handy. Ask what other vaccines are required for boarding or daycare, how dogs are grouped during play, how often staff check on boarded dogs overnight, and which veterinarian they call in an emergency. Tour the space, notice the smell and noise level, and ask whether dogs are ever left unattended in dryers or crates.",
+   "For grooming, ask how the groomer handles anxious or senior dogs, whether they use cage dryers or hand drying, and how long your dog will be there. Share any health issues, skin sensitivities or behavior concerns at drop off. Red flags include refusing to let you see where dogs are kept, vague answers about supervision, or no vaccination requirements at all. Boarding spots around Alpharetta fill up quickly for Thanksgiving, winter holidays, spring break and summer travel, so reserve well in advance."
+  ],
+  "faqs": [
+   {
+    "q": "Do dog groomers need a license in Georgia?",
+    "a": "The Georgia Department of Agriculture licenses kennel operators, which it says includes groomers, trainers and boarders. You can check a business with the department's online license search."
+   },
+   {
+    "q": "Does Fulton County require a dog license?",
+    "a": "Yes. Fulton County requires dogs four months and older to be vaccinated against rabies and licensed, with the license term matching the rabies vaccine."
+   },
+   {
+    "q": "What vaccines do boarding facilities require?",
+    "a": "Rabies is required by law, and many facilities also ask for other vaccines. Ask the facility for its full list before booking."
+   }
+  ]
+ },
+ "senior-living": {
+  "heading": "Choosing a senior living community in Alpharetta: what to know",
+  "paras": [
+   "Senior living options around Alpharetta include independent living communities, assisted living communities, smaller personal care homes and memory care. Start with an honest look at the help your loved one needs now and may need in a few years, such as medication reminders, bathing, dressing or supervision for memory loss, because that determines which setting fits. Visit more than once, including at a meal, and talk with residents and families if you can.",
+   "Georgia's Department of Community Health, through its Healthcare Facility Regulation Division, licenses personal care homes and assisted living communities. Under state rules, an assisted living community is a personal care home serving 25 or more residents that is licensed to provide assisted living care. The department conducts unannounced inspections roughly every 11 to 15 months and investigates complaints, so ask the community for its license and recent inspection results. Georgia's consumer protection office warns that an unlicensed home advertising for residents violates the Fair Business Practices Act.",
+   "Ask about staffing levels on each shift, staff training, how care needs are reassessed, and what happens if needs grow beyond what the community can provide. Get every fee and what triggers a change in writing, and read the residency agreement before signing. Red flags include reluctance to share inspection results, high staff turnover and pressure to sign before you have toured. Georgia's Long Term Care Ombudsman Program advocates for residents of personal care homes and assisted living facilities and can help resolve problems. This is general guidance, not legal or financial advice."
+  ],
+  "faqs": [
+   {
+    "q": "How do I check if an assisted living community is licensed in Georgia?",
+    "a": "Personal care homes and assisted living communities are licensed by the Georgia Department of Community Health's Healthcare Facility Regulation Division. Ask the community for its license and recent survey results, or contact the division."
+   },
+   {
+    "q": "What is the difference between a personal care home and assisted living in Georgia?",
+    "a": "Under Georgia rules, an assisted living community is a personal care home with 25 or more residents that is licensed to provide assisted living care. Smaller personal care homes provide housing, meals and personal services."
+   },
+   {
+    "q": "Who can help if there is a problem at a senior care facility?",
+    "a": "Georgia's Long Term Care Ombudsman Program investigates and helps resolve resident complaints. You can also file a complaint with the Department of Community Health."
+   }
+  ]
+ },
+ "wedding-venues": {
+  "heading": "Choosing a wedding or event venue in Alpharetta: what to know",
+  "paras": [
+   "Alpharetta and the surrounding North Fulton area offer everything from historic homes and gardens to hotel ballrooms, rustic barns and modern event spaces. Begin with your guest count and the feel you want, then visit venues at the same time of day as your event so you can judge lighting, parking and noise. Ask whether the ceremony and reception can be held in the same place, and what the rain plan is for any outdoor space.",
+   "Read the contract closely before you sign. Ask what is included, such as tables, chairs, linens and setup, whether you must use the venue's caterer or an approved vendor list, and whether outside alcohol is allowed and who must serve it. Clarify the deposit and payment schedule, cancellation and postponement terms, the exact hours you have access, and any noise curfew. Find out whether a venue coordinator will be on site during the event and whether liability insurance is required. Popular spring and fall Saturdays book far ahead, so weekday or off season dates can open more options.",
+   "Do not forget the marriage license. Georgia marriage licenses are issued by county probate courts. If at least one of you is a Georgia resident, the license can come from any Georgia county, and if neither of you lives in Georgia, it must come from the county where the ceremony will take place. Both partners must be at least 18. Couples who complete a qualifying premarital education program of at least six hours within 12 months before applying are not charged the license fee."
+  ],
+  "faqs": [
+   {
+    "q": "Where do I get a marriage license for a wedding in Alpharetta?",
+    "a": "Marriage licenses come from Georgia county probate courts. If one partner lives in Georgia, any county can issue it; if neither does, apply in the county where the ceremony will be held."
+   },
+   {
+    "q": "Does Georgia have a premarital education discount?",
+    "a": "Yes. Couples who present a certificate from a qualifying premarital education program of at least six hours, completed within 12 months, are not assessed the marriage license fee."
+   },
+   {
+    "q": "How far ahead should I book a wedding venue?",
+    "a": "Popular Saturdays in spring and fall often book many months ahead. Tour early and get your date in a signed contract."
+   }
+  ]
  }
 }
