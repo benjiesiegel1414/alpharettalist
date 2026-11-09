@@ -578,5 +578,77 @@
         "url": "https://en.wikipedia.org/wiki/Big_Creek_Greenway"
       }
     ]
+  },
+  {
+    "slug": "fulton-schools-redistricting-haynes-bridge-holcomb-bridge-2026",
+    "title": "Fulton County Schools Redistricting 2026: Draft Maps Would Combine Haynes Bridge and Holcomb Bridge Middle Schools",
+    "seoTitle": "Fulton Schools Redistricting 2026: Haynes Bridge & Holcomb Bridge Draft Maps",
+    "h1": "Fulton County Schools Redistricting: What the Draft Maps Mean for Alpharetta Families",
+    "description": "Fulton County Schools' first draft maps for north Fulton would consolidate Haynes Bridge and Holcomb Bridge middle schools and shift some Barnwell-area students to Autrey Mill. Enrollment numbers, forum dates and the vote timeline.",
+    "category": "News",
+    "published": "2026-11-09",
+    "updated": "2026-11-09",
+    "readMins": 6,
+    "coverPrompt": "Photorealistic exterior of a generic suburban American public middle school building in late autumn, red brick and glass entrance with a covered walkway, an empty yellow school bus parked along the curb, golden and amber fall trees, a few scattered leaves on the sidewalk, soft late-afternoon golden-hour light, calm and quiet with no people, warm charcoal and gold tones, shallow depth of field, no text, no lettering, no logos, no readable signs, no recognizable real people",
+    "faq": [
+      {
+        "q": "Are Haynes Bridge and Holcomb Bridge middle schools closing?",
+        "a": "Not yet. Fulton County Schools' first draft map, released Nov. 8, 2026, would consolidate the two schools' students into a replacement middle school, with a preferred site next to the current Holcomb Bridge campus. It is only a draft. The district will revise it after community forums, and the school board's final vote is scheduled for Feb. 25, 2027."
+      },
+      {
+        "q": "Which schools are part of the Fulton County Schools Region C redistricting?",
+        "a": "Four middle schools (Autrey Mill, Elkins Pointe, Haynes Bridge and Holcomb Bridge) and four elementary schools (Esther Jackson, Hembree Springs, Mimosa and Vickery Mill), all north of the Chattahoochee River."
+      },
+      {
+        "q": "When are the Fulton County Schools redistricting forums?",
+        "a": "The draft map forums are Nov. 9, 2026 for elementary schools (6:30 to 8:30 p.m., Roswell High School gym) and Nov. 11 for middle schools (6 to 8 p.m., Centennial High School gym). Revised maps will be shown Dec. 14 (elementary) and Dec. 15 (middle) at the same places."
+      },
+      {
+        "q": "How can I give feedback on the Fulton County Schools draft maps?",
+        "a": "Attend a forum, fill out the online survey the district posts the day after each forum, or email planning@fultonschools.org. You can also call the Operational Planning office at 470-254-5540."
+      },
+      {
+        "q": "Why is Fulton County Schools redistricting north Fulton?",
+        "a": "Enrollment is falling. The district says many Region C buildings will stay underused through 2030-31. This year Haynes Bridge Middle is 57% full and Holcomb Bridge Middle is 53% full, based on the 20-day enrollment count."
+      }
+    ],
+    "sources": [
+      {
+        "name": "Fulton County Schools: 2026-27 Redistricting, Consolidation and Closure Process",
+        "url": "https://www.fultonschools.org/all-departments/operations/operational-planning/redistricting"
+      },
+      {
+        "name": "Fulton County Schools: Region C Middle Schools Draft Map Proposal (Nov. 8, 2026)",
+        "url": "https://fultonschoolsorg.finalsite.com/fs/resource-manager/view/05db7bdb-7b7c-4487-9bb7-95834d204c02"
+      },
+      {
+        "name": "Fulton County Schools: Region C Elementary Schools Draft Map Proposal (Nov. 8, 2026)",
+        "url": "https://fultonschoolsorg.finalsite.com/fs/resource-manager/view/c3db0d13-1961-4cd8-a640-44ffec47598a"
+      },
+      {
+        "name": "Fulton County Schools: Region C Redistricting Process Explainer",
+        "url": "https://resources.finalsite.net/images/v1789767653/fultonschoolsorg/uh2oztvmpkes0bs0vpja/REGIONCRedistrictingProcessExplainer2026-27.pdf"
+      },
+      {
+        "name": "Appen Media: Fulton Schools sets Roswell meetings on redistricting maps",
+        "url": "https://www.appenmedia.com/alpharetta_roswell/fulton-schools-sets-roswell-meetings-on-redistricting-maps/article_fef4056e-ae22-4f24-ba7e-b98197f474f1.html"
+      },
+      {
+        "name": "Appen Media: Fulton Schools opens forums on north Fulton redistricting",
+        "url": "https://www.appenmedia.com/alpharetta_roswell/fulton-schools-opens-forums-on-north-fulton-redistricting/article_7f66177d-2d20-4eaa-a2e6-9a5c97d67fdd.html"
+      },
+      {
+        "name": "Atlanta News First: Fulton County Schools could redistrict middle schools",
+        "url": "https://www.atlantanewsfirst.com/2026/10/08/fulton-county-schools-could-redistrict-middle-schools/"
+      },
+      {
+        "name": "Haynes Bridge Middle School: School Profile",
+        "url": "https://haynesbridge.fultonschools.org/our-school/school-profile"
+      },
+      {
+        "name": "Holcomb Bridge Middle School",
+        "url": "https://holcombbridge.fultonschools.org/"
+      }
+    ]
   }
 ]
