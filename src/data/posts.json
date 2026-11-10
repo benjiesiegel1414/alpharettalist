@@ -650,5 +650,61 @@
         "url": "https://holcombbridge.fultonschools.org/"
       }
     ]
+  },
+  {
+    "slug": "avalon-on-ice-skating-alpharetta-2026",
+    "title": "Avalon on Ice 2026: Ice Skating in Alpharetta, GA (Hours, Tickets and Tips)",
+    "seoTitle": "Avalon on Ice 2026: Ice Skating in Alpharetta, GA | Hours & Tickets",
+    "h1": "Avalon on Ice 2026: Your Guide to Ice Skating in Alpharetta",
+    "description": "Avalon on Ice opens Nov. 22, 2026 and runs through Jan. 18, 2027. Hours, holiday hours, $18/$14 ticket prices, waiver and reservation tips, plus what happened to The Cooler.",
+    "category": "Things to Do",
+    "published": "2026-11-10",
+    "updated": "2026-11-10",
+    "readMins": 5,
+    "coverPrompt": "Photorealistic outdoor holiday ice skating rink at dusk in an upscale suburban town plaza, smooth glistening ice in the foreground with fresh skate marks, a tall Christmas tree wrapped in warm white lights beside the rink, strings of golden bistro lights overhead, a few blurred distant skaters seen from behind as soft silhouettes, modern storefronts with glowing windows softly out of focus, cozy winter evening mood, warm charcoal and gold tones, shallow depth of field, no text, no logos, no readable signs, no recognizable real people",
+    "faq": [
+      {
+        "q": "When does Avalon on Ice open in 2026?",
+        "a": "Avalon on Ice opens Sunday, Nov. 22, 2026 (3 to 10 p.m. on opening day) and runs through Monday, Jan. 18, 2027."
+      },
+      {
+        "q": "How much does Avalon on Ice cost?",
+        "a": "General admission is $18 per person and children 12 and under are $14. Skate rental is included in both prices."
+      },
+      {
+        "q": "What are the Avalon on Ice hours?",
+        "a": "Regular hours are 3 to 9 p.m. Monday through Friday, 10 a.m. to 10 p.m. Saturday and noon to 7 p.m. Sunday. The rink is open 10 a.m. to 10 p.m. Nov. 23 to 27, Dec. 20 to Jan. 3, New Year's Eve and Day, and on all Fulton County public school holidays."
+      },
+      {
+        "q": "Do I need a reservation for Avalon on Ice?",
+        "a": "Avalon recommends booking a time slot in advance. Walk-ups are welcome but not guaranteed a slot. Every skater, including walk-ups, must complete a waiver. Tickets are non-refundable and non-transferable, but you can reschedule if space is available."
+      },
+      {
+        "q": "Is The Cooler in Alpharetta still open for ice skating?",
+        "a": "No. The Cooler's ice closed on March 31, 2025, and the building was converted into the Atlanta National Pickleball Club. Avalon's seasonal outdoor rink is now the main place to skate in Alpharetta."
+      }
+    ],
+    "sources": [
+      {
+        "name": "Experience Avalon: Avalon on Ice",
+        "url": "https://experienceavalon.com/events/avalon-on-ice/"
+      },
+      {
+        "name": "Awesome Alpharetta: Avalon on Ice",
+        "url": "https://www.awesomealpharetta.com/avalon-on-ice/"
+      },
+      {
+        "name": "Awesome Alpharetta: The Lighting of Avalon",
+        "url": "https://www.awesomealpharetta.com/event/the-lighting-of-avalon/"
+      },
+      {
+        "name": "Awesome Alpharetta: Santa sightings",
+        "url": "https://www.awesomealpharetta.com/santa-sightings/"
+      },
+      {
+        "name": "FOX 5 Atlanta: Alpharetta's The Cooler to reopen as pickleball club",
+        "url": "https://www.fox5atlanta.com/news/alpharettas-cooler-reopen-pickleball-club-labor-day"
+      }
+    ]
   }
 ]
