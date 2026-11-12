@@ -337,8 +337,8 @@ const listIntro = (html) => `<div class="prose prose-narrow" style="margin-botto
 directoryPage({
   urlPath: "/restaurants/", crumbs: [["Home", "/"], ["Restaurants", "/restaurants/"]],
   h1: "The best restaurants in Alpharetta, GA", sub: "Where Alpharetta eats, from Avalon date nights to downtown brunch and late night tacos.",
-  title: "Best Restaurants in Alpharetta, GA (2026 Local Guide)",
-  description: "A local guide to the best restaurants in Alpharetta, Georgia: steakhouses, Southern, sushi, Italian, brunch spots, coffee and dessert, updated for 2026.",
+  title: "Alpharetta Restaurants: Best Places to Eat in Alpharetta, GA (2026)",
+  description: `${places.filter(p => p.cat === "restaurants").length} Alpharetta restaurants with hours, phone numbers and websites: downtown, Avalon, Windward and Halcyon picks, from steakhouses and sushi to brunch and BBQ.`,
   list: places.filter(p => p.cat === "restaurants"),
   intro: listIntro(`<p>Alpharetta's dining scene runs from the chef-driven restaurants of <a href="/places/avalon/">Avalon</a> to the porches and patios of <a href="/places/downtown-alpharetta/">Downtown Alpharetta</a>, with more along Windward Parkway and the North Point corridor. Below are the spots locals talk about most, grouped so you can filter by type.</p>`)
 });
@@ -481,7 +481,8 @@ for (const p of places) {
     { q: `Where is ${p.name} located?`, a: p.address ? `${p.name} is located at ${p.address}, ${areaText}.` : `${p.name} is ${areaText}. Use the directions button for the exact location.` },
     ...(p.cat === "restaurants" ? [{ q: `What kind of food does ${p.name} serve?`, a: `${p.name} is a ${p.type.toLowerCase()} spot in ${city}. ${p.desc}` }] : [{ q: `What does ${p.name} offer?`, a: `${p.name} is listed under ${catLabel(p.cat).toLowerCase()} (${p.type.toLowerCase()}). ${p.desc}` }]),
     { q: `What are ${p.name}'s hours?`, a: p.hours ? `${p.name} hours: ${p.hours}. Hours can change on holidays, so ${p.phone ? "call " + p.phone : "check ahead"} to confirm.` : p.website ? `Hours can change seasonally, so check ${hostOf(p.website)} or call ahead before visiting.` : `Hours can change seasonally, so call ahead or check the business's official listing before visiting.` },
-    ...(p.phone ? [{ q: `What is the phone number for ${p.name}?`, a: `You can reach ${p.name} at ${p.phone}.` }] : [])
+    ...(p.phone ? [{ q: `What is the phone number for ${p.name}?`, a: `You can reach ${p.name} at ${p.phone}.` }] : []),
+    ...(p.extraFaq || [])
   ];
   const ldPlace = {
     "@context": "https://schema.org", "@type": p.schema || "LocalBusiness", name: p.name, description: p.about && p.about.length ? p.about.join(" ") : p.desc, url: `${SITE}/places/${p.slug}/`,
