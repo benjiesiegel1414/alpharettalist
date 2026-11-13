@@ -463,6 +463,22 @@ const CAT_TIPS = {
   pets: ["Call ahead to confirm new patient availability", "Bring your pet's vaccination and medical records to the first visit", "Ask about after-hours and emergency options"],
   realestate: ["Ask which Alpharetta neighborhoods and school zones the agent knows best", "New construction and luxury properties often need a specialist", "Ask for recent comparable sales before pricing or making an offer"]
 };
+// Return the hours for one day ("closed", "11am-9pm") from a string like "Mon-Thu 11am-9pm; Fri-Sat 11am-10pm; Sun closed", or null.
+const DAY_AB = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const dayHours = (hours, day) => {
+  if (!hours || !/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Daily)/.test(hours) || /lunch|dinner|brunch|kitchen|bar |season|varies|appoint/i.test(hours)) return null;
+  const di = DAY_AB.indexOf(day);
+  for (const seg of hours.split(/;\s*|,\s*(?=(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b)/)) {
+    const m = seg.match(/^(Daily|Mon|Tue|Wed|Thu|Fri|Sat|Sun)(?:-(Mon|Tue|Wed|Thu|Fri|Sat|Sun))?(?:,\s*(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun))*\s+(.+)$/);
+    if (!m) continue;
+    const val = m[3].trim().replace(/\.$/, "");
+    if (m[1] === "Daily") return val;
+    const a = DAY_AB.indexOf(m[1]), b = m[2] ? DAY_AB.indexOf(m[2]) : a;
+    const inRange = a <= b ? di >= a && di <= b : di >= a || di <= b;
+    if (inRange && !/,/.test(seg.slice(0, seg.indexOf(" ")))) return /closed/i.test(val) ? "closed" : val;
+  }
+  return null;
+};
 const hostOf = (u) => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return u; } };
 for (const p of places) {
   const listUrl = p.cat === "restaurants" ? "/restaurants/" : `/directory/?cat=${p.cat}`;
@@ -482,6 +498,7 @@ for (const p of places) {
     ...(p.cat === "restaurants" ? [{ q: `What kind of food does ${p.name} serve?`, a: `${p.name} is a ${p.type.toLowerCase()} spot in ${city}. ${p.desc}` }] : [{ q: `What does ${p.name} offer?`, a: `${p.name} is listed under ${catLabel(p.cat).toLowerCase()} (${p.type.toLowerCase()}). ${p.desc}` }]),
     { q: `What are ${p.name}'s hours?`, a: p.hours ? `${p.name} hours: ${p.hours}. Hours can change on holidays, so ${p.phone ? "call " + p.phone : "check ahead"} to confirm.` : p.website ? `Hours can change seasonally, so check ${hostOf(p.website)} or call ahead before visiting.` : `Hours can change seasonally, so call ahead or check the business's official listing before visiting.` },
     ...(p.phone ? [{ q: `What is the phone number for ${p.name}?`, a: `You can reach ${p.name} at ${p.phone}.` }] : []),
+    ...((() => { const s = dayHours(p.hours, "Sun"); if (!s || /\b(open|now)\b/i.test(p.name)) return []; return [{ q: `Is ${p.name} open on Sunday?`, a: s === "closed" ? `No. ${p.name} is closed on Sundays.` : `Yes. ${p.name} is open on Sundays, ${s}.` }]; })()),
     ...(p.extraFaq || [])
   ];
   const ldPlace = {
