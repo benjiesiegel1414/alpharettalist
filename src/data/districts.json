@@ -1,0 +1,284 @@
+{
+  "avalon": {
+    "name": "Avalon",
+    "schema": "ShoppingCenter",
+    "street": "400 Avalon Blvd",
+    "zip": "30009",
+    "checked": "2026-11-13",
+    "glance": [
+      ["Address", "400 Avalon Blvd, Alpharetta, GA 30009"],
+      ["Center hours", "Mon-Sat 10am-9pm; Sun 12pm-7pm (restaurants keep their own hours)"],
+      ["Parking", "Free self-parking in the decks; $12 valet"],
+      ["Concierge", "<a href=\"tel:7707651000\">(770) 765-1000</a>"],
+      ["Getting there", "GA 400 exit 10, Old Milton Parkway"],
+      ["Size", "86 acres, 570,000+ sq ft of shops"]
+    ],
+    "sources": [
+      { "name": "Avalon: official site", "url": "https://experienceavalon.com/" },
+      { "name": "Avalon: directions and parking", "url": "https://experienceavalon.com/about/directions/" },
+      { "name": "Avalon: concierge services", "url": "https://experienceavalon.com/concierge/" },
+      { "name": "Avalon: code of conduct", "url": "https://experienceavalon.com/rules/" },
+      { "name": "Avalon: events", "url": "https://experienceavalon.com/events/" },
+      { "name": "Avalon: dining directory", "url": "https://experienceavalon.com/directory/restaurants/" },
+      { "name": "Avalon: retail directory", "url": "https://experienceavalon.com/directory/retailers/" }
+    ],
+    "hubLabel": "Overview",
+    "hub": {
+      "title": "Avalon Alpharetta Guide 2026: Restaurants, Shops, Parking & Events",
+      "meta": "The complete guide to Avalon in Alpharetta, GA: all 26 restaurants, 75+ stores, free parking and valet, hours, Avalon on Ice, things to do with kids and dogs, and nearby hotels.",
+      "h1": "Avalon Alpharetta: The Complete Guide",
+      "sub": "Everything you need for a visit to Alpharetta's busiest shopping and dining district, updated November 2026.",
+      "faqs": [
+        { "q": "What are Avalon's hours?", "a": "Avalon's general hours are Monday through Saturday 10am to 9pm and Sunday noon to 7pm. Restaurants set their own hours, and many stay open until 10pm or later on weekends." },
+        { "q": "Is parking free at Avalon?", "a": "Yes. Self-parking is free every day in the decks and surface lots on the north and south sides of Avalon. Valet costs $12, and there are metered spots along Avalon Boulevard for quick stops." },
+        { "q": "Where is Avalon in Alpharetta?", "a": "Avalon is at 400 Avalon Blvd, Alpharetta, GA 30009, on Old Milton Parkway just west of GA 400 (exit 10). It is about a mile from Downtown Alpharetta, and the paved Alpha Loop connects the two." },
+        { "q": "How many restaurants are at Avalon?", "a": "Avalon's dining directory lists 26 restaurants, cafes and dessert shops, from Oak Steakhouse, Colletta and Rumi's Kitchen to Antico Pizza, Jeni's Splendid Ice Creams and Five Daughters Bakery. See our <a href=\"/avalon/restaurants/\">Avalon restaurant guide</a>." },
+        { "q": "Is Avalon dog friendly?", "a": "Yes. Leashed dogs are welcome in Avalon's common areas, there is a fenced dog park behind Building 1000, and the concierge keeps water and dog treats on hand. Owners must clean up after their pets." },
+        { "q": "Does Avalon have a curfew for teens?", "a": "Yes. Avalon's code of conduct says visitors under 17 must be with a parent or legal guardian after 8pm, and visitors under 21 are not permitted after 10pm." }
+      ]
+    },
+    "pages": [
+      {
+        "slug": "restaurants", "label": "Restaurants",
+        "title": "Avalon Alpharetta Restaurants: All 26 Places to Eat (2026)",
+        "meta": "Every restaurant at Avalon in Alpharetta with hours and phone numbers: Oak Steakhouse, Colletta, Rumi's Kitchen, The Cape, Antico, Superica, brunch spots, coffee and dessert.",
+        "h1": "Avalon Restaurants: Where to Eat at Avalon",
+        "sub": "All 26 restaurants, cafes and dessert shops at Avalon, with hours, phone numbers and our picks.",
+        "faqs": [
+          { "q": "What is the best restaurant at Avalon?", "a": "For a special occasion, Oak Steakhouse and Colletta are the most popular reservations. Rumi's Kitchen is a local favorite for Persian kabobs, The Cape has a sunset rooftop, and Antico Pizza is the pick for a casual meal." },
+          { "q": "Which Avalon restaurants serve brunch?", "a": "South City Kitchen serves brunch Saturday and Sunday from 8am to 2pm, Superica from 10am to 3pm, and Colletta from 11am to 2:30pm. True Food Kitchen opens at 10:30am on weekends." },
+          { "q": "What is open late at Avalon?", "a": "Kona Grill stays open until 1am on Friday and Saturday, Jeni's Splendid Ice Creams until 1am on weekends, and Cafe Intermezzo until midnight on Friday and Saturday." },
+          { "q": "Do I need reservations at Avalon restaurants?", "a": "For Friday and Saturday dinner, yes at Oak Steakhouse, Colletta, Rumi's Kitchen, The Cape and South City Kitchen. Avalon's concierge at (770) 765-1000 can also help request reservations." }
+        ]
+      },
+      {
+        "slug": "shopping", "label": "Shopping",
+        "title": "Avalon Alpharetta Stores: Full List of 75+ Shops (2026)",
+        "meta": "The full list of stores at Avalon in Alpharetta, GA: Apple, CHANEL, Sephora, lululemon, Anthropologie, Pottery Barn, Whole Foods and more, sorted by category, with store hours and tips.",
+        "h1": "Avalon Stores: The Full Shopping Guide",
+        "sub": "Every store at Avalon by category, plus hours, gift cards, bag check and shopping tips.",
+        "faqs": [
+          { "q": "What stores are at Avalon in Alpharetta?", "a": "Avalon has more than 75 stores, including Apple, CHANEL, Sephora, lululemon, Anthropologie, Free People, Madewell, J. Crew, Tory Burch, Kendra Scott, Pottery Barn, Williams Sonoma, Crate & Barrel, Arhaus, The Container Store and Whole Foods Market." },
+          { "q": "What are store hours at Avalon?", "a": "Most stores follow Avalon's general hours, Monday through Saturday 10am to 9pm and Sunday noon to 7pm, but some keep their own schedules. Whole Foods is open daily from 7am to 10pm." },
+          { "q": "Does Avalon have a bag check?", "a": "Yes. Avalon's concierge offers bag check for shoppers during property hours, along with free stroller and wheelchair rentals while supplies last." },
+          { "q": "Can I buy an Avalon gift card?", "a": "Yes. Avalon gift cards are sold at the concierge from $5 to $500, with a $3 activation fee, and work at Avalon's retailers and restaurants." }
+        ]
+      },
+      {
+        "slug": "things-to-do", "label": "Things to do",
+        "title": "Things to Do at Avalon Alpharetta (2026): 20 Ideas",
+        "meta": "The best things to do at Avalon in Alpharetta: movies at Regal Avalon, Immersive Gamebox, the plaza, spa days, fitness classes, Makers Market, Avalon on Ice and the Alpha Loop.",
+        "h1": "Things to Do at Avalon",
+        "sub": "Movies, games, the plaza, spa days, workouts, markets and seasonal events at Avalon.",
+        "faqs": [
+          { "q": "What is there to do at Avalon besides shopping?", "a": "Avalon has the 12-screen Regal Avalon theater, Immersive Gamebox, a plaza with seating and a children's play area, a dog park, spa and fitness studios, the Makers Market local artist fair, and Avalon on Ice each winter." },
+          { "q": "Does Avalon have a movie theater?", "a": "Yes. Regal Avalon is a 12-screen theater at 3950 1st St with an RPX premium auditorium. Tickets are sold through Regal and Fandango." },
+          { "q": "Can you walk from Avalon to Downtown Alpharetta?", "a": "Yes. The paved Alpha Loop connects Avalon to Downtown Alpharetta in about a mile, making it an easy walk or bike ride." }
+        ]
+      },
+      {
+        "slug": "parking", "label": "Parking and hours",
+        "title": "Avalon Alpharetta Parking & Hours: Free Decks, $12 Valet (2026)",
+        "meta": "Is parking free at Avalon in Alpharetta? Yes: free self-parking in the decks, $12 valet at three stations, street meters and EV charging. Plus Avalon hours, holiday tips and directions.",
+        "h1": "Avalon Parking, Hours and Directions",
+        "sub": "Where to park at Avalon for free, how valet works, center hours and how to get there.",
+        "faqs": [
+          { "q": "Is parking free at Avalon?", "a": "Yes. Self-parking is free every day in Avalon's decks and surface lots on the north and south sides of the property. Street meters along Avalon Boulevard are paid." },
+          { "q": "How much is valet at Avalon?", "a": "Valet is $12. Stations are at Avalon Boulevard and 2nd Street near the concierge, Avalon Boulevard and 3rd Street near Oak Steakhouse, and The Hotel at Avalon. Oversized vehicles and motorcycles cannot be valeted." },
+          { "q": "Does Avalon have EV charging?", "a": "Yes. Avalon lists EV charging stations in its parking areas among its amenities." },
+          { "q": "What exit is Avalon off GA 400?", "a": "Take GA 400 exit 10 for Old Milton Parkway. Turn west onto Old Milton Parkway and Avalon is on the right; turn right onto 2nd Street for valet or follow signs to the parking decks." }
+        ]
+      },
+      {
+        "slug": "christmas", "label": "Christmas at Avalon",
+        "title": "Christmas at Avalon 2026: Tree Lighting, Ice Skating & Santa",
+        "meta": "Avalon's 2026 holiday guide: the Lighting of Avalon on Nov. 22, Avalon on Ice ($18), Santa's cottage, Breakfast with Santa, the menorah lighting, Jingle Jog and Noon Year's Eve.",
+        "h1": "Christmas at Avalon 2026",
+        "sub": "Dates, times and prices for every Avalon holiday event, from the tree lighting to Noon Year's Eve.",
+        "faqs": [
+          { "q": "When is the Avalon tree lighting in 2026?", "a": "The Lighting of Avalon is Sunday, November 22, 2026, from 2pm to 7:30pm. Santa leads the countdown, and the 40-foot tree lights at 7pm. It is free." },
+          { "q": "How much is ice skating at Avalon?", "a": "Avalon on Ice tickets are $18 for adults and $14 for kids 12 and under, with skates included. The rink is open November 22, 2026 through January 18, 2027." },
+          { "q": "When can you see Santa at Avalon?", "a": "Santa is at his cottage on the Boulevard from November 23 through December 24, 2026 for photos. Visits are ticketed, as are Story Time with Santa and Breakfast with Santa on December 5 and 6." }
+        ]
+      },
+      {
+        "slug": "kids", "label": "With kids",
+        "title": "Avalon Alpharetta with Kids: Play Area, Train, Treats & Tips",
+        "meta": "Planning a family trip to Avalon in Alpharetta? The children's play area, Avalon Express train, kid-friendly restaurants, ice cream, free stroller rental, curfew rules and holiday events.",
+        "h1": "Avalon with Kids: A Family Guide",
+        "sub": "Where to play, eat and take a break at Avalon with little ones, plus the rules parents should know.",
+        "faqs": [
+          { "q": "Is Avalon good for kids?", "a": "Yes. Avalon has a children's play area, the Avalon Express train, free stroller rentals at the concierge, a family lounge, plenty of casual restaurants and dessert shops, and seasonal events like Avalon on Ice and Santa visits." },
+          { "q": "Can you rent a stroller at Avalon?", "a": "Yes. Strollers and wheelchairs are free to borrow at the Avalon concierge, subject to availability." },
+          { "q": "Can teens go to Avalon alone?", "a": "During the day, yes. After 8pm, visitors under 17 must be with a parent or legal guardian, and visitors under 21 are not permitted after 10pm under Avalon's code of conduct." }
+        ]
+      },
+      {
+        "slug": "dog-friendly", "label": "Dog friendly",
+        "title": "Is Avalon Dog Friendly? Dog Park, Patios & Rules (2026)",
+        "meta": "Yes, Avalon in Alpharetta is dog friendly. Where the dog park is, the leash rules, dog-friendly patios, water and treats at the concierge, and dog events nearby.",
+        "h1": "Avalon with Your Dog",
+        "sub": "Avalon's dog park, leash rules and the best patios for a meal with your pup.",
+        "faqs": [
+          { "q": "Are dogs allowed at Avalon?", "a": "Yes. Leashed dogs are welcome in Avalon's common areas, and owners must clean up after them. Avalon's concierge offers water and dog treats." },
+          { "q": "Where is the dog park at Avalon?", "a": "Avalon's fenced dog park is behind Building 1000, according to Avalon's code of conduct." },
+          { "q": "Can I bring my dog into stores at Avalon?", "a": "It is up to each store. Some retailers welcome leashed dogs and others do not, and health rules keep dogs out of restaurant dining rooms. Ask at the door, and stick to patios for meals." }
+        ]
+      },
+      {
+        "slug": "hotels", "label": "Hotels",
+        "title": "Hotels at Avalon Alpharetta: The Hotel at Avalon & Nearby Stays",
+        "meta": "Where to stay at Avalon in Alpharetta: The Hotel at Avalon (330 rooms, on the Boulevard), EVEN Hotel Alpharetta and Courtyard Avalon Area, with walking distances and booking tips.",
+        "h1": "Hotels at and Near Avalon",
+        "sub": "Stay on the Boulevard or a short walk away, with tips for event weekends.",
+        "faqs": [
+          { "q": "Is there a hotel at Avalon?", "a": "Yes. The Hotel at Avalon has 330 rooms and suites on the property, connected to the 44,000-square-foot Alpharetta Conference Center, with South City Kitchen downstairs." },
+          { "q": "What hotels are walking distance to Avalon?", "a": "The Hotel at Avalon is on the property. EVEN Hotel Alpharetta is next door at 2715 Old Milton Parkway, and the Courtyard Alpharetta Avalon Area is a short drive away on Amber Park Drive." }
+        ]
+      }
+    ]
+  },
+  "halcyon": {
+    "name": "Halcyon",
+    "schema": "ShoppingCenter",
+    "street": "6365 Halcyon Way",
+    "zip": "30005",
+    "checked": "2026-11-13",
+    "glance": [
+      ["Address", "6365 Halcyon Way, Alpharetta, GA 30005"],
+      ["Center hours", "Mon-Sat 10am-9pm; Sun 11am-6pm (restaurants keep their own hours)"],
+      ["Parking", "Free in the six-level deck; paid premium spots"],
+      ["Phone", "<a href=\"tel:4702233665\">(470) 223-3665</a>"],
+      ["Getting there", "GA 400 exit 12, McFarland Parkway"],
+      ["Size", "135 acres, in south Forsyth County"]
+    ],
+    "sources": [
+      { "name": "Halcyon: official site", "url": "https://www.visithalcyon.com/" },
+      { "name": "Halcyon: visit and hours", "url": "https://www.visithalcyon.com/visit/" },
+      { "name": "Halcyon: parking", "url": "https://www.visithalcyon.com/parking/" },
+      { "name": "Halcyon: weekly events and deals", "url": "https://www.visithalcyon.com/weekly-events-deals/" },
+      { "name": "Halcyon: holiday events and hours", "url": "https://www.visithalcyon.com/holiday/" },
+      { "name": "Halcyon: rules of conduct", "url": "https://www.visithalcyon.com/rules-of-conduct/" },
+      { "name": "Halcyon: FAQ", "url": "https://www.visithalcyon.com/faq/" },
+      { "name": "Halcyon: Big Creek Greenway", "url": "https://www.visithalcyon.com/big-creek-greenway/" }
+    ],
+    "hubLabel": "Overview",
+    "hub": {
+      "title": "Halcyon Alpharetta Guide 2026: Restaurants, Shops, Parking & Events",
+      "meta": "The complete guide to Halcyon in Alpharetta, GA: 22 restaurants, Trader Joe's and boutiques, free deck parking, hours, happy hours, brunch, holiday events, kids, dogs and the Big Creek Greenway.",
+      "h1": "Halcyon Alpharetta: The Complete Guide",
+      "sub": "Everything you need for a visit to Halcyon, the walkable district at GA 400 exit 12, updated November 2026.",
+      "faqs": [
+        { "q": "What are Halcyon's hours?", "a": "Halcyon's center hours are Monday through Saturday 10am to 9pm and Sunday 11am to 6pm. Restaurants and X-Golf keep their own hours, and many stay open later." },
+        { "q": "Is parking free at Halcyon?", "a": "Yes. Parking is free in the six-level deck. Premium paid spots are in the event lot and along Halcyon Way, and 15-minute curbside spots are set aside for to-go pickups." },
+        { "q": "Is Halcyon in Alpharetta or Forsyth County?", "a": "Both, in a sense. Halcyon has an Alpharetta mailing address (6365 Halcyon Way, Alpharetta, GA 30005) but sits just over the line in southern Forsyth County, off GA 400 at exit 12." },
+        { "q": "Is the movie theater at Halcyon open?", "a": "No. The CMX CinéBistro at Halcyon has closed, and Halcyon says it is working on a new concept for the space. The nearest theaters are Regal Avalon and the AMC at North Point Mall." },
+        { "q": "Are dogs allowed at Halcyon?", "a": "Yes. Leashed, well-behaved dogs are welcome in Halcyon's common areas, with leashes no longer than six feet and no more than two animals per person. Dogs may not go inside restaurants or food stores unless the business allows it." },
+        { "q": "Where are the restrooms at Halcyon?", "a": "Public restrooms and family restrooms are inside the Market Hall, across from the Village Green." }
+      ]
+    },
+    "pages": [
+      {
+        "slug": "restaurants", "label": "Restaurants",
+        "title": "Halcyon Alpharetta Restaurants: All 22 Places to Eat (2026)",
+        "meta": "Every restaurant at Halcyon in Alpharetta with phone numbers and our picks: Ocean & Acre, Cattle Shed, Iron Age, Eclipse di Luna, HOBNOB, Gu's Dumplings, the Market Hall and more.",
+        "h1": "Halcyon Restaurants: Where to Eat at Halcyon",
+        "sub": "All 22 restaurants and food stops at Halcyon, from steak and tapas to the Market Hall.",
+        "faqs": [
+          { "q": "What is the best restaurant at Halcyon?", "a": "Cattle Shed Wine & Steak Bar and Ocean & Acre are Halcyon's top sit-down picks for a nice dinner. Iron Age Korean Steak House is the fun group choice, and Gu's Dumplings in the Market Hall is the favorite casual lunch." },
+          { "q": "What is in the Market Hall at Halcyon?", "a": "The Market Hall holds quick-service food stalls including Gu's Dumplings and Il Bottegone Italian market, plus public restrooms, family restrooms and an ATM." },
+          { "q": "Which Halcyon restaurants have live music?", "a": "Eclipse di Luna has live music most nights, including flamenco guitar and Saturday salsa. HOBNOB has live music Friday and Saturday at 8pm, and Ocean & Acre on Sunday afternoons." }
+        ]
+      },
+      {
+        "slug": "shopping", "label": "Shops and services",
+        "title": "Halcyon Alpharetta Stores: Trader Joe's, Boutiques & Services",
+        "meta": "Every store and service at Halcyon in Alpharetta: Trader Joe's, Bluemercury, Lizard Thicket, Willow Jane, Rise & Wine, Dogtopia, Tutu School, The Forum Athletic Club and more, with phone numbers.",
+        "h1": "Halcyon Shops and Services",
+        "sub": "Trader Joe's, local boutiques, a wine market and the everyday services at Halcyon.",
+        "faqs": [
+          { "q": "Is there a Trader Joe's at Halcyon?", "a": "Yes. Trader Joe's anchors Halcyon's shopping. Call (470) 762-3171 for store hours." },
+          { "q": "What stores are at Halcyon?", "a": "Halcyon's shops include Trader Joe's, Bluemercury, Lizard Thicket, Willow Jane, Nina + Leigh, Piggy Jo's, Buff City Soap, RW Design & Exchange, BBQGuys and Rise & Wine." }
+        ]
+      },
+      {
+        "slug": "things-to-do", "label": "Things to do",
+        "title": "Things to Do at Halcyon Alpharetta (2026): Golf, Trails & Events",
+        "meta": "The best things to do at Halcyon in Alpharetta: X-Golf, the Village Green, cornhole and bocce leagues, trivia, live music, the Big Creek Greenway trail and seasonal events.",
+        "h1": "Things to Do at Halcyon",
+        "sub": "Indoor golf, leagues, live music, trivia, the Big Creek Greenway and the Village Green.",
+        "faqs": [
+          { "q": "What is there to do at Halcyon besides eat?", "a": "Halcyon has X-Golf indoor golf simulators, cornhole and bocce leagues on the Village Green, trivia and live music at its restaurants, direct access to the Big Creek Greenway, and community events through the year." },
+          { "q": "How do you get to the Big Creek Greenway from Halcyon?", "a": "The trailhead is near the intersection of Halcyon Way and Ronald Reagan Parkway. A 1.5-mile trail extension connects there, and the greenway is a 12-foot-wide concrete and boardwalk path." }
+        ]
+      },
+      {
+        "slug": "parking", "label": "Parking and hours",
+        "title": "Halcyon Alpharetta Parking & Hours: Free Deck, Holiday Hours (2026)",
+        "meta": "Halcyon parking is free in the six-level deck, with paid premium spots and 15-minute curbside pickup. Plus Halcyon hours, 2026 holiday hours, rideshare, restrooms and directions.",
+        "h1": "Halcyon Parking, Hours and Directions",
+        "sub": "Free deck parking, premium spots, center hours, holiday hours and how to get there.",
+        "faqs": [
+          { "q": "Is parking free at Halcyon?", "a": "Yes. The six-level parking deck is free, with accessible spaces on every level. Premium paid spaces are in the event lot and along Halcyon Way." },
+          { "q": "Is Halcyon open on Thanksgiving?", "a": "No. Halcyon is closed Thursday, November 26, 2026. It closes early, at 5pm, on Wednesday, November 25." },
+          { "q": "Is Halcyon open on Christmas?", "a": "No. Halcyon closes at 5pm on Christmas Eve and is closed on Christmas Day. It closes at 5pm on December 31 and is open 11am to 7pm on New Year's Day." }
+        ]
+      },
+      {
+        "slug": "happy-hour", "label": "Happy hour and deals",
+        "title": "Halcyon Happy Hours & Weekly Deals (2026): Every Day of the Week",
+        "meta": "Every happy hour and weekly deal at Halcyon in Alpharetta: Cattle Shed, HOBNOB, Ocean & Acre, Eclipse di Luna, CT Cantina $2 tacos, trivia, ladies night and kids eat free nights.",
+        "h1": "Halcyon Happy Hours and Weekly Deals",
+        "sub": "Happy hours, trivia, live music, kids eat free nights and a day-by-day deals calendar.",
+        "faqs": [
+          { "q": "Which Halcyon restaurants have happy hour?", "a": "Cattle Shed (daily 2:30pm to 6pm), CT Cantina (weekdays 2pm to 5pm, bar only), Eclipse di Luna (weekdays 4pm to 6pm), HOBNOB (weekdays 3pm to 6pm), Ocean & Acre (weekdays 3pm to 6pm) and Rise & Wine (weekdays 4pm to 7pm)." },
+          { "q": "Where do kids eat free at Halcyon?", "a": "Cherry Street Brewpub has Kids Eat Free on Tuesdays from 5pm to 9pm with an adult entrée over $15 (dine-in only), and HOBNOB offers Kids Eat Free Sunday through Thursday." },
+          { "q": "Is there trivia at Halcyon?", "a": "Yes. Cherry Street Brewpub hosts trivia on Mondays at 7:30pm (21 and up), and HOBNOB has music bingo on Thursdays at 7pm." }
+        ]
+      },
+      {
+        "slug": "brunch", "label": "Brunch",
+        "title": "Brunch at Halcyon Alpharetta (2026): 6 Spots and Hours",
+        "meta": "Where to brunch at Halcyon in Alpharetta: Cattle Shed, Ocean & Acre, Cherry Street, CT Cantina, Never Enough Thyme and HOBNOB, with weekend brunch hours and live music.",
+        "h1": "Brunch at Halcyon",
+        "sub": "Six weekend brunch spots at Halcyon, with hours and what each one does best.",
+        "faqs": [
+          { "q": "What time is brunch at Halcyon?", "a": "Weekend brunch runs 10am to 2pm at Never Enough Thyme, 11am to 3pm at Ocean & Acre, Cherry Street and CT Cantina, and 11am to 4pm at Cattle Shed. HOBNOB serves brunch until 4pm." }
+        ]
+      },
+      {
+        "slug": "holidays", "label": "Holidays",
+        "title": "Halcyon Holidays 2026: Santa, Chanukah, Brewville & Holiday Hours",
+        "meta": "Halcyon's 2026 holiday guide: Holiday Magic with Santa on Dec. 5, Chanukah at Halcyon Dec. 6, Cherry Street Brewville, HOBNOB's Elf pop-up, Brunch with the Grinch and holiday hours.",
+        "h1": "Holidays at Halcyon 2026",
+        "sub": "Santa's arrival, a giant menorah, holiday pop-up bars and Halcyon's holiday hours.",
+        "faqs": [
+          { "q": "When does Santa come to Halcyon in 2026?", "a": "Santa officially arrives at Halcyon Holiday Magic on Saturday, December 5, 2026. Chick-fil-A at Halcyon also hosts a ticketed Dinner with Santa on December 12." },
+          { "q": "Is there a menorah lighting at Halcyon?", "a": "Yes. Chanukah at Halcyon is Sunday, December 6, 2026, with a giant menorah lighting, a live DJ and children's entertainment." }
+        ]
+      },
+      {
+        "slug": "kids", "label": "With kids",
+        "title": "Halcyon Alpharetta with Kids: Village Green, Kids Eat Free & More",
+        "meta": "Halcyon with kids: the Village Green sandbox and yard games, kids eat free nights, Kilwins and Playa Bowls, Tutu School, holiday events, restrooms and the Big Creek Greenway.",
+        "h1": "Halcyon with Kids: A Family Guide",
+        "sub": "Play on the Village Green, kids eat free nights, sweet treats and family events at Halcyon.",
+        "faqs": [
+          { "q": "Is Halcyon good for kids?", "a": "Yes. The Village Green has a sandbox and yard games, Cherry Street and HOBNOB have kids eat free nights, and Kilwins, Playa Bowls and Chick-fil-A make easy family stops. Family restrooms are in the Market Hall." },
+          { "q": "Does Halcyon rent strollers?", "a": "No. Halcyon says it does not have strollers or wheelchairs available, so bring your own." }
+        ]
+      },
+      {
+        "slug": "dog-friendly", "label": "Dog friendly",
+        "title": "Is Halcyon Dog Friendly? Rules, Patios & Dog Services (2026)",
+        "meta": "Yes, Halcyon in Alpharetta welcomes leashed dogs. The six-foot leash rule, dog-friendly patios, Dogtopia daycare, Chewy Vet Care and walking the Big Creek Greenway with your dog.",
+        "h1": "Halcyon with Your Dog",
+        "sub": "The rules, the best patios and the dog services on site at Halcyon.",
+        "faqs": [
+          { "q": "Are dogs allowed at Halcyon?", "a": "Yes. Customers 18 and older may bring leashed, well-behaved dogs to Halcyon's common areas. Leashes can be no longer than six feet, and each person may bring up to two animals." },
+          { "q": "Can dogs go inside restaurants at Halcyon?", "a": "No, unless they are service animals or the business allows it. Halcyon's rules also keep dogs out of fountains, water features and the lake." }
+        ]
+      }
+    ]
+  }
+}

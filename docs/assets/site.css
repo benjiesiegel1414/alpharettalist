@@ -440,6 +440,21 @@
   @media (max-width:860px){.ad-grid,.ad-grid-2,.ad-steps{grid-template-columns:1fr}.ad-contact{flex-direction:column;align-items:flex-start;padding:28px 24px}.ad-hero-btn{width:100%;text-align:center}}
   @media (max-width:1100px) and (min-width:861px){nav.main{gap:14px}}
   @media (max-width:640px){.head-stats{gap:6px 18px}.head-stats span+span::before{display:none}}
+  .district-nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .district-nav a{font-size:14px;font-weight:600;color:#F3ECDD;border:1px solid rgba(201,162,74,.45);border-radius:999px;padding:7px 14px;text-decoration:none;background:rgba(255,255,255,.04)}
+  .district-nav a:hover{background:rgba(201,162,74,.18)}
+  .district-nav a[aria-current="page"]{background:#C9A24A;color:#211E1B;border-color:#C9A24A}
+  .prose .district-listings{grid-template-columns:repeat(2,1fr);gap:16px;margin:8px 0 28px}
+  .prose .district-listings a{text-decoration:none}
+  .prose .district-listings p{font-size:15px;line-height:1.5}
+  .guide-links{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px}
+  .guide-links li{border-bottom:1px solid var(--line);padding:10px 0;margin:0}
+  .guide-links a{font-size:16px}
+  .pl-card dl div{margin-bottom:10px}
+  .pl-card dt{font-size:13px;color:var(--muted)}
+  .pl-card dd{margin:2px 0 0;font-size:15px;font-weight:500}
+  @media (max-width:640px){.prose .district-listings,.guide-links{grid-template-columns:1fr}.district-nav{gap:6px}.district-nav a{font-size:13px;padding:6px 11px}}
+  .prose td a[href^="tel"]{white-space:nowrap}
 
 .foot-h{font-size:14px;color:#fff;margin:0 0 14px;font-weight:600;font-family:var(--sans)}
 .h4{font-family:var(--serif);font-weight:500;font-size:22px;margin:2px 0 0;line-height:1.2}

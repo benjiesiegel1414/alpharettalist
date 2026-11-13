@@ -130,7 +130,7 @@ const footer = `
       <div class="foot-brand">${logo(true)}<p>An independent local guide to Alpharetta, Georgia, serving 30004, 30005, 30009 and 30022.</p></div>
       <div><h2 class="foot-h">Read</h2><ul><li><a href="/blog/">News and guides</a></li><li><a href="/events/">Events</a></li><li><a href="/things-to-do/">Things to do</a></li><li><a href="/directory/?cat=parks">Parks and trails</a></li></ul></div>
       <div><h2 class="foot-h">Find</h2><ul><li><a href="/restaurants/">Restaurants</a></li><li><a href="/directory/?cat=shopping">Shopping</a></li><li><a href="/services/">Local services</a></li><li><a href="/directory/">Full directory</a></li></ul></div>
-      <div><h2 class="foot-h">Popular guides</h2><ul><li><a href="/blog/best-restaurants-alpharetta-ga/">Best restaurants</a></li><li><a href="/blog/things-to-do-alpharetta-ga/">Things to do</a></li><li><a href="/blog/moving-to-alpharetta-ga-guide/">Moving to Alpharetta</a></li><li><a href="/blog/best-coffee-shops-alpharetta-ga/">Coffee shops</a></li></ul></div>
+      <div><h2 class="foot-h">Popular guides</h2><ul><li><a href="/blog/best-restaurants-alpharetta-ga/">Best restaurants</a></li><li><a href="/blog/things-to-do-alpharetta-ga/">Things to do</a></li><li><a href="/blog/moving-to-alpharetta-ga-guide/">Moving to Alpharetta</a></li><li><a href="/blog/best-coffee-shops-alpharetta-ga/">Coffee shops</a></li><li><a href="/avalon/">Avalon guide</a></li><li><a href="/halcyon/">Halcyon guide</a></li></ul></div>
       <div><h2 class="foot-h">Work with us</h2><ul><li><a href="/add-your-business/">Add your business</a></li><li><a href="/submit-event/">Submit an event</a></li><li><a href="/advertise/">Advertise</a></li><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li></ul></div>
     </div>
     <div class="legal"><span>&copy; <span id="yr">${new Date().getFullYear()}</span> Alpharetta List. Independent and not affiliated with the City of Alpharetta.</span><span><a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a> &nbsp; <a href="/privacy/">Privacy</a> &nbsp; <a href="/terms/">Terms</a> &nbsp; <a href="/contact/">Contact</a> &nbsp; <a href="/about/">About</a></span></div>
@@ -238,7 +238,7 @@ const add = (urlPath, html, priority = "0.7", lastmod = BUILD_DATE) => { write(u
       <select name="cat" aria-label="Category"><option value="all">All categories</option>${CATS.filter(c => counts[c.id]).map(c => `<option value="${c.id}">${c.label}</option>`).join("")}</select>
       <button class="btn btn-primary" type="submit">Search Alpharetta</button>
     </form>
-    <div class="quick"><span>Popular:</span><a href="/restaurants/">Restaurants</a><a href="/things-to-do/">Things to do</a><a href="/places/avalon/">Avalon</a><a href="/places/big-creek-greenway/">Big Creek Greenway</a><a href="/events/">Events</a></div>
+    <div class="quick"><span>Popular:</span><a href="/restaurants/">Restaurants</a><a href="/things-to-do/">Things to do</a><a href="/avalon/">Avalon</a><a href="/halcyon/">Halcyon</a><a href="/places/big-creek-greenway/">Big Creek Greenway</a><a href="/events/">Events</a></div>
   </div>
 </section>
 <div class="wrap">${sponsor()}</div>
@@ -435,6 +435,7 @@ directoryPage({
 const AREA_TEXT = {
   "Downtown Alpharetta": "in Downtown Alpharetta, the walkable City Center district around Main Street and the Town Green",
   "Avalon": "at Avalon, Alpharetta's upscale mixed-use shopping and dining district on Old Milton Parkway",
+  "Halcyon (nearby)": "at Halcyon, the walkable shopping and dining district at GA 400 exit 12, just north of Alpharetta",
   "Windward": "in the Windward Parkway area on Alpharetta's north side, near GA 400 exit 11",
   "North Point": "in the North Point corridor along North Point Parkway, near the mall and GA 400 exit 10",
   "Old Milton Pkwy": "on Old Milton Parkway, the corridor that links GA 400 with Avalon and downtown",
@@ -445,7 +446,17 @@ const AREA_TEXT = {
   "Encore Park": "at Encore Park on Encore Parkway, home of Ameris Bank Amphitheatre",
   "McFarland Pkwy": "on McFarland Parkway at Alpharetta's northern edge"
 };
+// Links from listings to the Avalon and Halcyon neighborhood guides.
+const districtOf = (p) => p.slug === "avalon" || p.area === "Avalon" ? "avalon" : p.slug === "halcyon" || p.area === "Halcyon (nearby)" ? "halcyon" : "";
+const districtLinks = (p) => {
+  const k = districtOf(p); if (!k || !DISTRICTS_LITE[k]) return "";
+  const d = DISTRICTS_LITE[k];
+  const pick = p.cat === "restaurants" ? ["restaurants", "parking"] : p.cat === "shopping" ? ["shopping", "parking"] : ["things-to-do", "parking"];
+  return `<p><strong>Planning a visit?</strong> See our <a href="/${k}/">complete ${d} guide</a>, including ${pick.map(s => `<a href="/${k}/${s}/">${s === "parking" ? "parking and hours" : s.replace(/-/g, " ")}</a>`).join(" and ")}.</p>`;
+};
+const DISTRICTS_LITE = { avalon: "Avalon", halcyon: "Halcyon" };
 const AREA_GUIDE = {
+  "Halcyon (nearby)": "Halcyon is a 135-acre walkable district at GA 400 exit 12, just over the line in south Forsyth County with an Alpharetta mailing address. Parking is free in the six-level deck, public and family restrooms are in the Market Hall across from the Village Green, and a trail extension near Halcyon Way and Ronald Reagan Parkway connects to the Big Creek Greenway.",
   "Downtown Alpharetta": "Downtown is built for walking. City Center, with the Town Green, City Hall and the library, sits a block off Main Street, and free public parking decks are spread around the district, so most people park once and walk. Canton Street and Milton Avenue are lined with restaurants and shops, the Town Green hosts concerts and festivals, and the paved Alpha Loop links downtown to Avalon. On Saturday mornings from spring through fall, the <a href=\"/places/alpharetta-farmers-market/\">Alpharetta Farmers Market</a> sets up on Old Canton Street.",
   "Avalon": "Avalon is an 86-acre walkable district off Old Milton Parkway with restaurants, shops, a movie theater, a hotel and a central plaza. Parking is in decks throughout the property, and on busy weekend evenings it pays to arrive a little early. The plaza hosts seasonal events, including an ice rink in winter, and the Alpha Loop connects Avalon with Downtown Alpharetta about a mile away.",
   "Windward": "The Windward area wraps around Windward Parkway and GA 400 exit 11 on Alpharetta's north side. It mixes office campuses with shopping centers and restaurants along Windward Parkway, and it's an easy hop to Halcyon and Forsyth County to the north. Most businesses here have their own surface parking.",
@@ -538,7 +549,7 @@ for (const p of places) {
       <p>${esc(p.name)} is ${areaText}. ${p.cat === "restaurants" ? `It is one of ${places.filter(x => x.cat === "restaurants").length} places to eat and drink in our <a href="/restaurants/">Alpharetta restaurant guide</a>${p.cuisine ? `, and part of the city's ${esc(p.cuisine)} dining scene` : ""}.` : `Browse more ${esc(catLabel(p.cat).toLowerCase())} in our <a href="${listUrl}">Alpharetta directory</a>.`}</p>
       ${p.link ? `<p><a href="${p.link}">Read our full guide</a></p>` : ""}
     </section>
-    ${AREA_GUIDE[p.area] ? `<section class="pl-section"><h2>Visiting ${esc(p.area)}</h2><p>${AREA_GUIDE[p.area]}</p></section>` : ""}
+    ${AREA_GUIDE[p.area] ? `<section class="pl-section"><h2>Visiting ${esc(p.area.replace(" (nearby)", ""))}</h2><p>${AREA_GUIDE[p.area]}</p>${districtLinks(p)}</section>` : districtLinks(p) ? `<section class="pl-section">${districtLinks(p)}</section>` : ""}
     ${(postsByPlace[p.slug] || []).length ? `<section class="pl-section"><h2>Featured in our Alpharetta guides</h2><ul class="tips">${postsByPlace[p.slug].slice(0, 6).map(x => `<li><a href="/blog/${x.slug}/">${esc(x.h1)}</a></li>`).join("")}</ul></section>` : ""}
     ${tips.length ? `<section class="pl-section"><h2>Good to know</h2><ul class="tips">${tips.map(t => `<li>${esc(t)}</li>`).join("")}</ul></section>` : ""}
     <section class="pl-section"><h2>Frequently asked questions</h2><div class="faq" style="margin-top:0">${faq.map(f => `<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join("")}</div></section>
@@ -622,6 +633,47 @@ for (const p of places) {
         author: { "@type": "Organization", name: "Alpharetta List", url: SITE + "/about/" }, publisher: { "@id": SITE + "/#org" }, about: { "@type": "Place", name: "Alpharetta, Georgia" } },
       { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: p.faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }];
     add(urlPath, layout({ title: p.seoTitle, description: p.description, urlPath, body, jsonld: ld, ogType: "article", article: p, image: coverFile(p) }), "0.8", p.updated);
+  }
+}
+
+// ---------- Neighborhood guides (Avalon, Halcyon): a hub page plus subpages per district ----------
+// Data: src/data/districts.json. Content: src/content/districts/<district>/<page>.html (hub = index.html).
+// In content, <!--table:slug,slug,...--> renders a table of listings (name, what, hours, phone) from places.json.
+const DISTRICTS = fs.existsSync(path.join(SRC, "data/districts.json")) ? json("data/districts.json") : {};
+const placeTable = (slugs) => {
+  const rows = slugs.map(s => places.find(p => p.slug === s.trim())).filter(Boolean);
+  return `<table><thead><tr><th>Place</th><th>What it is</th><th>Hours</th><th>Phone</th></tr></thead><tbody>${rows.map(p => `<tr><td><a href="/places/${p.slug}/">${esc(p.name)}</a></td><td>${esc(p.type)}${p.priceRange ? " &middot; " + esc(p.priceRange) : ""}</td><td>${esc(p.hours || "Varies, call ahead")}</td><td>${p.phone ? `<a href="tel:${p.phone.replace(/\D/g, "")}">${esc(p.phone)}</a>` : "&ndash;"}</td></tr>`).join("")}</tbody></table>`;
+};
+for (const [key, d] of Object.entries(DISTRICTS)) {
+  const all = [{ slug: "", label: d.hubLabel || "Overview", ...d.hub }, ...d.pages];
+  for (const pg of all) {
+    const urlPath = `/${key}/${pg.slug ? pg.slug + "/" : ""}`;
+    const crumbs = [["Home", "/"], [d.name, `/${key}/`], ...(pg.slug ? [[pg.label, urlPath]] : [])];
+    let content = read(`content/districts/${key}/${pg.slug || "index"}.html`);
+    content = content.replace(/<!--table:([^>]*?)-->/g, (m, list) => placeTable(list.split(",")));
+    const toc = [...content.matchAll(/<h2 id="([^"]+)">(.*?)<\/h2>/g)];
+    const subnav = `<nav class="district-nav" aria-label="${esc(d.name)} guide">${all.map(x => { const u = `/${key}/${x.slug ? x.slug + "/" : ""}`; return `<a href="${u}"${u === urlPath ? ' aria-current="page"' : ""}>${esc(x.label)}</a>`; }).join("")}</nav>`;
+    const others = all.filter(x => x !== pg);
+    const listings = (pg.listings || []).map(s => places.find(p => p.slug === s)).filter(Boolean);
+    const glance = `<div class="pl-card"><h2>${esc(d.name)} at a glance</h2><dl>${d.glance.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join("")}</dl><p style="font-size:13px;margin:12px 0 0;color:var(--muted)">Details checked ${fmtDate(d.checked)}.</p></div>`;
+    const body = pageHead(crumbs, esc(pg.h1), esc(pg.sub || ""), subnav) + `
+<div class="wrap body-grid">
+  <article class="prose">
+    ${content}
+    ${listings.length ? `<h2 id="listings">${esc(pg.listingsHeading || "Listings in our directory")}</h2><div class="listings district-listings">${listings.map(listingCard).join("")}</div>` : ""}
+    ${pg.faqs && pg.faqs.length ? `<section class="faq" id="faq"><h2>Frequently asked questions</h2>${pg.faqs.map(f => `<details><summary>${esc(f.q)}</summary><p>${f.a}</p></details>`).join("")}</section>` : ""}
+    <div class="related"><h2>More in our ${esc(d.name)} guide</h2><ul class="guide-links">${others.map(x => `<li><a href="/${key}/${x.slug ? x.slug + "/" : ""}">${esc(x.h1)}</a></li>`).join("")}</ul></div>
+    ${d.sources ? `<section class="sources"><h2 style="font-size:20px">Sources</h2><ul>${d.sources.map(s => `<li><a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.name)}</a></li>`).join("")}</ul><p>Hours, menus and event dates change. Spot something out of date? Email <a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a></p></section>` : ""}
+    <div class="author-box"><span class="logo-tile"><svg width="36" height="36" viewBox="0 0 64 64"><use href="#logo"/></svg></span><span>Written by the Alpharetta List team, an independent local guide covering Alpharetta, Georgia. Not affiliated with ${esc(d.name)}.</span></div>
+  </article>
+  <aside><div class="sticky-rail">
+    ${glance}
+    ${toc.length ? `<nav class="toc" aria-label="On this page" style="margin-top:20px"><h2>On this page</h2><ol>${toc.map(m => `<li><a href="#${m[1]}">${m[2]}</a></li>`).join("")}${pg.faqs && pg.faqs.length ? '<li><a href="#faq">FAQ</a></li>' : ""}</ol></nav>` : ""}
+  </div></aside>
+</div>`;
+    const ld = [crumbsLD(crumbs), { "@context": "https://schema.org", "@type": "WebPage", name: pg.title, description: pg.meta, url: SITE + urlPath, dateModified: d.checked, about: { "@type": d.schema || "Place", name: d.name, address: { "@type": "PostalAddress", streetAddress: d.street, addressLocality: "Alpharetta", addressRegion: "GA", postalCode: d.zip, addressCountry: "US" } }, publisher: { "@id": SITE + "/#org" } }];
+    if (pg.faqs && pg.faqs.length) ld.push({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: pg.faqs.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a.replace(/<[^>]+>/g, "") } })) });
+    add(urlPath, layout({ title: pg.title, description: pg.meta, urlPath, body, jsonld: ld }), pg.slug ? "0.8" : "0.9", d.checked);
   }
 }
 
