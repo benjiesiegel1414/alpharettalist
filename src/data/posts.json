@@ -1426,5 +1426,77 @@
         "url": "https://www.miltonga.gov/Home/Components/Calendar/Event/2971/46"
       }
     ]
+  },
+  {
+    "slug": "thanksgiving-dinner-alpharetta-ga-2026-restaurants-open-to-go",
+    "title": "Thanksgiving Dinner in Alpharetta, GA (2026): Restaurants Open + To-Go Meals",
+    "seoTitle": "Thanksgiving Dinner in Alpharetta, GA (2026): Restaurants Open & To-Go",
+    "h1": "Thanksgiving Dinner in Alpharetta, GA (2026): Restaurants Open and To-Go Meals",
+    "description": "Restaurants open on Thanksgiving 2026 in Alpharetta, with hours and prices: UP on the Roof, Ruth's Chris, South City Kitchen Avalon, Cattle Shed, Eddie V's and more, plus to-go feast deadlines.",
+    "category": "Events",
+    "published": "2026-11-15",
+    "updated": "2026-11-15",
+    "readMins": 5,
+    "coverPrompt": "Photorealistic Thanksgiving dinner table in a warm upscale restaurant, roasted turkey platter, stuffing, cranberry sauce, mashed potatoes and pumpkin pie, wine glasses and candlelight, autumn leaves and small gourds as decor, soft bokeh window light at dusk, warm charcoal and gold tones, no people, no text, no logos, no readable signs",
+    "faq": [
+      {
+        "q": "What restaurants are open on Thanksgiving 2026 in Alpharetta?",
+        "a": "Confirmed openings for Thursday, Nov. 26, 2026 include UP on the Roof (11 a.m. to 10 p.m.), Ruth's Chris Alpharetta (11:30 a.m. to 9 p.m.), South City Kitchen Avalon (11 a.m. to 7 p.m.), Cattle Shed Wine & Steak Bar (11 a.m. to 8 p.m.), Eddie V's (11 a.m. to 9 p.m.) and Little Alley Steak (noon to 9 p.m.). Awesome Alpharetta also lists Oak Steakhouse, CRU, Kona Grill, Cooper's Hawk and The Original Pancake House as open."
+      },
+      {
+        "q": "How much is Thanksgiving dinner at UP on the Roof in Alpharetta?",
+        "a": "UP on the Roof's three-course Thanksgiving menu is $49 per person before tax and gratuity, with a turkey plate, a starter and dessert. The full dinner menu is also available, and it's open 11 a.m. to 10 p.m."
+      },
+      {
+        "q": "Is Ruth's Chris in Alpharetta open on Thanksgiving?",
+        "a": "Yes. Ruth's Chris Alpharetta is open 11:30 a.m. to 9 p.m. on Thanksgiving Day 2026, with a $52 three-course turkey prix fixe ($21 for kids 12 and under) plus the regular menu. Call 770-777-1500 to reserve."
+      },
+      {
+        "q": "Where can I order Thanksgiving dinner to go in Alpharetta?",
+        "a": "Options include the Ruth's Chris Feast Bundle (order by Nov. 20), a Firebirds Thanksgiving Feast pre-order at The Atwater, and heat-and-serve meals from Whole Foods Market Avalon (order by Nov. 24), Publix Deli, The Fresh Market, Sprouts and Cracker Barrel."
+      },
+      {
+        "q": "Is South City Kitchen Avalon open on Thanksgiving?",
+        "a": "Yes. South City Kitchen locations, including Avalon, serve a three-course Thanksgiving menu from 11 a.m. to 7 p.m. for $79 per adult and $39 per child. Reservations are highly encouraged."
+      }
+    ],
+    "sources": [
+      {
+        "name": "Awesome Alpharetta: Thanksgiving in Alpharetta",
+        "url": "https://www.awesomealpharetta.com/thanksgiving-in-alpharetta/"
+      },
+      {
+        "name": "Rough Draft Atlanta: Where to eat on Thanksgiving Day in Atlanta (Nov. 11, 2026)",
+        "url": "https://roughdraftatlanta.com/2026/11/11/atlanta-restaurants-open-thanksgiving/"
+      },
+      {
+        "name": "UP on the Roof: Rooftop Thanksgiving Dinner in Alpharetta",
+        "url": "https://eatupdrinkup.net/events/thanksgiving-alpharetta/"
+      },
+      {
+        "name": "Ruth's Chris: Thanksgiving Day Menu & Reservations",
+        "url": "https://ruthschris.net/thanksgiving/"
+      },
+      {
+        "name": "Eddie V's: Thanksgiving Dinner Menu",
+        "url": "https://www.eddiev.com/events/thanksgiving-dinner-menu"
+      },
+      {
+        "name": "Firebirds Alpharetta: Thanksgiving Feast",
+        "url": "https://firebirdsrestaurants.com/alpharetta/menu/thanksgiving-feast"
+      },
+      {
+        "name": "Atlanta on the Cheap: Where to order a prepared Thanksgiving meal to-go in 2026",
+        "url": "https://www.atlantaonthecheap.com/thanksgiving-dinner-to-go-atlanta/"
+      },
+      {
+        "name": "Little Alley Steak on Instagram",
+        "url": "https://www.instagram.com/littlealleysteakatl/"
+      },
+      {
+        "name": "Oak Steakhouse Atlanta on Instagram",
+        "url": "https://www.instagram.com/oakatlanta/"
+      }
+    ]
   }
 ]
