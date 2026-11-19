@@ -227,3 +227,20 @@
   .pl-card dd{margin:2px 0 0;font-size:15px;font-weight:500}
   @media (max-width:640px){.prose .district-listings,.guide-links{grid-template-columns:1fr}.district-nav{gap:6px}.district-nav a{font-size:13px;padding:6px 11px}}
   .prose td a[href^="tel"]{white-space:nowrap}
+  .hours-table{border-collapse:collapse;width:100%;max-width:440px;margin:4px 0 14px;font-size:15px}
+  .hours-table th,.hours-table td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+  .hours-table th{font-weight:600;width:42%}
+  .table-wrap{overflow-x:auto}
+  .compare-table{border-collapse:collapse;width:100%;font-size:14.5px}
+  .compare-table th,.compare-table td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  .compare-table thead th{font-size:13px;color:var(--muted);font-weight:600}
+  .compare-table tr.is-current td{background:rgba(201,162,74,.10)}
+  .compare-table td:last-child{white-space:nowrap}
+  .data-block{margin:40px 0 8px;padding:26px 0 0;border-top:1px solid var(--line)}
+  .data-block h2{font-family:var(--serif);font-weight:500;font-size:26px;margin:0 0 16px}
+  .data-block h3{font-size:18px;margin:26px 0 10px}
+  .data-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .data-stat{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff}
+  .data-stat b{display:block;font-family:var(--serif);font-size:30px;font-weight:500;line-height:1.1}
+  .data-stat span{font-size:13.5px;color:var(--muted)}
+  .data-note{font-size:14.5px;color:var(--muted);margin:14px 0 0;max-width:760px}

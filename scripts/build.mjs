@@ -306,6 +306,63 @@ ${newsletter}`;
   }), "1.0");
 }
 
+// Return the hours for one day ("closed", "11am-9pm") from a string like "Mon-Thu 11am-9pm; Fri-Sat 11am-10pm; Sun closed", or null.
+const DAY_AB = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const dayHours = (hours, day) => {
+  if (!hours || !/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Daily)/.test(hours) || /lunch|dinner|brunch|kitchen|bar |season|varies|appoint/i.test(hours)) return null;
+  const di = DAY_AB.indexOf(day);
+  for (const seg of hours.split(/;\s*|,\s*(?=(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b)/)) {
+    const m = seg.match(/^(Daily|Mon|Tue|Wed|Thu|Fri|Sat|Sun)(?:-(Mon|Tue|Wed|Thu|Fri|Sat|Sun))?(?:,\s*(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun))*\s+(.+)$/);
+    if (!m) continue;
+    const val = m[3].trim().replace(/\.$/, "");
+    if (m[1] === "Daily") return val;
+    const a = DAY_AB.indexOf(m[1]), b = m[2] ? DAY_AB.indexOf(m[2]) : a;
+    const inRange = a <= b ? di >= a && di <= b : di >= a || di <= b;
+    if (inRange && !/,/.test(seg.slice(0, seg.indexOf(" ")))) return /closed/i.test(val) ? "closed" : val;
+  }
+  return null;
+};
+// Day-by-day hours table and quick facts derived from the hours string.
+const DAY_FULL = { Mon: "Monday", Tue: "Tuesday", Wed: "Wednesday", Thu: "Thursday", Fri: "Friday", Sat: "Saturday", Sun: "Sunday" };
+const weekHours = (hours) => { const rows = DAY_AB.map(d => [d, dayHours(hours, d)]); return rows.filter(r => r[1]).length >= 5 ? rows : null; };
+const toMin = (t) => { const m = String(t).trim().match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)$/i); if (!m) return null; let h = +m[1] % 12 + (m[3].toLowerCase() === "pm" ? 12 : 0); return h * 60 + (+m[2] || 0); };
+const hoursFacts = (rows) => {
+  if (!rows) return null;
+  let late = [], early = [], closed = [];
+  for (const [d, v] of rows) {
+    if (!v) continue;
+    if (v === "closed") { closed.push(d); continue; }
+    for (const rng of v.split(",")) {
+      const [a, b] = rng.split("-").map(x => x && x.trim());
+      const s = toMin(a), e = toMin(b);
+      if (s != null && s <= 7 * 60 + 30) early.push(d);
+      if (e != null && (e >= 21 * 60 + 30 || e <= 4 * 60)) late.push(d);
+    }
+  }
+  return { late: [...new Set(late)], early: [...new Set(early)], closed };
+};
+const dayList = (ds) => ds.length === 7 ? "every day" : ds.map(d => DAY_FULL[d]).join(", ").replace(/, ([^,]*)$/, " and $1");
+// Data summary and comparison table for directory-style pages.
+function listDataBlock(list, h1) {
+  if (list.length < 3 || list.length > 160) return "";
+  const withHours = list.filter(p => weekHours(p.hours));
+  const facts = withHours.map(p => hoursFacts(weekHours(p.hours)));
+  const sunOpen = withHours.filter(p => { const v = dayHours(p.hours, "Sun"); return v && v !== "closed"; }).length;
+  const late = facts.filter(f => f.late.length).length, early = facts.filter(f => f.early.length).length;
+  const areas = {}; list.forEach(p => { const a = (p.area || "Alpharetta").replace(" (nearby)", ""); areas[a] = (areas[a] || 0) + 1; });
+  const topAreas = Object.entries(areas).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const checked = list.map(p => p.checked).filter(Boolean).sort().pop();
+  const stat = (n, label) => `<div class="data-stat"><b>${n}</b><span>${label}</span></div>`;
+  const subject = h1.replace(/^(The best |Best |The )/i, "").replace(/ in Alpharetta, GA$/i, "");
+  return `<section class="data-block">
+    <h2>${esc(subject)} by the numbers</h2>
+    <div class="data-stats">${stat(list.length, "listed")}${stat(list.filter(p => p.phone).length, "with a phone number")}${withHours.length ? stat(withHours.length, "with day-by-day hours") : ""}${sunOpen ? stat(sunOpen, "open on Sundays") : ""}${late ? stat(late, "open 9:30pm or later") : ""}${early ? stat(early, "open by 7:30am") : ""}</div>
+    ${topAreas.length > 1 ? `<p class="data-note"><strong>Where they are:</strong> ${topAreas.map(([a, n]) => `${esc(a)} (${n})`).join(", ")}.</p>` : ""}
+    <h3>Compare at a glance</h3>
+    <div class="table-wrap"><table class="compare-table"><thead><tr><th>Name</th><th>Type</th><th>Area</th><th>Sunday</th><th>Phone</th></tr></thead><tbody>${list.map(p => { const v = dayHours(p.hours, "Sun"); return `<tr><td><a href="/places/${p.slug}/">${esc(p.name)}</a></td><td>${esc(p.type)}</td><td>${esc((p.area || "Alpharetta").replace(" (nearby)", ""))}</td><td>${v ? (v === "closed" ? "Closed" : esc(v)) : "&ndash;"}</td><td>${p.phone ? esc(p.phone) : "&ndash;"}</td></tr>`; }).join("")}</tbody></table></div>
+    <p class="data-note">Sunday hours are shown where a business lists regular day-by-day hours; a dash means hours vary or are by appointment. ${checked ? `Details last checked ${new Date(checked + "T12:00:00Z").toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })}.` : ""} Spot an error? Email <a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a></p>
+  </section>`;
+}
 // ---------- Directory (all) ----------
 function directoryPage({ urlPath, crumbs, h1, sub, title, description, list, showFilters = true, intro = "" }) {
   const cats = CATS.filter(c => list.some(p => p.cat === c.id));
@@ -318,6 +375,7 @@ function directoryPage({ urlPath, crumbs, h1, sub, title, description, list, sho
   <div class="filters" role="group" aria-label="Filter by category"><button aria-pressed="true" data-f="all">All</button>${cats.map(c => `<button aria-pressed="false" data-f="${c.id}">${c.label}</button>`).join("")}</div></div>` : ""}${showFilters ? `
   <p class="count-note" id="count-note" role="status">${list.length} places</p>` : ""}
   <div class="listings" data-filter-grid>${list.map(listingCard).join("")}</div>
+  ${listDataBlock(list, h1)}
   <div class="claim" style="margin-top:36px">Own an Alpharetta business that should be here? <a href="/add-your-business/">Add it to Alpharetta List for free</a>.</div>
 </section>
 <div class="wrap">${sponsor()}</div>${newsletter}`;
@@ -474,22 +532,6 @@ const CAT_TIPS = {
   pets: ["Call ahead to confirm new patient availability", "Bring your pet's vaccination and medical records to the first visit", "Ask about after-hours and emergency options"],
   realestate: ["Ask which Alpharetta neighborhoods and school zones the agent knows best", "New construction and luxury properties often need a specialist", "Ask for recent comparable sales before pricing or making an offer"]
 };
-// Return the hours for one day ("closed", "11am-9pm") from a string like "Mon-Thu 11am-9pm; Fri-Sat 11am-10pm; Sun closed", or null.
-const DAY_AB = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const dayHours = (hours, day) => {
-  if (!hours || !/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Daily)/.test(hours) || /lunch|dinner|brunch|kitchen|bar |season|varies|appoint/i.test(hours)) return null;
-  const di = DAY_AB.indexOf(day);
-  for (const seg of hours.split(/;\s*|,\s*(?=(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b)/)) {
-    const m = seg.match(/^(Daily|Mon|Tue|Wed|Thu|Fri|Sat|Sun)(?:-(Mon|Tue|Wed|Thu|Fri|Sat|Sun))?(?:,\s*(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun))*\s+(.+)$/);
-    if (!m) continue;
-    const val = m[3].trim().replace(/\.$/, "");
-    if (m[1] === "Daily") return val;
-    const a = DAY_AB.indexOf(m[1]), b = m[2] ? DAY_AB.indexOf(m[2]) : a;
-    const inRange = a <= b ? di >= a && di <= b : di >= a || di <= b;
-    if (inRange && !/,/.test(seg.slice(0, seg.indexOf(" ")))) return /closed/i.test(val) ? "closed" : val;
-  }
-  return null;
-};
 const hostOf = (u) => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return u; } };
 for (const p of places) {
   const listUrl = p.cat === "restaurants" ? "/restaurants/" : `/directory/?cat=${p.cat}`;
@@ -549,6 +591,8 @@ for (const p of places) {
       <p>${esc(p.name)} is ${areaText}. ${p.cat === "restaurants" ? `It is one of ${places.filter(x => x.cat === "restaurants").length} places to eat and drink in our <a href="/restaurants/">Alpharetta restaurant guide</a>${p.cuisine ? `, and part of the city's ${esc(p.cuisine)} dining scene` : ""}.` : `Browse more ${esc(catLabel(p.cat).toLowerCase())} in our <a href="${listUrl}">Alpharetta directory</a>.`}</p>
       ${p.link ? `<p><a href="${p.link}">Read our full guide</a></p>` : ""}
     </section>
+    ${(() => { const rows = weekHours(p.hours); if (!rows) return ""; const fx = hoursFacts(rows); const notes = [fx.closed.length ? `Closed ${dayList(fx.closed)}.` : `Open seven days a week.`, fx.early.length ? `Opens early (7:30am or before) on ${dayList(fx.early)}.` : "", fx.late.length ? `Open late (9:30pm or later) on ${dayList(fx.late)}.` : ""].filter(Boolean).join(" "); return `<section class="pl-section"><h2>${esc(p.name)} hours by day</h2><table class="hours-table"><tbody>${rows.map(([d, v]) => `<tr><th scope="row">${DAY_FULL[d]}</th><td>${v ? (v === "closed" ? "Closed" : esc(v)) : "Not listed"}</td></tr>`).join("")}</tbody></table><p>${notes} Holiday hours can differ${p.phone ? `, so call ${esc(p.phone)} before a holiday visit` : ""}.${p.checked ? ` Hours last checked ${new Date(p.checked + "T12:00:00Z").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}.` : ""}</p></section>`; })()}
+    ${(() => { const pool = places.filter(x => x.slug !== p.slug && x.cat === p.cat && x.cat !== "coming-soon" && (p.cuisine ? x.cuisine === p.cuisine : x.type === p.type)); const fill = pool.length < 4 ? places.filter(x => x.slug !== p.slug && x.cat === p.cat && !pool.includes(x) && x.area === p.area) : []; const list = pool.concat(fill).filter(x => x.hours || x.phone).slice(0, 6); if (list.length < 2) return ""; const sun = (x) => { const v = dayHours(x.hours, "Sun"); return v ? (v === "closed" ? "Closed" : esc(v)) : "&ndash;"; }; return `<section class="pl-section"><h2>Compare ${esc(p.name)} with similar ${p.cat === "restaurants" ? "restaurants" : "places"}</h2><div class="table-wrap"><table class="compare-table"><thead><tr><th>Name</th><th>Area</th><th>Sunday</th><th>Phone</th></tr></thead><tbody><tr class="is-current"><td><strong>${esc(p.name)}</strong></td><td>${esc((p.area || "Alpharetta").replace(" (nearby)", ""))}</td><td>${sun(p)}</td><td>${p.phone ? esc(p.phone) : "&ndash;"}</td></tr>${list.map(x => `<tr><td><a href="/places/${x.slug}/">${esc(x.name)}</a></td><td>${esc((x.area || "Alpharetta").replace(" (nearby)", ""))}</td><td>${sun(x)}</td><td>${x.phone ? esc(x.phone) : "&ndash;"}</td></tr>`).join("")}</tbody></table></div></section>`; })()}
     ${AREA_GUIDE[p.area] ? `<section class="pl-section"><h2>Visiting ${esc(p.area.replace(" (nearby)", ""))}</h2><p>${AREA_GUIDE[p.area]}</p>${districtLinks(p)}</section>` : districtLinks(p) ? `<section class="pl-section">${districtLinks(p)}</section>` : ""}
     ${(postsByPlace[p.slug] || []).length ? `<section class="pl-section"><h2>Featured in our Alpharetta guides</h2><ul class="tips">${postsByPlace[p.slug].slice(0, 6).map(x => `<li><a href="/blog/${x.slug}/">${esc(x.h1)}</a></li>`).join("")}</ul></section>` : ""}
     ${tips.length ? `<section class="pl-section"><h2>Good to know</h2><ul class="tips">${tips.map(t => `<li>${esc(t)}</li>`).join("")}</ul></section>` : ""}
