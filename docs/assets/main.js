@@ -119,7 +119,7 @@
           return fetch(cfg.formEndpoint, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(p) });
         })
         .then(function(){
-          ff.innerHTML = '<div class="setup-done"><h2>You\'re all set!</h2><p>We received your details and photos. Your Featured listing usually goes live within one business day, and we\'ll email you at ' + (p.email || "your address") + ' if we have any questions.</p><a class="btn btn-primary" href="/">Back to Alpharetta List</a></div>';
+          ff.innerHTML = '<div class="setup-done"><h2>You\'re all set!</h2><p>We received your details and photos. Your Featured listing usually goes live within the hour, and we\'ll email you at ' + (p.email || "your address") + ' if we have any questions.</p><a class="btn btn-primary" href="/">Back to Alpharetta List</a></div>';
           if (window.gtag) gtag("event", "featured_setup_submitted", { plan: plan });
         })
         .catch(function(){ btn.disabled = false; st.textContent = "Something went wrong. Please try again, or email your details and photos to hello@alpharettalist.com"; });

@@ -855,11 +855,11 @@ const bizCoreFields = (descHint, minWords) => `
     ["Review before going live", "Automatic checks", "Personal setup by our team"]
   ];
   const faqs = [
-    { q: "Is the free listing really free?", a: "Yes. A basic listing with your name, address, phone, hours and a short description is free. Fill out the form on this page and, if it passes our checks, it goes live within about a day." },
+    { q: "Is the free listing really free?", a: "Yes. A basic listing with your name, address, phone, hours and a short description is free. Fill out the form on this page and, if it passes our checks, it usually goes live within the hour." },
     { q: "What do I get with a Featured listing?", a: "Your business is pinned to the top of its category and service pages with a Featured badge, and your page gets your logo, up to 10 photos, a deals box, a booking button, social links, a longer write-up and mentions in related Alpharetta guides." },
     { q: "How does Lifetime work?", a: "Lifetime is a single $49 payment at our founding price. Your listing stays Featured for as long as Alpharetta List runs, with no monthly bill. The founding price will go up as the site grows." },
     { q: "Can I cancel the monthly plan?", a: "Yes, anytime. Your listing goes back to a free listing at the end of the billing period, and nothing else changes." },
-    { q: "What happens after I pay?", a: "Stripe takes you straight to a setup page where you upload your logo and photos and fill in your details. We review it and your Featured listing usually goes live within one business day." },
+    { q: "What happens after I pay?", a: "Stripe takes you straight to a setup page where you upload your logo and photos and fill in your details. Your Featured listing goes through quick automatic checks and usually goes live within the hour." },
     { q: "My business is already listed. Can I upgrade it?", a: "Yes. Choose Featured, and on the setup page paste the link to your current listing. We upgrade that page instead of creating a new one." },
     { q: "Which businesses qualify?", a: "Businesses located in Alpharetta, or service businesses that regularly serve Alpharetta homes and companies, including nearby Milton, Roswell, Johns Creek and south Forsyth. We do not list adult businesses, gambling, or anything misleading." }
   ];
@@ -900,8 +900,8 @@ const bizCoreFields = (descHint, minWords) => `
 <section class="wrap body-grid biz-form-wrap" id="free-form">
   <div>
     <h2 class="biz-h" style="margin-top:0">Create your free listing</h2>
-    <p class="lede" style="margin-top:0">Takes about two minutes. Listings that pass our automatic checks go live within about a day. Want photos, your logo and top placement? <a href="${STRIPE_MONTHLY}" rel="noopener">Go Featured</a> instead.</p>
-    <form class="form biz-form" data-wl-form="Businesses" data-success="Thanks! Your listing is in. If it passes our checks it will go live within about a day, and we'll email you if we have any questions.">
+    <p class="lede" style="margin-top:0">Takes about two minutes. Listings that pass our automatic checks usually go live within the hour. Want photos, your logo and top placement? <a href="${STRIPE_MONTHLY}" rel="noopener">Go Featured</a> instead.</p>
+    <form class="form biz-form" data-wl-form="Businesses" data-success="Thanks! Your listing is in. If it passes our checks it will usually go live within the hour, and we'll email you if we have any questions.">
       ${bizCoreFields("25 to 150 words. What you do, who you serve, what makes you different.", 25)}
       <div class="row"><label>Your name<input name="contact_name" autocomplete="name"></label>
       <label>Your email * <span class="hint">Never published</span><input name="email" type="email" required autocomplete="email"></label></div>
@@ -928,7 +928,7 @@ const bizCoreFields = (descHint, minWords) => `
 // ---------- Featured setup page (after Stripe checkout, noindex) ----------
 {
   const urlPath = "/featured/setup/";
-  const body = pageHead([["Home", "/"], ["Featured setup", urlPath]], "Set up your Featured listing", "Thank you for going Featured! Fill this out once and we'll build your listing. It usually goes live within one business day.") + `
+  const body = pageHead([["Home", "/"], ["Featured setup", urlPath]], "Set up your Featured listing", "Thank you for going Featured! Fill this out once and we'll build your listing. It usually goes live within the hour.") + `
 <section class="wrap body-grid">
   <div>
     <div class="setup-paid" id="setup-paid" hidden><strong>Payment received.</strong> <span id="setup-plan"></span> Keep this page open until you hit submit.</div>
@@ -954,7 +954,7 @@ const bizCoreFields = (descHint, minWords) => `
       <p class="status" role="status" id="featured-status"></p>
     </form>
   </div>
-  <aside><div class="sticky-rail"><div class="info-card"><strong>What happens next</strong><ul class="tips"><li>We review your details and photos</li><li>Your Featured listing goes live, usually within one business day</li><li>You're pinned to the top of your category</li><li>Need a change later? Email <a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a></li></ul></div></div></aside>
+  <aside><div class="sticky-rail"><div class="info-card"><strong>What happens next</strong><ul class="tips"><li>Quick automatic checks on your details and photos</li><li>Your Featured listing goes live, usually within the hour</li><li>You're pinned to the top of your category</li><li>Need a change later? Email <a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a></li></ul></div></div></aside>
 </section>`;
   write("featured/setup/index.html", layout({ title: "Set Up Your Featured Listing | Alpharetta List", description: "Finish setting up your Featured listing on Alpharetta List.", urlPath, body, noindex: true })); EXTRA_KEEP.push("featured/setup/index.html");
 }

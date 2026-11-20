@@ -6,8 +6,10 @@
  * - Businesses: free listings from /add-your-business/. Checked by the rules below; clean ones get approved = yes
  *   and go live with the next daily site build. Anything that fails a rule gets approved = review and emails you.
  * - Featured: paid listing details from /featured/setup/ (after Stripe checkout), with logo and up to 10 photos
- *   saved to a Google Drive folder. These start as approved = review: confirm the payment in Stripe, then type yes.
- *   (Optional: add a STRIPE_SECRET_KEY script property yourself and paid checkouts are confirmed automatically.)
+ *   saved to a Google Drive folder. Auto-approved (approved = yes) when they came from a real Stripe checkout link,
+ *   the checkout ID hasn't been used before and the content passes the same checks as free listings. Each one emails
+ *   you so you can match it to the payment in Stripe. (Optional: add a STRIPE_SECRET_KEY script property, a
+ *   restricted key with read access to Checkout Sessions, and the payment itself is verified with Stripe too.)
  * - Events: event submissions from /submit-event/ (same rules, approved = review by default).
  * - "Businesses Public" and "Featured Public": approved rows only, no emails. Published to the web as CSV for the site.
  *
@@ -22,7 +24,7 @@ var HEADERS = {
   Events: ["timestamp", "approved", "review_notes", "event_name", "start_date", "end_date", "start_time", "venue", "address", "link", "description", "email", "page"]
 };
 var LOCAL_ZIPS = ["30004", "30005", "30009", "30022", "30023", "30024", "30028", "30040", "30041", "30075", "30076", "30077", "30092", "30097", "30098", "30350", "30328", "30338"];
-var BANNED = /\b(casino|gambl|porn|escort|xxx|viagra|cialis|onlyfans|payday loan|crypto giveaway|forex signal|bitcoin double|weed delivery|hookup|adult massage|replica watch|essay writing|seo backlinks? package)\b/i;
+var BANNED = /\b(casino|gambl\w*|porn\w*|escorts?|xxx|viagra|cialis|onlyfans|payday loans?|crypto giveaway|forex signals?|bitcoin double|weed delivery|hookups?|adult massage|happy ending|body rub|replica watch\w*|essay writing|seo backlinks? package|sex|sexy|nude|nudes|naked|erotic\w*|fetish\w*|nsfw|strip club|gentlem[ae]n'?s club|sugar daddy|cam girls?|f+u+c+k\w*|shit\w*|bitch\w*|nazi\w*|guns? for sale|ammo for sale)\b/i;
 
 function setup() {
   var ss = SpreadsheetApp.openById(SHEET_ID);
@@ -73,7 +75,7 @@ function doPost(e) {
       delete p.logo; delete p.photos;
     }
 
-    var verdict = tab === "Featured" ? checkFeatured_(p) : tab === "Businesses" ? checkBusiness_(p, sh, header) : tab === "Events" ? checkEvent_(p) : { decision: "review", notes: "Other form" };
+    var verdict = tab === "Featured" ? checkFeatured_(p, sh, header) : tab === "Businesses" ? checkBusiness_(p, sh, header) : tab === "Events" ? checkEvent_(p) : { decision: "review", notes: "Other form" };
     var row = header.map(function (h) {
       if (h === "timestamp") return new Date();
       if (h === "approved") return verdict.decision;
@@ -90,7 +92,8 @@ function doPost(e) {
   return out_("ok");
 }
 
-function checkBusiness_(p, sh, header) {
+// Basic content checks shared by free and Featured listings. Returns a list of problems (empty = clean).
+function contentProblems_(p, minWords, maxWords) {
   var problems = [];
   var name = String(p.business_name || "").trim();
   var desc = String(p.description || "").trim();
@@ -101,18 +104,28 @@ function checkBusiness_(p, sh, header) {
   if (!p.address || !/\bGA\b|Georgia/i.test(p.address)) problems.push("address is not in Georgia");
   else if (!zip || LOCAL_ZIPS.indexOf(zip) === -1) problems.push("ZIP " + (zip || "missing") + " is outside the Alpharetta area");
   if (digits.length !== 10) problems.push("phone number is not a 10-digit US number");
-  if (words < 25) problems.push("description is under 25 words");
-  if (words > 400) problems.push("description is over 400 words");
+  if (words < minWords) problems.push("description is under " + minWords + " words");
+  if (words > maxWords) problems.push("description is over " + maxWords + " words");
   if ((desc.match(/https?:\/\//g) || []).length > 1) problems.push("description contains links");
-  if (BANNED.test(name + " " + desc + " " + (p.subcategory || ""))) problems.push("contains blocked words");
-  if (p.website && !/^https?:\/\/[^\s.]+\.[^\s]+$/i.test(p.website)) problems.push("website is not a valid URL");
+  var allText = [name, desc, p.subcategory, p.deals, p.mention_in, p.website, p.booking_url, p.facebook, p.instagram].join(" ");
+  if (BANNED.test(allText)) problems.push("contains blocked words (" + (allText.match(BANNED) || [""])[0] + ")");
+  ["website", "booking_url", "facebook", "instagram"].forEach(function (k) {
+    if (p[k] && !/^https?:\/\/[^\s.]+\.[^\s]+$/i.test(p[k])) problems.push(k + " is not a valid URL");
+  });
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.email || "")) problems.push("contact email is not valid");
   if (/[A-Z]{12,}/.test(desc) || /(.)\1{6,}/.test(desc)) problems.push("description looks like spam");
-  var col = header.indexOf("business_name");
-  if (col > -1 && sh.getLastRow() > 1) {
-    var existing = sh.getRange(2, col + 1, sh.getLastRow() - 1, 1).getValues().map(function (r) { return String(r[0]).toLowerCase().trim(); });
-    if (existing.indexOf(name.toLowerCase()) > -1) problems.push("duplicate of an earlier submission");
-  }
+  return problems;
+}
+
+function columnHas_(sh, header, col, value) {
+  var i = header.indexOf(col);
+  if (i < 0 || sh.getLastRow() < 2 || !value) return false;
+  return sh.getRange(2, i + 1, sh.getLastRow() - 1, 1).getValues().some(function (r) { return String(r[0]).toLowerCase().trim() === String(value).toLowerCase().trim(); });
+}
+
+function checkBusiness_(p, sh, header) {
+  var problems = contentProblems_(p, 25, 400);
+  if (columnHas_(sh, header, "business_name", p.business_name)) problems.push("duplicate of an earlier submission");
   return problems.length ? { decision: "review", notes: problems.join("; ") } : { decision: "yes", notes: "Passed all automatic checks" };
 }
 
@@ -125,17 +138,22 @@ function checkEvent_(p) {
   return { decision: "review", notes: problems.length ? problems.join("; ") : "Looks fine; type yes to publish" };
 }
 
-function checkFeatured_(p) {
+function checkFeatured_(p, sh, header) {
+  var problems = contentProblems_(p, 25, 650);
+  var sid = String(p.session_id || "");
+  if (!/^cs_live_[A-Za-z0-9]{20,}$/.test(sid)) problems.push("no real Stripe checkout ID (did not come from a paid checkout)");
+  else if (columnHas_(sh, header, "session_id", sid)) problems.push("this Stripe checkout was already used for another listing");
   var key = PropertiesService.getScriptProperties().getProperty("STRIPE_SECRET_KEY");
-  if (key && p.session_id && /^cs_/.test(p.session_id)) {
+  if (key && !problems.length) {
     try {
-      var res = UrlFetchApp.fetch("https://api.stripe.com/v1/checkout/sessions/" + encodeURIComponent(p.session_id), { headers: { Authorization: "Bearer " + key }, muteHttpExceptions: true });
+      var res = UrlFetchApp.fetch("https://api.stripe.com/v1/checkout/sessions/" + encodeURIComponent(sid), { headers: { Authorization: "Bearer " + key }, muteHttpExceptions: true });
       var s = JSON.parse(res.getContentText());
-      if (s.payment_status === "paid" || s.status === "complete") return { decision: "yes", notes: "Stripe payment confirmed (" + (s.amount_total / 100) + " " + String(s.currency).toUpperCase() + ")" };
-      return { decision: "review", notes: "Stripe session not paid: " + (s.payment_status || s.error && s.error.message) };
-    } catch (err) { return { decision: "review", notes: "Stripe check failed: " + err }; }
+      if (s.payment_status === "paid" || s.status === "complete") return { decision: "yes", notes: "Stripe payment confirmed (" + (s.amount_total / 100) + " " + String(s.currency).toUpperCase() + "); passed all checks" };
+      problems.push("Stripe says not paid: " + (s.payment_status || (s.error && s.error.message)));
+    } catch (err) { problems.push("Stripe check failed: " + err); }
   }
-  return { decision: "review", notes: "Confirm the " + (p.plan || "") + " payment from " + (p.email || "?") + " in Stripe, then type yes" };
+  if (problems.length) return { decision: "review", notes: problems.join("; ") };
+  return { decision: "yes", notes: "Auto-approved: came from a Stripe checkout and passed all checks. Match it to the " + (p.plan || "") + " payment from " + (p.email || "?") + " in Stripe" };
 }
 
 function saveImage_(folder, dataUrl, name) {
@@ -158,7 +176,7 @@ function photoFolder_() {
 
 function notify_(tab, p, v) {
   var to = PropertiesService.getScriptProperties().getProperty("NOTIFY_EMAIL") || NOTIFY_EMAIL_DEFAULT;
-  var subject = tab === "Featured" ? "New FEATURED listing (" + (p.plan || "") + "): " + (p.business_name || "") + " [" + v.decision + "]"
+  var subject = tab === "Featured" ? "New FEATURED listing (" + (p.plan || "") + "): " + (p.business_name || "") + (v.decision === "yes" ? " [auto-approved, live within the hour]" : " [needs review]")
     : "AlpharettaList " + tab + ": " + (p.business_name || p.event_name || "") + " [" + v.decision + "]";
   var lines = ["Status: " + v.decision, "Notes: " + v.notes, ""];
   Object.keys(p).forEach(function (k) { if (k !== "form_type") lines.push(k + ": " + p[k]); });
