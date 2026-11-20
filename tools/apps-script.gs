@@ -187,15 +187,16 @@ function notify_(tab, p, v) {
 
 function out_(t) { return ContentService.createTextOutput(t); }
 
-// Blog cover upload (from a Gemini-generated image in the browser). Needs the COVER_TOKEN script property
-// (Project Settings > Script properties). Saves to the "AlpharettaList Blog Covers" Drive folder, shared by link,
-// and returns the Drive file ID so the site build can download it.
+// Blog cover upload (a Gemini-generated image posted from the browser). Images only, slug-named, max 15 a day.
+// Saves to the "AlpharettaList Blog Covers" Drive folder, shared by link, and returns the Drive file ID so the
+// site build can download it.
 function saveCover_(p) {
-  var token = PropertiesService.getScriptProperties().getProperty("COVER_TOKEN");
-  if (!token || p.token !== token) return out_("denied");
+  var props = PropertiesService.getScriptProperties();
+  var day = Utilities.formatDate(new Date(), "America/New_York", "yyyy-MM-dd");
+  var count = props.getProperty("COVER_DAY") === day ? Number(props.getProperty("COVER_COUNT") || 0) : 0;
+  if (count >= 15) return out_("daily limit");
   var slug = String(p.slug || "");
   if (!/^[a-z0-9-]{3,100}$/.test(slug)) return out_("bad slug");
-  var props = PropertiesService.getScriptProperties();
   var id = props.getProperty("COVER_FOLDER_ID"), folder = null;
   if (id) { try { folder = DriveApp.getFolderById(id); } catch (e) {} }
   if (!folder) {
@@ -204,5 +205,6 @@ function saveCover_(p) {
     props.setProperty("COVER_FOLDER_ID", folder.getId());
   }
   var fileId = saveImage_(folder, p.image, slug);
+  if (fileId) { props.setProperty("COVER_DAY", day); props.setProperty("COVER_COUNT", String(count + 1)); }
   return out_(fileId ? "id:" + fileId : "bad image");
 }
