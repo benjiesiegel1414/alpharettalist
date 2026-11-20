@@ -1138,4 +1138,5 @@ ${posts.map(p => `<item><title>${esc(p.title)}</title><link>${SITE}/blog/${p.slu
 `);
 write("CNAME", "alpharettalist.com\n");
 write(".nojekyll", "");
+{ const missing = posts.filter(p => !fs.existsSync(path.join(SRC, "covers", p.slug + ".jpg"))).map(p => p.slug); if (missing.length) console.warn("WARNING: posts missing a Gemini cover (src/covers/<slug>.jpg): " + missing.join(", ")); }
 console.log(`Built ${pages.length} pages, ${places.length} places, ${events.length} events, ${posts.length} posts.`);
