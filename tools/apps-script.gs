@@ -56,6 +56,7 @@ function doPost(e) {
     try { p = JSON.parse(e.postData.contents); } catch (err) { p = {}; }
   } else { p = e.parameter || {}; }
   if (p.website_url_hp) return out_("ok"); // spam trap
+  if (p.form_type === "Cover") return saveCover_(p);
   var tab = String(p.form_type || "Other").replace(/[^A-Za-z ]/g, "");
   if (!HEADERS[tab]) tab = "Other";
   var lock = LockService.getScriptLock(); lock.waitLock(20000);
@@ -185,3 +186,23 @@ function notify_(tab, p, v) {
 }
 
 function out_(t) { return ContentService.createTextOutput(t); }
+
+// Blog cover upload (from a Gemini-generated image in the browser). Needs the COVER_TOKEN script property
+// (Project Settings > Script properties). Saves to the "AlpharettaList Blog Covers" Drive folder, shared by link,
+// and returns the Drive file ID so the site build can download it.
+function saveCover_(p) {
+  var token = PropertiesService.getScriptProperties().getProperty("COVER_TOKEN");
+  if (!token || p.token !== token) return out_("denied");
+  var slug = String(p.slug || "");
+  if (!/^[a-z0-9-]{3,100}$/.test(slug)) return out_("bad slug");
+  var props = PropertiesService.getScriptProperties();
+  var id = props.getProperty("COVER_FOLDER_ID"), folder = null;
+  if (id) { try { folder = DriveApp.getFolderById(id); } catch (e) {} }
+  if (!folder) {
+    folder = DriveApp.createFolder("AlpharettaList Blog Covers");
+    folder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    props.setProperty("COVER_FOLDER_ID", folder.getId());
+  }
+  var fileId = saveImage_(folder, p.image, slug);
+  return out_(fileId ? "id:" + fileId : "bad image");
+}
