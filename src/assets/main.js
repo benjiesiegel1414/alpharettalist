@@ -48,6 +48,84 @@
     apply();
   }
 
+
+  // Listing forms: combine the 7 day-by-day hours boxes into one "Mon 9am-5pm; ..." field, and count description words.
+  Array.prototype.slice.call(document.querySelectorAll(".biz-form")).forEach(function(form){
+    var hidden = form.querySelector("input[name=hours]");
+    var dayInputs = form.querySelectorAll(".hours-grid input");
+    var syncHours = function(){
+      if (!hidden) return;
+      var parts = [];
+      Array.prototype.forEach.call(dayInputs, function(inp){
+        var v = inp.value.trim().replace(/\s*(–|—|to)\s*/gi, "-").replace(/\s+/g, "").replace(/(\d)(AM|PM)/gi, function(m, d, ap){ return d + ap.toLowerCase(); });
+        if (v) parts.push(inp.name.slice(2) + " " + (/^closed$/i.test(v) ? "closed" : v));
+      });
+      hidden.value = parts.join("; ");
+    };
+    Array.prototype.forEach.call(dayInputs, function(inp){ inp.addEventListener("input", syncHours); });
+    var ta = form.querySelector("textarea[data-minwords]"), wc = form.querySelector(".wc");
+    if (ta) {
+      var min = +ta.dataset.minwords, max = min >= 60 ? 600 : 150;
+      var count = function(){
+        var n = ta.value.trim() ? ta.value.trim().split(/\s+/).length : 0;
+        if (wc) wc.textContent = n + " words";
+        ta.setCustomValidity(n < min ? "Please write at least " + min + " words." : n > max ? "Please keep it under " + max + " words." : "");
+      };
+      ta.addEventListener("input", count); count();
+    }
+    form.addEventListener("submit", syncHours, true);
+  });
+
+  // Featured setup page (after Stripe checkout): resize photos in the browser, then send everything as one JSON post.
+  var ff = document.querySelector("[data-featured-form]");
+  if (ff) {
+    var qs = new URLSearchParams(location.search);
+    var plan = qs.get("plan") || "", session = qs.get("session_id") || "";
+    if (session) { document.getElementById("setup-paid").hidden = false; document.getElementById("setup-plan").textContent = plan === "lifetime" ? "Lifetime Featured ($49)." : "Featured monthly ($19/month)."; }
+    else document.getElementById("setup-unpaid").hidden = false;
+    var resize = function(file, max, type){
+      return new Promise(function(res){
+        var img = new Image(), url = URL.createObjectURL(file);
+        img.onload = function(){
+          var s = Math.min(1, max / Math.max(img.width, img.height)), c = document.createElement("canvas");
+          c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+          var x = c.getContext("2d"); if (type === "image/jpeg") { x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); }
+          x.drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url); res(c.toDataURL(type, 0.82));
+        };
+        img.onerror = function(){ URL.revokeObjectURL(url); res(""); };
+        img.src = url;
+      });
+    };
+    var photosIn = ff.querySelector("[name=photo_files]"), prev = document.getElementById("photo-previews");
+    photosIn.addEventListener("change", function(){
+      if (photosIn.files.length > 10) alert("Up to 10 photos, please. We'll use the first 10.");
+      prev.innerHTML = "";
+      Array.prototype.slice.call(photosIn.files, 0, 10).forEach(function(f){ var i = document.createElement("img"); i.src = URL.createObjectURL(f); prev.appendChild(i); });
+    });
+    var st = document.getElementById("featured-status"), btn = document.getElementById("featured-submit");
+    ff.addEventListener("submit", function(e){
+      e.preventDefault();
+      if (ff.querySelector(".hp input") && ff.querySelector(".hp input").value) return;
+      btn.disabled = true; st.textContent = "Preparing your photos...";
+      var fd = new FormData(ff), p = { form_type: "Featured", plan: plan, session_id: session, page: location.pathname, mention_in: fd.getAll("mention_in").join(", ") };
+      fd.forEach(function(v, k){ if (typeof v === "string" && k !== "mention_in" && k.indexOf("h_") !== 0) p[k] = v; });
+      var logoFile = ff.querySelector("[name=logo_file]").files[0];
+      var files = Array.prototype.slice.call(photosIn.files, 0, 10);
+      Promise.all([logoFile ? resize(logoFile, 600, logoFile.type === "image/png" ? "image/png" : "image/jpeg") : Promise.resolve("")].concat(files.map(function(f){ return resize(f, 1600, "image/jpeg"); })))
+        .then(function(out){
+          p.logo = out[0]; p.photos = out.slice(1).filter(Boolean);
+          st.textContent = "Uploading " + p.photos.length + " photo" + (p.photos.length === 1 ? "" : "s") + "... this can take up to a minute.";
+          if (!cfg.formEndpoint) throw new Error("no endpoint");
+          return fetch(cfg.formEndpoint, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(p) });
+        })
+        .then(function(){
+          ff.innerHTML = '<div class="setup-done"><h2>You\'re all set!</h2><p>We received your details and photos. Your Featured listing usually goes live within one business day, and we\'ll email you at ' + (p.email || "your address") + ' if we have any questions.</p><a class="btn btn-primary" href="/">Back to Alpharetta List</a></div>';
+          if (window.gtag) gtag("event", "featured_setup_submitted", { plan: plan });
+        })
+        .catch(function(){ btn.disabled = false; st.textContent = "Something went wrong. Please try again, or email your details and photos to hello@alpharettalist.com"; });
+    });
+  }
+
   // Forms: post to Apps Script endpoint, or fall back to a pre-filled email
   Array.prototype.slice.call(document.querySelectorAll("form[data-wl-form]")).forEach(function(form){
     var status = form.querySelector(".status");

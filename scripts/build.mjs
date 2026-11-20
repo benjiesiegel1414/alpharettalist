@@ -71,15 +71,56 @@ async function sheet(url) {
   } catch (e) { console.warn("Sheet fetch failed:", url, e.message); return []; }
 }
 const CAT_MAP = { "pets and vets": "pets", pets: "pets", restaurant: "restaurants", restaurants: "restaurants", "home services": "home", health: "health", "health and medical": "health", "real estate": "realestate", shopping: "shopping", "kids and classes": "kids", "kids and schools": "kids", "fitness": "fitness", "things to do": "things-to-do", "parks and trails": "parks", "professional services": "services", "beauty and wellness": "beauty", schools: "schools", school: "schools" };
-const sheetBiz = await sheet(process.env.SHEET_BUSINESSES_CSV);
+// Published "Public" tabs of the AlpharettaList Submissions sheet (approved rows only, no contact info).
+const SHEET_BASE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTCrZ2XjkNfZMyCVdLQok6t3q_TNNTJdP9asWh3Z7oZKiE6bOLrrvYHQ4r7t21kz3kdbY4FuoF4_ib3/pub?single=true&output=csv&gid=";
+const sheetBiz = await sheet(process.env.SHEET_BUSINESSES_CSV || SHEET_BASE + "1826988435");
+const CAT_IDS = ["restaurants", "things-to-do", "parks", "arts", "shopping", "nearby", "home", "health", "realestate", "pets", "kids", "schools", "fitness", "beauty", "services", "coming-soon"];
+const catOf = (v) => { const k = String(v || "").toLowerCase().trim(); return CAT_IDS.includes(k) ? k : CAT_MAP[k] || "services"; };
+const hoursFromRow = (r) => r.hours || "";
+const paras = (t) => String(t || "").split(/\n\s*\n|\r?\n/).map(x => x.trim()).filter(Boolean);
 for (const r of sheetBiz) {
   const name = r.business_name || r.name; if (!name) continue;
   const slug = slugify(name);
   if (places.some(p => p.slug === slug)) continue;
-  places.push({ slug, name, cat: CAT_MAP[(r.category || "").toLowerCase()] || "services", type: r.subcategory || r.category || "Local business", schema: "LocalBusiness",
-    address: r.address || "", area: r.area || "Alpharetta", desc: r.description || "", website: r.website || "", phone: r.phone || "", featured: /yes/i.test(r.featured || ""), sponsored: /yes/i.test(r.sponsored || ""), verified: true });
+  const about = paras(r.description);
+  places.push({ slug, name, cat: catOf(r.category), type: r.subcategory || r.category || "Local business", schema: "LocalBusiness",
+    address: r.address || "", desc: (about[0] || "").split(/(?<=[.!?])\s/)[0].slice(0, 220), about, website: r.website || "", phone: r.phone || "", hours: hoursFromRow(r), selfListed: true, checked: BUILD_DATE });
 }
-const sheetEvents = await sheet(process.env.SHEET_EVENTS_CSV);
+// Paid Featured listings (from the Featured Public tab): upgrade an existing listing or create a new one.
+const sheetFeatured = await sheet(process.env.SHEET_FEATURED_CSV || SHEET_BASE + "589525057");
+const PREMIUM_DIR = path.join(SRC, "premium");
+for (const r of sheetFeatured) {
+  const name = r.business_name; if (!name) continue;
+  const fromLink = (String(r.existing_listing || "").match(/\/places\/([a-z0-9-]+)/) || [])[1];
+  let p = places.find(x => x.slug === fromLink) || places.find(x => x.slug === slugify(name));
+  if (!p) { p = { slug: slugify(name), name, schema: "LocalBusiness" }; places.push(p); }
+  const about = paras(r.description);
+  Object.assign(p, {
+    name, cat: r.category ? catOf(r.category) : p.cat || "services", type: r.subcategory || p.type || "Local business",
+    address: r.address || p.address || "", phone: r.phone || p.phone || "", website: r.website || p.website || "", hours: r.hours || p.hours || "",
+    ...(about.length ? { about, desc: about[0].split(/(?<=[.!?])\s/)[0].slice(0, 220) } : {}),
+    premium: true, deals: r.deals || "", booking: r.booking_url || "", facebook: r.facebook || "", instagram: r.instagram || "",
+    mentions: String(r.mention_in || "").split(/\s*,\s*/).filter(Boolean), checked: BUILD_DATE, logo: "", photos: []
+  });
+  // Photos uploaded through the setup page live in Google Drive; cache them in src/premium/ so they're committed once.
+  fs.mkdirSync(PREMIUM_DIR, { recursive: true });
+  const grab = async (id) => {
+    if (!/^[A-Za-z0-9_-]{10,}$/.test(id)) return "";
+    const file = path.join(PREMIUM_DIR, id + ".jpg");
+    if (!fs.existsSync(file)) {
+      try {
+        const res = await fetch(`https://drive.google.com/uc?export=download&id=${id}`);
+        const buf = Buffer.from(await res.arrayBuffer());
+        if (!res.ok || buf.length < 2000 || !/^image\//.test(res.headers.get("content-type") || "")) throw new Error("not an image");
+        fs.writeFileSync(file, buf);
+      } catch (e) { console.warn("Featured photo download failed", id, e.message); return ""; }
+    }
+    return `/assets/premium/${id}.jpg`;
+  };
+  if (r.logo_id) p.logo = await grab(r.logo_id.trim());
+  for (const id of String(r.photo_ids || "").split(",").map(x => x.trim()).filter(Boolean).slice(0, 10)) { const u = await grab(id); if (u) p.photos.push(u); }
+}
+const sheetEvents = await sheet(process.env.SHEET_EVENTS_CSV || SHEET_BASE + "1094187146");
 for (const r of sheetEvents) {
   if (!r.event_name || !r.start_date) continue;
   events.push({ slug: slugify(r.event_name + "-" + r.start_date), title: r.event_name, start: r.start_date, end: r.end_date || r.start_date, venue: r.venue || "", address: r.address || "", desc: r.description || "", url: r.link || "" });
@@ -204,12 +245,17 @@ const pageHead = (crumbs, h1, sub, extra = "") => `
   <div class="wrap">${crumbsHTML(crumbs)}<h1>${h1}</h1>${sub ? `<p>${sub}</p>` : ""}${extra}</div>
 </section>`;
 
+// Area (neighborhood) pages: every area with 3+ listings gets /areas/<slug>/; Avalon and Halcyon go to their full guides.
+const areaName = (a) => String(a || "").replace(/^nearby - /i, "").replace(/ \(nearby\)$/i, "").trim();
+const AREA_COUNTS = {}; places.forEach(p => { const a = areaName(p.area); if (a) AREA_COUNTS[a] = (AREA_COUNTS[a] || 0) + 1; });
+const areaUrl = (a) => { const n = areaName(a); if (!n) return ""; if (n === "Avalon") return "/avalon/"; if (n === "Halcyon") return "/halcyon/"; return AREA_COUNTS[n] >= 3 ? `/areas/${slugify(n)}/` : ""; };
+const areaLink = (a, fallback = "Alpharetta") => { const u = areaUrl(a); const label = esc(a || fallback); return u ? `<a class="area-link" href="${u}">${label}</a>` : label; };
 const listingCard = (p) => `
-<article class="listing${p.sponsored ? " sponsored" : ""}" data-cat="${p.cat}" data-search="${esc((p.name + " " + p.type + " " + (p.cuisine || "") + " " + p.desc + " " + (p.area || "") + " " + catLabel(p.cat)).toLowerCase())}">
-  <div class="listing-top"><span>${esc(p.type)}</span>${p.sponsored ? '<span class="pill spons">Sponsored</span>' : p.verified ? '<span class="pill ver">Verified</span>' : ""}</div>
+<article class="listing${p.sponsored ? " sponsored" : ""}${p.premium ? " premium" : ""}" data-cat="${p.cat}" data-search="${esc((p.name + " " + p.type + " " + (p.cuisine || "") + " " + p.desc + " " + (p.area || "") + " " + catLabel(p.cat)).toLowerCase())}">
+  <div class="listing-top"><span>${esc(p.type)}</span>${p.premium ? '<span class="pill feat">Featured</span>' : p.sponsored ? '<span class="pill spons">Sponsored</span>' : p.verified ? '<span class="pill ver">Verified</span>' : ""}</div>${p.premium && p.photos && p.photos[0] ? `<img class="listing-photo" src="${p.photos[0]}" alt="${esc(p.name)}" loading="lazy">` : ""}
   <h3 class="h4"><a href="/places/${p.slug}/">${esc(p.name)}</a></h3>
   <p>${esc(p.desc)}</p>
-  <div class="meta"><span>${esc(p.area || "Alpharetta")}</span><a href="/places/${p.slug}/">Details</a></div>
+  <div class="meta"><span>${areaLink(p.area)}</span><a href="/places/${p.slug}/">Details</a></div>
 </article>`;
 
 const postCard = (p) => `
@@ -221,13 +267,14 @@ const postCard = (p) => `
 const coverFile = (p) => fs.existsSync(path.join(SRC, "covers", p.slug + ".jpg")) ? `/assets/covers/${p.slug}.jpg` : "";
 const coverImg = (p, eager) => coverFile(p) ? `<img src="${coverFile(p)}" alt="${esc(p.coverAlt || p.h1)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} width="1600" height="900">` : "";
 const pages = []; // for sitemap: [path, lastmod, priority]
+const EXTRA_KEEP = []; // built pages kept out of the sitemap (noindex)
 const add = (urlPath, html, priority = "0.7", lastmod = BUILD_DATE) => { write(urlPath === "/" ? "index.html" : urlPath.replace(/^\//, "") + "index.html", html); pages.push([urlPath, lastmod, priority]); };
 
 // ---------- Home ----------
 {
   const featured = places.filter(p => p.featured).slice(0, 9);
   const counts = Object.fromEntries(CATS.map(c => [c.id, places.filter(p => p.cat === c.id).length]));
-  const lead = posts[0], rest = posts.slice(1, 10);
+  const lead = posts[0], minis = posts.slice(1, 3), rest = posts.slice(3, 9);
   const body = `
 <section class="hero"><svg class="hero-mark" viewBox="0 0 64 64" aria-hidden="true"><use href="#logo"/></svg>
   <div class="wrap">
@@ -245,22 +292,27 @@ const add = (urlPath, html, priority = "0.7", lastmod = BUILD_DATE) => { write(u
 
 <section class="block" id="news"><div class="wrap">
   <div class="sec-head"><h2>Alpharetta news</h2><a href="/blog/">All news</a></div>
-  <div class="news-grid"><div class="news-main">
+  <div class="news-grid"><div class="news-main"><div class="news-leadcol">
     <article class="lead-story">
       <a class="img" href="/blog/${lead.slug}/" style="display:grid;place-items:center" aria-label="${esc(lead.h1)}">${coverImg(lead, true) || '<svg viewBox="0 0 64 64" width="34%" style="color:#fff" aria-hidden="true"><use href="#logo"/></svg>'}</a>
       <div class="tag">${esc(lead.category)}</div>
       <h3><a href="/blog/${lead.slug}/">${esc(lead.h1)}</a></h3>
       <p>${esc(lead.description)}</p><div class="byline">${fmtDate(lead.published)} &middot; ${lead.readMins} min read</div>
     </article>
+    <ul class="story-list lead-more">${rest.slice(0, 4).map(p => `<li><div class="tag">${esc(p.category)}</div><h4><a href="/blog/${p.slug}/">${esc(p.h1)}</a></h4><div class="byline">${fmtDate(p.published)}</div></li>`).join("")}</ul>
+  </div>
+    <div class="news-side">
+    <div class="mini-stories">${minis.map(p => `<article class="mini-story"><a class="img" href="/blog/${p.slug}/" aria-label="${esc(p.h1)}">${coverImg(p) || '<svg viewBox="0 0 64 64" aria-hidden="true"><use href="#logo"/></svg>'}</a><div class="tag">${esc(p.category)}</div><h4><a href="/blog/${p.slug}/">${esc(p.h1)}</a></h4><div class="byline">${fmtDate(p.published)}</div></article>`).join("")}</div>
     <ul class="story-list">
-      ${rest.map(p => `<li><div class="tag">${esc(p.category)}</div><h4><a href="/blog/${p.slug}/">${esc(p.h1)}</a></h4><div class="byline">${fmtDate(p.published)}</div></li>`).join("")}
+      ${rest.slice(4).map(p => `<li><div class="tag">${esc(p.category)}</div><h4><a href="/blog/${p.slug}/">${esc(p.h1)}</a></h4><div class="byline">${fmtDate(p.published)}</div></li>`).join("")}
       <li><div class="tag">Guide</div><h4><a href="/things-to-do/">The best things to do in Alpharetta, GA</a></h4><div class="byline">Guide</div></li>
       <li><div class="tag">Eat and Drink</div><h4><a href="/restaurants/">Alpharetta's most popular restaurants</a></h4><div class="byline">Guide</div></li>
-    </ul>
+    </ul></div>
   </div>
   <aside class="rail" id="events"><div><h3>Coming up</h3>
     <ul class="events">${events.slice(0, 5).map(e => `<li>${e.image ? `<a class="ev-thumb" href="/events/#${e.slug}"><img src="${e.image}" alt="" loading="lazy" width="96" height="64"></a>` : `<div class="date">${dateChip(e)}</div>`}<div><strong><a href="/events/#${e.slug}">${esc(e.title)}</a></strong><span>${fmtShort(e.start)}${e.end && e.end !== e.start ? " - " + fmtShort(e.end) : ""} &middot; ${esc(e.venue)}</span></div></li>`).join("")}</ul>
     <a class="btn btn-ghost" href="/submit-event/">Submit an event</a></div>
+    <div class="explore"><h3>Explore Alpharetta</h3><ul>${[["/avalon/", "Avalon guide", "Restaurants, shops, parking"], ["/halcyon/", "Halcyon guide", "Dining, happy hours, events"], ["/avalon/christmas/", "Christmas at Avalon", "Tree lighting, ice skating"], ["/restaurants/", "Restaurants", places.filter(p => p.cat === "restaurants").length + " places to eat"], ["/things-to-do/", "Things to do", "Parks, trails, family fun"], ["/services/", "Local services", "Plumbers, dentists, vets"], ["/add-your-business/", "Add your business", "Free or Featured"]].map(([u, t, d]) => `<li><a href="${u}"><strong>${t}</strong><span>${d}</span></a></li>`).join("")}</ul></div>
     ${sponsor("rect")}
   </aside></div>
 </div></section>
@@ -365,6 +417,7 @@ function listDataBlock(list, h1) {
 }
 // ---------- Directory (all) ----------
 function directoryPage({ urlPath, crumbs, h1, sub, title, description, list, showFilters = true, intro = "" }) {
+  list = [...list.filter(p => p.premium), ...list.filter(p => !p.premium)];
   const cats = CATS.filter(c => list.some(p => p.cat === c.id));
   const heroExtra = showFilters ? `<div class="search page-search"><label for="dir-q" style="flex:1;display:flex"><span class="sr">Search the directory</span><input id="dir-q" type="search" placeholder="Search by name, cuisine or type"></label><span class="page-search-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span></div>
   <div class="head-stats"><span><b>${list.length}</b> places</span>${cats.length > 1 ? `<span><b>${cats.length}</b> categories</span>` : ""}<span>Free to list</span></div>` : "";
@@ -561,7 +614,7 @@ for (const p of places) {
   };
   const ldFaq = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) };
   const telHref = p.phone ? "tel:+1" + p.phone.replace(/\D/g, "").replace(/^1/, "") : "";
-  const actions = `<div class="pl-actions"><a class="btn btn-primary" href="${mapsLink(p)}" rel="noopener" target="_blank">Get directions</a>${p.phone ? `<a class="btn btn-ghost" href="${telHref}">Call ${esc(p.phone)}</a>` : ""}${p.website ? `<a class="btn btn-ghost" href="${esc(p.website)}" rel="noopener nofollow" target="_blank">Visit website</a>` : ""}</div>`;
+  const actions = `<div class="pl-actions"><a class="btn btn-primary" href="${mapsLink(p)}" rel="noopener" target="_blank">Get directions</a>${p.phone ? `<a class="btn btn-ghost" href="${telHref}">Call ${esc(p.phone)}</a>` : ""}${p.website ? `<a class="btn btn-ghost" href="${esc(p.website)}" rel="noopener ${p.premium ? "sponsored" : "nofollow"}" target="_blank">Visit website</a>` : ""}${p.premium && p.booking ? `<a class="btn btn-primary" href="${esc(p.booking)}" rel="noopener sponsored" target="_blank">Book now</a>` : ""}</div>`;
   const facts = `<dl class="pl-facts">
       <div><dt>Category</dt><dd><a href="${listUrl}">${esc(catLabel(p.cat))}</a></dd></div>
       <div><dt>Type</dt><dd>${esc(p.type)}</dd></div>
@@ -579,7 +632,7 @@ for (const p of places) {
   const body = `
 <section class="pl-head"><div class="wrap">
   ${crumbsHTML(crumbs)}
-  <div class="pl-title"><div><span class="pill ver" style="background:rgba(255,255,255,.14);color:#fff">${esc(catLabel(p.cat))}</span><h1>${esc(p.name)}</h1><p>${esc(p.type)}${p.area ? " &middot; " + esc(p.area) : ""}</p></div></div>
+  <div class="pl-title">${p.premium && p.logo ? `<img class="pl-logo" src="${p.logo}" alt="${esc(p.name)} logo" width="88" height="88">` : ""}<div><span class="pill ver" style="background:rgba(255,255,255,.14);color:#fff">${esc(catLabel(p.cat))}</span>${p.premium ? ' <span class="pill feat">Featured</span>' : ""}<h1>${esc(p.name)}</h1><p>${esc(p.type)}${p.area ? " &middot; " + areaLink(p.area) : ""}</p></div></div>
   ${actions}
 </div></section>
 <div class="wrap">${sponsor()}</div>
@@ -591,6 +644,9 @@ for (const p of places) {
       <p>${esc(p.name)} is ${areaText}. ${p.cat === "restaurants" ? `It is one of ${places.filter(x => x.cat === "restaurants").length} places to eat and drink in our <a href="/restaurants/">Alpharetta restaurant guide</a>${p.cuisine ? `, and part of the city's ${esc(p.cuisine)} dining scene` : ""}.` : `Browse more ${esc(catLabel(p.cat).toLowerCase())} in our <a href="${listUrl}">Alpharetta directory</a>.`}</p>
       ${p.link ? `<p><a href="${p.link}">Read our full guide</a></p>` : ""}
     </section>
+    ${p.premium && p.deals ? `<section class="pl-section pl-deal"><h2>Current special</h2><p>${esc(p.deals)}</p>${p.booking ? `<a class="btn btn-primary" href="${esc(p.booking)}" rel="noopener sponsored" target="_blank">Book now</a>` : ""}</section>` : ""}
+    ${p.premium && p.photos && p.photos.length ? `<section class="pl-section"><h2>Photos of ${esc(p.name)}</h2><div class="pl-gallery">${p.photos.map((u, i) => `<a href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="${esc(p.name)} photo ${i + 1}" loading="lazy"></a>`).join("")}</div></section>` : ""}
+    ${p.premium && (p.facebook || p.instagram) ? `<section class="pl-section"><h2>Follow ${esc(p.name)}</h2><p class="pl-social">${p.facebook ? `<a href="${esc(p.facebook)}" rel="noopener sponsored" target="_blank">Facebook</a>` : ""}${p.instagram ? `<a href="${esc(p.instagram)}" rel="noopener sponsored" target="_blank">Instagram</a>` : ""}</p></section>` : ""}
     ${(() => { const rows = weekHours(p.hours); if (!rows) return ""; const fx = hoursFacts(rows); const notes = [fx.closed.length ? `Closed ${dayList(fx.closed)}.` : `Open seven days a week.`, fx.early.length ? `Opens early (7:30am or before) on ${dayList(fx.early)}.` : "", fx.late.length ? `Open late (9:30pm or later) on ${dayList(fx.late)}.` : ""].filter(Boolean).join(" "); return `<section class="pl-section"><h2>${esc(p.name)} hours by day</h2><table class="hours-table"><tbody>${rows.map(([d, v]) => `<tr><th scope="row">${DAY_FULL[d]}</th><td>${v ? (v === "closed" ? "Closed" : esc(v)) : "Not listed"}</td></tr>`).join("")}</tbody></table><p>${notes} Holiday hours can differ${p.phone ? `, so call ${esc(p.phone)} before a holiday visit` : ""}.${p.checked ? ` Hours last checked ${new Date(p.checked + "T12:00:00Z").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}.` : ""}</p></section>`; })()}
     ${(() => { const pool = places.filter(x => x.slug !== p.slug && x.cat === p.cat && x.cat !== "coming-soon" && (p.cuisine ? x.cuisine === p.cuisine : x.type === p.type)); const fill = pool.length < 4 ? places.filter(x => x.slug !== p.slug && x.cat === p.cat && !pool.includes(x) && x.area === p.area) : []; const list = pool.concat(fill).filter(x => x.hours || x.phone).slice(0, 6); if (list.length < 2) return ""; const sun = (x) => { const v = dayHours(x.hours, "Sun"); return v ? (v === "closed" ? "Closed" : esc(v)) : "&ndash;"; }; return `<section class="pl-section"><h2>Compare ${esc(p.name)} with similar ${p.cat === "restaurants" ? "restaurants" : "places"}</h2><div class="table-wrap"><table class="compare-table"><thead><tr><th>Name</th><th>Area</th><th>Sunday</th><th>Phone</th></tr></thead><tbody><tr class="is-current"><td><strong>${esc(p.name)}</strong></td><td>${esc((p.area || "Alpharetta").replace(" (nearby)", ""))}</td><td>${sun(p)}</td><td>${p.phone ? esc(p.phone) : "&ndash;"}</td></tr>${list.map(x => `<tr><td><a href="/places/${x.slug}/">${esc(x.name)}</a></td><td>${esc((x.area || "Alpharetta").replace(" (nearby)", ""))}</td><td>${sun(x)}</td><td>${x.phone ? esc(x.phone) : "&ndash;"}</td></tr>`).join("")}</tbody></table></div></section>`; })()}
     ${AREA_GUIDE[p.area] ? `<section class="pl-section"><h2>Visiting ${esc(p.area.replace(" (nearby)", ""))}</h2><p>${AREA_GUIDE[p.area]}</p>${districtLinks(p)}</section>` : districtLinks(p) ? `<section class="pl-section">${districtLinks(p)}</section>` : ""}
@@ -680,6 +736,27 @@ for (const p of places) {
   }
 }
 
+// ---------- Area pages ----------
+{
+  const names = Object.keys(AREA_COUNTS).filter(n => AREA_COUNTS[n] >= 3 && n !== "Avalon" && n !== "Halcyon").sort((a, b) => AREA_COUNTS[b] - AREA_COUNTS[a]);
+  for (const n of names) {
+    const list = places.filter(p => areaName(p.area) === n);
+    const key = Object.keys(AREA_GUIDE).find(k => areaName(k) === n) || Object.keys(AREA_TEXT).find(k => areaName(k) === n);
+    const where = AREA_TEXT[key] ? AREA_TEXT[key].replace(/^(in|on|at|along) /, "") : `the ${n} area`;
+    const cats = [...new Set(list.map(p => catLabel(p.cat).toLowerCase()))].slice(0, 5);
+    const intro = listIntro(`<p>${list.length} places ${AREA_TEXT[key] ? AREA_TEXT[key] : "in " + esc(n)}, from ${cats.join(", ").replace(/, ([^,]*)$/, " and $1")}. Every listing has an address and, where available, hours and a phone number.</p>${AREA_GUIDE[key] ? `<p>${AREA_GUIDE[key]}</p>` : ""}<p>Other parts of town: ${names.filter(x => x !== n).slice(0, 8).map(x => `<a href="/areas/${slugify(x)}/">${esc(x)}</a>`).concat(['<a href="/avalon/">Avalon</a>', '<a href="/halcyon/">Halcyon</a>']).join(" &middot; ")}.</p>`);
+    directoryPage({ urlPath: `/areas/${slugify(n)}/`, crumbs: [["Home", "/"], ["Areas", "/areas/"], [n, `/areas/${slugify(n)}/`]],
+      h1: `${n}, Alpharetta: restaurants, shops and services`, sub: `Everything we list ${where.length < 90 ? "in " + n : "in this part of Alpharetta"}, with hours and phone numbers.`,
+      title: `${n} Alpharetta, GA: ${list.length} Restaurants, Shops & Services (${new Date(BUILD_DATE).getFullYear()})`,
+      description: `${list.length} places in ${n}, Alpharetta, GA: restaurants, shops, services and things to do, with addresses, hours and phone numbers.`,
+      list, intro });
+  }
+  const crumbs = [["Home", "/"], ["Areas", "/areas/"]];
+  const all = [["Avalon", "/avalon/", AREA_COUNTS["Avalon"]], ["Halcyon", "/halcyon/", AREA_COUNTS["Halcyon"]], ...names.map(n => [n, `/areas/${slugify(n)}/`, AREA_COUNTS[n]])];
+  const body = pageHead(crumbs, "Alpharetta by area", "Browse restaurants, shops and services by neighborhood and corridor.") + `<section class="wrap" style="padding:36px 0 50px"><div class="cats">${all.map(([n, u, c]) => `<a class="cat" href="${u}"><svg viewBox="0 0 64 64"><use href="#logo"/></svg><div><strong>${esc(n)}</strong><span>${c || ""} places</span></div></a>`).join("")}</div></section>`;
+  add("/areas/", layout({ title: "Alpharetta, GA Neighborhoods and Areas: Browse by Part of Town", description: "Browse Alpharetta, GA restaurants, shops and services by area: Avalon, Downtown Alpharetta, Windward, North Point, Halcyon, Crabapple and more.", urlPath: "/areas/", body, jsonld: [crumbsLD(crumbs)] }), "0.7");
+}
+
 // ---------- Neighborhood guides (Avalon, Halcyon): a hub page plus subpages per district ----------
 // Data: src/data/districts.json. Content: src/content/districts/<district>/<page>.html (hub = index.html).
 // In content, <!--table:slug,slug,...--> renders a table of listings (name, what, hours, phone) from places.json.
@@ -705,6 +782,7 @@ for (const [key, d] of Object.entries(DISTRICTS)) {
   <article class="prose">
     ${content}
     ${listings.length ? `<h2 id="listings">${esc(pg.listingsHeading || "Listings in our directory")}</h2><div class="listings district-listings">${listings.map(listingCard).join("")}</div>` : ""}
+    ${(() => { const prem = places.filter(p => p.premium && (p.mentions || []).some(m => m.toLowerCase().startsWith(d.name.toLowerCase()))); return prem.length ? `<h2 id="featured-businesses">Featured ${esc(d.name)} businesses</h2><div class="listings district-listings">${prem.map(listingCard).join("")}</div>` : ""; })()}
     ${pg.faqs && pg.faqs.length ? `<section class="faq" id="faq"><h2>Frequently asked questions</h2>${pg.faqs.map(f => `<details><summary>${esc(f.q)}</summary><p>${f.a}</p></details>`).join("")}</section>` : ""}
     <div class="related"><h2>More in our ${esc(d.name)} guide</h2><ul class="guide-links">${others.map(x => `<li><a href="/${key}/${x.slug ? x.slug + "/" : ""}">${esc(x.h1)}</a></li>`).join("")}</ul></div>
     ${d.sources ? `<section class="sources"><h2 style="font-size:20px">Sources</h2><ul>${d.sources.map(s => `<li><a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.name)}</a></li>`).join("")}</ul><p>Hours, menus and event dates change. Spot something out of date? Email <a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a></p></section>` : ""}
@@ -739,23 +817,148 @@ const emailBox = (subject, intro, items, note) => `<div class="email-box">
   <ul class="tips">${items.map(t => `<li>${t}</li>`).join("")}</ul>
   <p style="color:var(--muted);margin-top:18px">${note}</p>
 </div>`;
-formPage({
-  urlPath: "/add-your-business/", crumb: "Add your business", h1: "Add your business to Alpharetta List",
-  sub: "Listings are free for Alpharetta businesses. Email us your details and we'll add or update your listing, usually within a few days.",
-  title: "Add Your Business to Alpharetta List | Free Alpharetta, GA Business Listing",
-  description: "Get your Alpharetta, Georgia business listed free on Alpharetta List, the local directory for Alpharetta residents. Claim or update an existing listing.",
-  form: emailBox("Add my business to Alpharetta List", "To add a new listing, or to claim or correct an existing one, send us an email with the details below.",
-    ["Business name", "Category and type of business (for example: sushi restaurant, HVAC, pediatric dentist)", "Street address in Alpharetta", "Phone number and website", "Hours of operation", "A two- or three-sentence description of what you do", "If you're updating an existing listing, the link to its page"],
-    "Prefer to copy and paste? Put everything in the body of one email and we'll take it from there."),
-  faqs: [
-    { q: "Is it really free to list my business?", a: "Yes. Basic listings on Alpharetta List are free and always will be. Each listing gets its own page with your address, hours, phone, website, a description and practical tips for customers." },
-    { q: "Which businesses can be listed?", a: "Businesses with a location in Alpharetta, or service businesses that regularly serve Alpharetta homes and companies. That includes restaurants, shops, home services, health and wellness practices, schools, real estate, fitness, pets and family activities." },
-    { q: "How long does it take for my listing to go live?", a: "Usually a few days. We check the details against your website or public records before publishing so that customers can rely on what they read." },
-    { q: "How do I correct or remove my listing?", a: "Email us the link to your listing page and what should change. Use the \"Claim this listing\" link at the bottom of any listing page to start an email with the right details filled in." },
-    { q: "Can I pay to be featured?", a: "Basic listings and their placement aren't for sale, but we offer clearly labeled sponsorships. See our <a href=\"/advertise/\">advertising page</a> for options." }
-  ],
-  side: `<div class="info-card"><strong>What happens next</strong><ul class="tips"><li>We verify the business is in or serves Alpharetta</li><li>Your listing goes live with its own page</li><li>Spot an error on an existing listing? Email us the correction</li></ul></div>`
-});
+// ---------- Add your business: Free vs Featured, free self-serve form, Stripe checkout ----------
+const STRIPE_MONTHLY = "https://buy.stripe.com/eVq5kE5wp7Gub2f68E1Fe0k";
+const STRIPE_LIFETIME = "https://buy.stripe.com/5kQ00k2kdgd02vJ68E1Fe0l";
+const MENTION_OPTIONS = ["Avalon guide", "Halcyon guide", "Downtown Alpharetta restaurant guide", "Holiday and seasonal guides", "Kids and family guides", "Dog-friendly guide", "Our related services page", "Events roundups"];
+const hoursInputs = () => `<fieldset class="hours-fields"><legend>Hours <span class="hint">Use a format like 9am-5pm, or type closed</span></legend><div class="hours-grid">${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(d => `<label><span>${d}</span><input name="h_${d}" placeholder="${d === "Sun" ? "closed" : "9am-5pm"}" autocomplete="off"></label>`).join("")}</div><input type="hidden" name="hours"></fieldset>`;
+const bizCoreFields = (descHint, minWords) => `
+  <div class="row"><label>Business name *<input name="business_name" required maxlength="80"></label>
+  <label>Category *<select name="category" required><option value="">Choose one</option>${CATS.filter(c => !["coming-soon", "nearby"].includes(c.id)).map(c => `<option value="${c.id}">${c.label}</option>`).join("")}</select></label></div>
+  <div class="row"><label>Type of business *<input name="subcategory" required maxlength="60" placeholder="e.g. Sushi restaurant, HVAC, Pediatric dentist"></label>
+  <label>Phone *<input name="phone" type="tel" required placeholder="(770) 555-0123"></label></div>
+  <label>Street address *<input name="address" required placeholder="123 Main St, Alpharetta, GA 30009"><span class="hint">Must be in or near Alpharetta, GA, including the ZIP code.</span></label>
+  <label>Website<input name="website" type="url" placeholder="https://"></label>
+  ${hoursInputs()}
+  <label>Description * <span class="hint">${descHint} <span class="wc" data-min="${minWords}">0 words</span></span><textarea name="description" required data-minwords="${minWords}"></textarea></label>`;
+
+{
+  const urlPath = "/add-your-business/";
+  const crumbs = [["Home", "/"], ["Add your business", urlPath]];
+  const nPlaces = places.length;
+  const nGuides = posts.length + Object.values(DISTRICTS).reduce((n, d) => n + 1 + d.pages.length, 0);
+  const tick = '<svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M7.6 13.6 4.3 10.3l-1.2 1.2 4.5 4.5 9.4-9.4-1.2-1.2z"/></svg>';
+  const no = '<span class="nx" aria-hidden="true">&ndash;</span>';
+  const rows = [
+    ["Your own listing page", tick, tick],
+    ["Name, address, phone and hours", tick, tick],
+    ["Description of your business", "Up to 150 words", "Up to 600 words"],
+    ["Placement in your category and service pages", "Standard order", "<strong>Pinned to the top</strong>"],
+    ["Featured badge on every card and page", no, tick],
+    ["Logo on your listing", no, tick],
+    ["Photo gallery", no, "<strong>Up to 10 photos</strong>"],
+    ["Deals and specials box", no, tick],
+    ["Book now / reservation button", no, tick],
+    ["Facebook and Instagram links", no, tick],
+    ["Mentions in related guides (Avalon, Halcyon, holiday, kids and more)", no, tick],
+    ["Priority updates whenever your hours or info change", no, tick],
+    ["Review before going live", "Automatic checks", "Personal setup by our team"]
+  ];
+  const faqs = [
+    { q: "Is the free listing really free?", a: "Yes. A basic listing with your name, address, phone, hours and a short description is free. Fill out the form on this page and, if it passes our checks, it goes live within about a day." },
+    { q: "What do I get with a Featured listing?", a: "Your business is pinned to the top of its category and service pages with a Featured badge, and your page gets your logo, up to 10 photos, a deals box, a booking button, social links, a longer write-up and mentions in related Alpharetta guides." },
+    { q: "How does Lifetime work?", a: "Lifetime is a single $49 payment at our founding price. Your listing stays Featured for as long as Alpharetta List runs, with no monthly bill. The founding price will go up as the site grows." },
+    { q: "Can I cancel the monthly plan?", a: "Yes, anytime. Your listing goes back to a free listing at the end of the billing period, and nothing else changes." },
+    { q: "What happens after I pay?", a: "Stripe takes you straight to a setup page where you upload your logo and photos and fill in your details. We review it and your Featured listing usually goes live within one business day." },
+    { q: "My business is already listed. Can I upgrade it?", a: "Yes. Choose Featured, and on the setup page paste the link to your current listing. We upgrade that page instead of creating a new one." },
+    { q: "Which businesses qualify?", a: "Businesses located in Alpharetta, or service businesses that regularly serve Alpharetta homes and companies, including nearby Milton, Roswell, Johns Creek and south Forsyth. We do not list adult businesses, gambling, or anything misleading." }
+  ];
+  const body = pageHead(crumbs, "Get your business found in Alpharetta", "People search Alpharetta List every day for restaurants, services and things to do. List your business free, or get Featured and stand out from day one.",
+    `<div class="head-stats"><span><b>${nPlaces}</b> local listings</span><span><b>${nGuides}</b> local guides</span><span>Free basic listings</span><span>Featured from <b>$19</b>/mo</span></div>`) + `
+<section class="wrap biz-sec">
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-name">Free listing</div>
+      <div class="plan-price"><b>$0</b></div>
+      <p class="plan-sub">The basics, so locals can find you.</p>
+      <ul class="plan-list"><li>${tick}<span>Your own listing page</span></li><li>${tick}<span>Name, address, phone and hours</span></li><li>${tick}<span>Short description</span></li><li>${tick}<span>Listed in your category</span></li></ul>
+      <a class="btn btn-ghost plan-btn" href="#free-form">Create a free listing</a>
+    </div>
+    <div class="plan plan-featured">
+      <div class="plan-flag">Founding price &middot; Most popular</div>
+      <div class="plan-name">Featured listing</div>
+      <div class="plan-price"><b>$19</b><span>/month</span><em>or $49 once for lifetime</em></div>
+      <p class="plan-sub">Everything in Free, plus top placement and a page that sells for you.</p>
+      <ul class="plan-list">${["<strong>Pinned to the top</strong> of your category", "Featured badge everywhere you appear", "Logo plus <strong>up to 10 photos</strong>", "Book now button and social links", "Deals and specials box", "Mentions in related Alpharetta guides", "Longer write-up, up to 600 words"].map(t => `<li>${tick}<span>${t}</span></li>`).join("")}</ul>
+      <a class="btn btn-primary plan-btn" href="${STRIPE_MONTHLY}" rel="noopener">Get Featured for $19/month</a>
+      <a class="btn btn-gold-ghost plan-btn" href="${STRIPE_LIFETIME}" rel="noopener">Or pay $49 once, Featured for life</a>
+      <p class="plan-fine">Secure checkout by Stripe. Monthly plan cancels anytime. After checkout you'll upload your logo and photos.</p>
+    </div>
+  </div>
+
+  <div class="plan-why">
+    <div><b>$49</b><span>once for lifetime. Less than a single newspaper ad.</span></div>
+    <div><b>1 customer</b><span>usually pays for a whole year of Featured.</span></div>
+    <div><b>${nPlaces}+</b><span>businesses listed. Featured ones show up first.</span></div>
+  </div>
+
+  <h2 class="biz-h">Free vs. Featured, side by side</h2>
+  <div class="table-wrap"><table class="compare-table plan-table"><thead><tr><th></th><th>Free</th><th>Featured</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}<tr><td><strong>Price</strong></td><td>$0</td><td><strong>$19/month</strong> or <strong>$49 lifetime</strong></td></tr></tbody></table></div>
+  <div class="plan-cta-row"><a class="btn btn-primary" href="${STRIPE_MONTHLY}" rel="noopener">Get Featured for $19/month</a><a class="btn btn-gold-ghost" href="${STRIPE_LIFETIME}" rel="noopener">$49 lifetime</a><span>Founding price. It goes up as the site grows, so lock it in now.</span></div>
+</section>
+
+<section class="wrap body-grid biz-form-wrap" id="free-form">
+  <div>
+    <h2 class="biz-h" style="margin-top:0">Create your free listing</h2>
+    <p class="lede" style="margin-top:0">Takes about two minutes. Listings that pass our automatic checks go live within about a day. Want photos, your logo and top placement? <a href="${STRIPE_MONTHLY}" rel="noopener">Go Featured</a> instead.</p>
+    <form class="form biz-form" data-wl-form="Businesses" data-success="Thanks! Your listing is in. If it passes our checks it will go live within about a day, and we'll email you if we have any questions.">
+      ${bizCoreFields("25 to 150 words. What you do, who you serve, what makes you different.", 25)}
+      <div class="row"><label>Your name<input name="contact_name" autocomplete="name"></label>
+      <label>Your email * <span class="hint">Never published</span><input name="email" type="email" required autocomplete="email"></label></div>
+      <input type="hidden" name="claim_listing">
+      ${hp}
+      <label class="check"><input type="checkbox" required> I own or manage this business, and the details are accurate.</label>
+      <button class="btn btn-primary" type="submit">Submit free listing</button>
+      <p class="status" role="status"></p>
+    </form>
+    <div class="prose" style="margin-top:40px"><h2 style="font-family:var(--serif);font-weight:500;font-size:26px">Frequently asked questions</h2>${faqs.map(f => `<h3 style="font-size:17px;margin:18px 0 4px">${f.q}</h3><p>${f.a}</p>`).join("")}</div>
+  </div>
+  <aside><div class="sticky-rail"><div class="info-card plan-side"><strong>Want to stand out?</strong><p>Featured businesses are pinned above every free listing in their category, with photos, a logo and a booking button.</p><a class="btn btn-primary" href="${STRIPE_MONTHLY}" rel="noopener">$19/month</a><a class="btn btn-gold-ghost" href="${STRIPE_LIFETIME}" rel="noopener">$49 lifetime</a><p class="plan-fine">Already listed? You can upgrade your existing page.</p></div></div></aside>
+</section>${newsletter}`;
+  add(urlPath, layout({
+    title: "Add Your Business to Alpharetta List | Free & Featured Listings in Alpharetta, GA",
+    description: "List your Alpharetta, GA business free, or get Featured from $19/month ($49 lifetime founding price): top placement, logo, 10 photos, booking button and guide mentions.",
+    urlPath, body,
+    jsonld: [crumbsLD(crumbs), { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
+      { "@context": "https://schema.org", "@type": "Product", name: "Alpharetta List Featured Listing", description: "Featured business listing on AlpharettaList.com", brand: { "@type": "Brand", name: "Alpharetta List" },
+        offers: [{ "@type": "Offer", price: "19.00", priceCurrency: "USD", url: STRIPE_MONTHLY, availability: "https://schema.org/InStock" }, { "@type": "Offer", price: "49.00", priceCurrency: "USD", url: STRIPE_LIFETIME, availability: "https://schema.org/InStock" }] }]
+  }), "0.8");
+}
+
+// ---------- Featured setup page (after Stripe checkout, noindex) ----------
+{
+  const urlPath = "/featured/setup/";
+  const body = pageHead([["Home", "/"], ["Featured setup", urlPath]], "Set up your Featured listing", "Thank you for going Featured! Fill this out once and we'll build your listing. It usually goes live within one business day.") + `
+<section class="wrap body-grid">
+  <div>
+    <div class="setup-paid" id="setup-paid" hidden><strong>Payment received.</strong> <span id="setup-plan"></span> Keep this page open until you hit submit.</div>
+    <div class="setup-unpaid" id="setup-unpaid" hidden>Haven't checked out yet? <a href="${STRIPE_MONTHLY}">Get Featured for $19/month</a> or <a href="${STRIPE_LIFETIME}">$49 lifetime</a> first, then come back here.</div>
+    <form class="form biz-form" id="featured-form" data-featured-form>
+      <label>Already listed? Paste your current listing link <span class="hint">Optional. We'll upgrade that page.</span><input name="existing_listing" placeholder="https://alpharettalist.com/places/..."></label>
+      ${bizCoreFields("60 to 600 words. Tell customers your story, services, specialties and what to expect.", 60)}
+      <h3 class="setup-h">Logo and photos</h3>
+      <label>Logo <span class="hint">PNG or JPG, square works best</span><input type="file" name="logo_file" accept="image/png,image/jpeg,image/webp"></label>
+      <label>Photos <span class="hint">Up to 10. Storefront, interior, team, products, food. We resize them for fast loading.</span><input type="file" name="photo_files" accept="image/png,image/jpeg,image/webp" multiple></label>
+      <div class="photo-previews" id="photo-previews"></div>
+      <h3 class="setup-h">Extras</h3>
+      <label>Current deal or special <span class="hint">e.g. 10% off your first visit</span><input name="deals" maxlength="200"></label>
+      <label>Booking or reservation link<input name="booking_url" type="url" placeholder="https://"></label>
+      <div class="row"><label>Facebook page<input name="facebook" type="url" placeholder="https://facebook.com/..."></label>
+      <label>Instagram<input name="instagram" type="url" placeholder="https://instagram.com/..."></label></div>
+      <fieldset class="mention-fields"><legend>Where should we mention you? <span class="hint">Pick any that fit your business</span></legend>${MENTION_OPTIONS.map(m => `<label class="check"><input type="checkbox" name="mention_in" value="${m}"> ${m}</label>`).join("")}</fieldset>
+      <h3 class="setup-h">Your contact info <span class="hint">Never published</span></h3>
+      <div class="row"><label>Your name *<input name="contact_name" required autocomplete="name"></label>
+      <label>Email you used at checkout *<input name="email" type="email" required autocomplete="email"></label></div>
+      ${hp}
+      <button class="btn btn-primary" type="submit" id="featured-submit">Submit my Featured listing</button>
+      <p class="status" role="status" id="featured-status"></p>
+    </form>
+  </div>
+  <aside><div class="sticky-rail"><div class="info-card"><strong>What happens next</strong><ul class="tips"><li>We review your details and photos</li><li>Your Featured listing goes live, usually within one business day</li><li>You're pinned to the top of your category</li><li>Need a change later? Email <a href="mailto:hello@alpharettalist.com">hello@alpharettalist.com</a></li></ul></div></div></aside>
+</section>`;
+  write("featured/setup/index.html", layout({ title: "Set Up Your Featured Listing | Alpharetta List", description: "Finish setting up your Featured listing on Alpharetta List.", urlPath, body, noindex: true })); EXTRA_KEEP.push("featured/setup/index.html");
+}
+
 formPage({
   urlPath: "/submit-event/", crumb: "Submit an event", h1: "Submit an Alpharetta event",
   sub: "Community events, fundraisers, grand openings, shows and classes in or near Alpharetta. Free to submit.",
@@ -904,10 +1107,11 @@ for (const f of ["main.js", "config.js"]) fs.copyFileSync(path.join(SRC, "assets
 for (const f of fs.readdirSync(path.join(SRC, "static"))) fs.copyFileSync(path.join(SRC, "static", f), path.join(OUT, f.startsWith("asset-") ? "assets/" + f.slice(6) : f));
 
 if (fs.existsSync(path.join(SRC, "events"))) { fs.mkdirSync(path.join(OUT, "assets/events"), { recursive: true }); for (const f of fs.readdirSync(path.join(SRC, "events"))) fs.copyFileSync(path.join(SRC, "events", f), path.join(OUT, "assets/events", f)); }
+if (fs.existsSync(path.join(SRC, "premium"))) { fs.mkdirSync(path.join(OUT, "assets/premium"), { recursive: true }); for (const f of fs.readdirSync(path.join(SRC, "premium"))) fs.copyFileSync(path.join(SRC, "premium", f), path.join(OUT, "assets/premium", f)); }
 if (fs.existsSync(path.join(SRC, "covers"))) { fs.mkdirSync(path.join(OUT, "assets/covers"), { recursive: true }); for (const f of fs.readdirSync(path.join(SRC, "covers"))) fs.copyFileSync(path.join(SRC, "covers", f), path.join(OUT, "assets/covers", f)); }
 // Remove pages left over from earlier builds (e.g. listings for businesses that closed) so they 404 instead of lingering.
 {
-  const keep = new Set(pages.map(([u]) => u === "/" ? "index.html" : u.replace(/^\//, "") + "index.html"));
+  const keep = new Set([...pages.map(([u]) => u === "/" ? "index.html" : u.replace(/^\//, "") + "index.html"), ...EXTRA_KEEP]);
   const walk = (dir) => { for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const full = path.join(dir, e.name); if (e.isDirectory()) { if (e.name !== "assets") walk(full); } else if (e.name === "index.html") { const rel = path.relative(OUT, full).split(path.sep).join("/"); if (!keep.has(rel)) { fs.rmSync(full); try { fs.rmdirSync(dir); } catch (err) {} console.log("Pruned stale page /" + rel.replace(/index\.html$/, "")); } } } };
   walk(OUT);
 }

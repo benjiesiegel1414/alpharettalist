@@ -80,6 +80,7 @@ jobs:
         env:
           SHEET_BUSINESSES_CSV: ${{ vars.SHEET_BUSINESSES_CSV }}
           SHEET_EVENTS_CSV: ${{ vars.SHEET_EVENTS_CSV }}
+          SHEET_FEATURED_CSV: ${{ vars.SHEET_FEATURED_CSV }}
         run: node scripts/build.mjs
       - name: Commit changes
         run: |
