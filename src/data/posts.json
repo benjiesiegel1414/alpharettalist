@@ -1846,5 +1846,69 @@
         "url": "https://www.alpharetta.ga.us/service-schedule-rates"
       }
     ]
+  },
+  {
+    "slug": "senior-living-alpharetta-ga-guide",
+    "title": "Senior Living in Alpharetta, GA (2026): 55+ Apartments, Assisted Living and Memory Care",
+    "seoTitle": "Senior Living in Alpharetta, GA (2026): 55+, Assisted Living & Costs",
+    "h1": "Senior Living in Alpharetta, GA: 55+ Apartments, Assisted Living and Memory Care",
+    "description": "Compare senior living in Alpharetta, GA for 2026: 55+ active adult rentals, independent living, assisted living and memory care, with costs, communities, how to pay and questions to ask.",
+    "category": "Guides",
+    "published": "2026-11-20",
+    "updated": "2026-11-20",
+    "readMins": 7,
+    "coverPrompt": "Photorealistic smiling active older couple walking on a tree-lined greenway path in autumn, warm afternoon light, no text, no logos",
+    "faq": [
+      {
+        "q": "How much does assisted living cost in Alpharetta, GA?",
+        "a": "A Place for Mom puts the average cost of assisted living in Alpharetta at about $4,745 a month, close to the Georgia average of $4,752 and below the national average of $5,909. Memory care usually costs more."
+      },
+      {
+        "q": "Are there 55+ apartments in Alpharetta?",
+        "a": "Yes. Alpharetta has several 55+ active adult rental communities, including Amorance in downtown Alpharetta, Everleigh Deerfield and Emblem Alpharetta. Rents generally run about $1,800 to $3,800 a month."
+      },
+      {
+        "q": "What is the difference between independent living and assisted living?",
+        "a": "Independent living includes an apartment plus services like meals, housekeeping and transportation, but no hands-on care. Assisted living adds daily help with bathing, dressing and medications, with staff on site around the clock."
+      },
+      {
+        "q": "Does Medicare pay for assisted living?",
+        "a": "Generally no. Medicare does not cover long-term assisted living or room and board, though it may cover a short skilled nursing or rehab stay after a hospital visit. Families usually pay privately or with long-term care insurance or veterans benefits."
+      },
+      {
+        "q": "How do I check an assisted living community's license in Georgia?",
+        "a": "Assisted living communities and personal care homes are licensed by the Georgia Department of Community Health. Ask the community for its license and recent inspection report, or contact the department."
+      }
+    ],
+    "sources": [
+      {
+        "name": "A Place for Mom: Assisted living in Alpharetta, GA",
+        "url": "https://www.aplaceformom.com/assisted-living/georgia/alpharetta"
+      },
+      {
+        "name": "55places: 55+ rentals in Alpharetta",
+        "url": "https://www.55places.com/georgia/city/alpharetta/rentals"
+      },
+      {
+        "name": "Greystar: Everleigh Deerfield",
+        "url": "https://www.greystar.com/properties/alpharetta-ga/everleigh-deerfield"
+      },
+      {
+        "name": "Greystar: Amorance",
+        "url": "https://www.greystar.com/properties/alpharetta-ga/amorance"
+      },
+      {
+        "name": "Atria North Point",
+        "url": "https://atriaseniorliving.com/retirement-communities/atria-north-point"
+      },
+      {
+        "name": "Atlas Senior Living: Legacy Ridge at Alpharetta",
+        "url": "https://atlasseniorliving.com/legacy-ridge-alpharetta"
+      },
+      {
+        "name": "Phoenix Senior Living: The Phoenix at Milton",
+        "url": "https://www.phoenixsrliving.com/communities/the-phoenix-at-milton/"
+      }
+    ]
   }
 ]
