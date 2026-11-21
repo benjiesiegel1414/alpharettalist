@@ -198,4 +198,71 @@
     var c = e.target.closest && e.target.closest("[data-checkout]");
     if (c && window.gtag) gtag("event", "sponsor_checkout_click", { link_url: c.href });
   });
+
+  // Search suggestions + recent searches (header and homepage search boxes)
+  (function(){
+    var inputs = document.querySelectorAll(".hsearch input, .m-search input");
+    if (!inputs.length) return;
+    var KEY = "al_recent", index = null, loading = false;
+    function recents(){ try { return JSON.parse(localStorage.getItem(KEY) || "[]") || []; } catch (e) { return []; } }
+    function remember(t, u){ t = (t || "").trim(); if (!t) return; try { var r = recents().filter(function(x){ return x.t.toLowerCase() !== t.toLowerCase(); }); r.unshift({ t: t.slice(0, 80), u: u }); localStorage.setItem(KEY, JSON.stringify(r.slice(0, 6))); } catch (e) {} }
+    function load(cb){ if (index) return cb(); if (loading) return; loading = true; fetch("/assets/search.json").then(function(r){ return r.json(); }).then(function(d){ index = d.map(function(x){ return { t: x[0], u: x[1], l: x[2], k: (x[0] + " " + x[2] + " " + x[3]).toLowerCase(), n: x[0].toLowerCase() }; }); cb(); }).catch(function(){ loading = false; }); }
+    function find(q){
+      var words = q.toLowerCase().split(/\s+/).filter(Boolean), out = [];
+      for (var i = 0; i < index.length; i++) {
+        var it = index[i], ok = true, score = 0;
+        for (var w = 0; w < words.length; w++) { if (it.k.indexOf(words[w]) < 0) { ok = false; break; } }
+        if (!ok) continue;
+        if (it.n.indexOf(q.toLowerCase()) === 0) score = 100; else if ((" " + it.n).indexOf(" " + words[0]) >= 0) score = 60; else if (it.n.indexOf(words[0]) >= 0) score = 40; else score = 10;
+        if (it.u.indexOf("/places/") !== 0) score += 5;
+        out.push({ it: it, s: score - i / 10000 });
+      }
+      out.sort(function(a, b){ return b.s - a.s; });
+      return out.slice(0, 7).map(function(x){ return x.it; });
+    }
+    function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+    inputs.forEach(function(input){
+      var form = input.form, box = document.createElement("div"), active = -1;
+      box.className = "sg"; box.hidden = true; box.setAttribute("role", "listbox");
+      form.classList.add("has-sg"); form.appendChild(box);
+      input.setAttribute("autocomplete", "off");
+      function close(){ box.hidden = true; active = -1; }
+      function rows(){ return box.querySelectorAll("a.sg-i"); }
+      function render(){
+        var q = input.value.trim(), html = "";
+        if (!q) {
+          var r = recents();
+          if (!r.length) return close();
+          html = '<div class="sg-h"><span>Recent searches</span><button type="button" class="sg-clear">Clear</button></div>' + r.map(function(x){ return '<a class="sg-i sg-r" href="' + esc(x.u) + '" data-t="' + esc(x.t) + '"><b>' + esc(x.t) + '</b></a>'; }).join("");
+        } else {
+          if (!index) return load(render);
+          var m = find(q);
+          html = m.map(function(it){ return '<a class="sg-i" href="' + esc(it.u) + '" data-t="' + esc(it.t) + '"><b>' + esc(it.t) + '</b><span>' + esc(it.l) + '</span></a>'; }).join("") +
+            '<a class="sg-i sg-all" href="/directory/?q=' + encodeURIComponent(q) + '" data-t="' + esc(q) + '"><b>Search all for &ldquo;' + esc(q) + '&rdquo;</b></a>';
+        }
+        box.innerHTML = html; box.hidden = false; active = -1;
+      }
+      input.addEventListener("focus", function(){ load(function(){}); render(); });
+      input.addEventListener("input", render);
+      input.addEventListener("keydown", function(e){
+        var r = rows();
+        if (e.key === "Escape") { close(); return; }
+        if (box.hidden || !r.length) return;
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          active = (active + (e.key === "ArrowDown" ? 1 : -1) + r.length) % r.length;
+          r.forEach(function(a, i){ a.classList.toggle("on", i === active); });
+        } else if (e.key === "Enter" && active >= 0) { e.preventDefault(); r[active].click(); }
+      });
+      box.addEventListener("mousedown", function(e){ e.preventDefault(); });
+      box.addEventListener("click", function(e){
+        if (e.target.closest(".sg-clear")) { try { localStorage.removeItem(KEY); } catch (err) {} close(); return; }
+        var a = e.target.closest("a.sg-i"); if (!a) return;
+        remember(a.getAttribute("data-t"), a.getAttribute("href"));
+        if (a.getAttribute("href").indexOf("/events/#") === 0 && location.pathname === "/events/") close();
+      });
+      form.addEventListener("submit", function(e){ var q = input.value.trim(); if (!q) { e.preventDefault(); return; } remember(q, "/directory/?q=" + encodeURIComponent(q)); });
+      document.addEventListener("click", function(e){ if (!form.contains(e.target)) close(); });
+    });
+  })();
 })();

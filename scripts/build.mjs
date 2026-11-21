@@ -292,7 +292,6 @@ const add = (urlPath, html, priority = "0.7", lastmod = BUILD_DATE) => { write(u
   const homeCats = [["eat", "Restaurants", "restaurants"], ["fun", "Things to do", "things-to-do"], ["park", "Parks and trails", "parks"], ["shop", "Shopping", "shopping"], ["home", "Home services", "home"], ["health", "Health", "health"], ["beauty", "Beauty and spas", "beauty"]].filter(c => counts[c[2]]);
   const homeAreas = [["Avalon", "/avalon/", "avalon-on-ice-skating-alpharetta-2026", "Shops, dining, ice rink"], ["Downtown Alpharetta", "/areas/downtown-alpharetta/", "best-restaurants-downtown-alpharetta-ga", "City Center and Town Green"], ["Halcyon", "/halcyon/", "halcyon-alpharetta-guide-restaurants-shops-things-to-do", "Dining and the Greenway"], ["Big Creek Greenway", "/places/big-creek-greenway/", "big-creek-greenway-alpharetta-guide", "Trails and parks"]];
   const paid = places.filter(p => p.premium);
-  const spot = [...paid, ...featured.filter(p => !p.premium)].slice(0, 3);
   const newest = [...posts].sort((x, y) => y.published.localeCompare(x.published));
   const withCover = newest.filter(p => coverFile(p));
   const hLead = withCover[0], hSide = withCover.slice(1, 5), hMore = newest.filter(p => p !== hLead && !hSide.includes(p)).slice(0, 6);
@@ -317,7 +316,7 @@ ${events.length ? `<section class="m-sec" id="events"><div class="wrap"><div cla
 </div></section>
 
 <section class="m-sec alt"><div class="wrap"><div class="m-head"><h2>Featured local businesses</h2><a href="/add-your-business/">Get Featured</a></div>
-  <div class="m-row">${spot.map(p => `<a class="m-fc" href="/places/${p.slug}/"><span class="bd">${p.premium ? "Featured" : "Local favorite"}</span><strong>${esc(p.name)}</strong><span>${esc(p.type)} &middot; ${esc(p.area || "Alpharetta")}</span></a>`).join("")}<a class="m-fc you" href="/add-your-business/"><span class="bd">Your spot</span><strong>Your business here</strong><span>Top of your category, with photos.</span><em>From $19/month</em></a></div>
+  <div class="m-row">${paid.slice(0, 4).map(p => `<a class="m-fc" href="/places/${p.slug}/"><span class="bd">Featured</span><strong>${esc(p.name)}</strong><span>${esc(p.type)} &middot; ${esc(p.area || "Alpharetta")}</span></a>`).join("")}${Array.from({ length: Math.max(0, 4 - paid.length) }, () => `<a class="m-fc you" href="/add-your-business/"><span class="bd">Open spot</span><strong>Your business here</strong><span>Top of your category, with photos.</span><em>$19/month</em></a>`).join("")}</div>
 </div></section>
 
 <section class="m-sec" id="news"><div class="wrap"><div class="m-head"><h2>Latest from Alpharetta</h2><a href="/blog/">All news and guides</a></div>
@@ -1142,5 +1141,17 @@ ${posts.map(p => `<item><title>${esc(p.title)}</title><link>${SITE}/blog/${p.slu
 `);
 write("CNAME", "alpharettalist.com\n");
 write(".nojekyll", "");
+// Search suggestions for the header search box: [title, url, label, extra keywords]
+{
+  const idx = [];
+  CATS.forEach(c => { const n = places.filter(p => p.cat === c.id).length; if (n) idx.push([c.label, `/directory/?cat=${c.id}`, `Category \u00b7 ${n} places`, c.blurb || ""]); });
+  idx.push(["Avalon", "/avalon/", "Area guide", "shops restaurants"], ["Halcyon", "/halcyon/", "Area guide", "restaurants"], ["Events calendar", "/events/", "Events", "this weekend things to do"], ["Restaurants", "/restaurants/", "Guide", "food eat dining"], ["Things to do", "/things-to-do/", "Guide", "fun activities"]);
+  Object.keys(AREA_COUNTS).filter(n => AREA_COUNTS[n] >= 3 && n !== "Avalon" && n !== "Halcyon").forEach(n => idx.push([n, `/areas/${slugify(n)}/`, `Area \u00b7 ${AREA_COUNTS[n]} places`, ""]));
+  SERVICE_PAGES.forEach(sp => { if (fs.existsSync(path.join(OUT, "services", sp.slug, "index.html"))) idx.push([sp.noun, `/services/${sp.slug}/`, "Local services", sp.blurb || ""]); });
+  events.forEach(e => idx.push([e.title, `/events/#${e.slug}`, "Event \u00b7 " + new Date(e.start + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" }), e.venue || ""]));
+  [...posts].sort((x, y) => y.published.localeCompare(x.published)).forEach(p => idx.push([p.h1, `/blog/${p.slug}/`, "Guide", p.category || ""]));
+  places.forEach(p => idx.push([p.name, `/places/${p.slug}/`, [p.type, areaName(p.area)].filter(Boolean).join(" \u00b7 "), ""]));
+  write("assets/search.json", JSON.stringify(idx));
+}
 { const missing = posts.filter(p => !fs.existsSync(path.join(SRC, "covers", p.slug + ".jpg"))).map(p => p.slug); if (missing.length) console.warn("WARNING: posts missing a Gemini cover (src/covers/<slug>.jpg): " + missing.join(", ")); }
 console.log(`Built ${pages.length} pages, ${places.length} places, ${events.length} events, ${posts.length} posts.`);

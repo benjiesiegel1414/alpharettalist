@@ -445,3 +445,17 @@ nav.main{flex-shrink:0}
  nav.main.open{top:100%}
  .prose h2{scroll-margin-top:130px}
 }
+
+/* Search suggestions */
+form.has-sg{position:relative}
+.sg{position:absolute;left:0;top:calc(100% + 8px);min-width:100%;width:max-content;max-width:min(440px,calc(100vw - 32px));background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 44px rgba(32,27,22,.18);padding:6px;z-index:60;text-align:left;max-height:70vh;overflow:auto}
+.m-search .sg{width:auto;max-width:none;right:0}
+.sg-h{display:flex;justify-content:space-between;align-items:center;padding:8px 10px 4px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8A744E;font-weight:700}
+.sg-clear{background:none;border:0;color:var(--muted);font:600 12px var(--sans);cursor:pointer;text-transform:none;letter-spacing:0;padding:2px 4px}
+.sg-i{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:9px 10px;border-radius:9px;color:var(--ink);text-decoration:none!important}
+.sg-i b{font-weight:500;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.sg-i span{font-size:12px;color:var(--muted);white-space:nowrap;flex:none;max-width:45%;overflow:hidden;text-overflow:ellipsis}
+.sg-i:hover,.sg-i.on{background:#F7F4EC}
+.sg-all{border-top:1px solid var(--line);border-radius:0 0 9px 9px;margin-top:4px}.sg-all b{color:#8A744E;font-weight:600}
+@media (max-width:1000px){.sg{width:auto;right:0;max-width:none}}
+.m-fc.you .bd{background:rgba(201,162,75,.18);color:#E3C988;border:1px solid rgba(201,162,75,.45)}
