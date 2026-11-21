@@ -178,6 +178,15 @@ const footer = `
   </div>
 </footer>`;
 
+const HOME_ICONS = {
+  eat: '<path d="M7 3v8a2 2 0 0 0 2 2v8M5 3v5m4-5v5M17 3c-2 2-3 4-3 7h3v11"/>', fun: '<path d="M12 3l2.6 5.6 6 .8-4.4 4.2 1.1 6-5.3-3-5.3 3 1.1-6L3.4 9.4l6-.8z"/>',
+  park: '<path d="M12 3l5 7h-3l4 6H6l4-6H7zM12 16v5"/>', shop: '<path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2"/>', home: '<path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/>',
+  health: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>', beauty: '<path d="M12 3c2 3 4 5 4 8a4 4 0 0 1-8 0c0-3 2-5 4-8zM8 20h8"/>',
+  more: '<circle cx="6" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="18" cy="12" r="1.5"/>', cal: '<path d="M5 6h14v14H5zM5 10h14M9 4v4m6-4v4"/>',
+  pin: '<path d="M12 21s-6-6-6-11a6 6 0 0 1 12 0c0 5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/>', srch: '<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>'
+};
+const tabbar = (urlPath) => { const ic = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${HOME_ICONS[k]}</svg>`; const t = [["/", "home", "Home"], ["/restaurants/", "eat", "Eat"], ["/events/", "cal", "Events"], ["/areas/", "pin", "Areas"], ["/directory/", "srch", "Search"]]; return `<nav class="tabbar" aria-label="Quick links">${t.map(x => `<a href="${x[0]}"${(x[0] === "/" ? urlPath === "/" : urlPath.startsWith(x[0])) ? ' class="on" aria-current="page"' : ""}>${ic(x[1])}${x[2]}</a>`).join("")}</nav>`; };
+
 function layout({ title, description, urlPath, body, jsonld = [], ogType = "website", noindex = false, article = null, image = "", sponsors = true, bodyClass = "", ads = false }) {
   const ogImg = image ? SITE + image : SITE + "/assets/og.jpg";
   const canonical = SITE + urlPath;
@@ -232,6 +241,7 @@ ${body}
 </main>
 ${sponsors ? sponsorShowcase : ""}
 ${footer}
+${tabbar(urlPath)}
 <script src="/assets/config.js?v=${ASSET_V}"></script>
 <script src="/assets/main.js?v=${ASSET_V}" defer></script>
 </body>
@@ -275,53 +285,45 @@ const add = (urlPath, html, priority = "0.7", lastmod = BUILD_DATE) => { write(u
   const featured = places.filter(p => p.featured).slice(0, 9);
   const counts = Object.fromEntries(CATS.map(c => [c.id, places.filter(p => p.cat === c.id).length]));
   const lead = posts[0], minis = posts.slice(1, 3), rest = posts.slice(3, 9);
+  const hi = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${HOME_ICONS[k]}</svg>`;
+  const cv = (slug) => fs.existsSync(path.join(SRC, "covers", slug + ".jpg")) ? `/assets/covers/${slug}.jpg` : "";
+  const heroImg = ["christmas-lights-near-alpharetta-ga-2026", "best-restaurants-downtown-alpharetta-ga"].map(cv).find(Boolean) || "";
+  const homeCats = [["eat", "Restaurants", "restaurants"], ["fun", "Things to do", "things-to-do"], ["park", "Parks and trails", "parks"], ["shop", "Shopping", "shopping"], ["home", "Home services", "home"], ["health", "Health", "health"], ["beauty", "Beauty and spas", "beauty"]].filter(c => counts[c[2]]);
+  const homeAreas = [["Avalon", "/avalon/", "avalon-on-ice-skating-alpharetta-2026", "Shops, dining, ice rink"], ["Downtown Alpharetta", "/areas/downtown-alpharetta/", "best-restaurants-downtown-alpharetta-ga", "City Center and Town Green"], ["Halcyon", "/halcyon/", "halcyon-alpharetta-guide-restaurants-shops-things-to-do", "Dining and the Greenway"], ["Big Creek Greenway", "/places/big-creek-greenway/", "big-creek-greenway-alpharetta-guide", "Trails and parks"]];
+  const paid = places.filter(p => p.premium);
+  const spot = [...paid, ...featured.filter(p => !p.premium)].slice(0, 3);
+  const newest = [...posts].sort((x, y) => y.published.localeCompare(x.published));
+  const withCover = newest.filter(p => coverFile(p));
+  const hLead = withCover[0], hSide = withCover.slice(1, 5), hMore = newest.filter(p => p !== hLead && !hSide.includes(p)).slice(0, 6);
+  const season = ["christmas-holiday-events-alpharetta-ga-2026", "christmas-lights-near-alpharetta-ga-2026", "christmas-with-kids-alpharetta-ga-2026", "black-friday-2026-hours-alpharetta-avalon-north-point-halcyon"].map(sl => posts.find(p => p.slug === sl)).filter(Boolean);
+  const evCard = (e) => { const d = new Date(e.start + "T12:00:00"); return `<a class="m-ev" href="/events/#${e.slug}"><div class="ph">${e.image ? `<img src="${e.image}" alt="" loading="lazy" width="400" height="300">` : ""}<div class="d"><i>${d.toLocaleDateString("en-US", { month: "short" })}</i><b>${d.getDate()}</b></div></div><div class="tx"><strong>${esc(e.title)}</strong><small>${hi("pin")}${esc(e.venue || "Alpharetta")}</small></div></a>`; };
   const body = `
-<section class="hero"><svg class="hero-mark" viewBox="0 0 64 64" aria-hidden="true"><use href="#logo"/></svg>
-  <div class="wrap">
-    <h1>Everything happening in Alpharetta, in one place.</h1>
-    <p class="lede">Restaurants, things to do, trusted local businesses, events and news, all across Alpharetta, Georgia.</p>
-    <form class="search" role="search" action="/directory/" method="get">
-      <label><span class="sr">Search</span><input name="q" type="search" placeholder="Search restaurants, parks, coffee, sushi..."></label>
-      <select name="cat" aria-label="Category"><option value="all">All categories</option>${CATS.filter(c => counts[c.id]).map(c => `<option value="${c.id}">${c.label}</option>`).join("")}</select>
-      <button class="btn btn-primary" type="submit">Search Alpharetta</button>
-    </form>
-    <div class="quick"><span>Popular:</span><a href="/restaurants/">Restaurants</a><a href="/things-to-do/">Things to do</a><a href="/avalon/">Avalon</a><a href="/halcyon/">Halcyon</a><a href="/places/big-creek-greenway/">Big Creek Greenway</a><a href="/events/">Events</a></div>
-  </div>
-</section>
-<div class="wrap">${sponsor()}</div>
-
-<section class="block" id="news"><div class="wrap">
-  <div class="sec-head"><h2>Alpharetta news</h2><a href="/blog/">All news</a></div>
-  <div class="news-grid"><div class="news-main"><div class="news-leadcol">
-    <article class="lead-story">
-      <a class="img" href="/blog/${lead.slug}/" style="display:grid;place-items:center" aria-label="${esc(lead.h1)}">${coverImg(lead, true) || '<svg viewBox="0 0 64 64" width="34%" style="color:#fff" aria-hidden="true"><use href="#logo"/></svg>'}</a>
-      <div class="tag">${esc(lead.category)}</div>
-      <h3><a href="/blog/${lead.slug}/">${esc(lead.h1)}</a></h3>
-      <p>${esc(lead.description)}</p><div class="byline">${fmtDate(lead.published)} &middot; ${lead.readMins} min read</div>
-    </article>
-    <ul class="story-list lead-more">${rest.slice(0, 4).map(p => `<li><div class="tag">${esc(p.category)}</div><h4><a href="/blog/${p.slug}/">${esc(p.h1)}</a></h4><div class="byline">${fmtDate(p.published)}</div></li>`).join("")}</ul>
-  </div>
-    <div class="news-side">
-    <div class="mini-stories">${minis.map(p => `<article class="mini-story"><a class="img" href="/blog/${p.slug}/" aria-label="${esc(p.h1)}">${coverImg(p) || '<svg viewBox="0 0 64 64" aria-hidden="true"><use href="#logo"/></svg>'}</a><div class="tag">${esc(p.category)}</div><h4><a href="/blog/${p.slug}/">${esc(p.h1)}</a></h4><div class="byline">${fmtDate(p.published)}</div></article>`).join("")}</div>
-    <ul class="story-list">
-      ${rest.slice(4).map(p => `<li><div class="tag">${esc(p.category)}</div><h4><a href="/blog/${p.slug}/">${esc(p.h1)}</a></h4><div class="byline">${fmtDate(p.published)}</div></li>`).join("")}
-      <li><div class="tag">Guide</div><h4><a href="/things-to-do/">The best things to do in Alpharetta, GA</a></h4><div class="byline">Guide</div></li>
-      <li><div class="tag">Eat and Drink</div><h4><a href="/restaurants/">Alpharetta's most popular restaurants</a></h4><div class="byline">Guide</div></li>
-    </ul></div>
-  </div>
-  <aside class="rail" id="events"><div><h3>Coming up</h3>
-    <ul class="events">${events.slice(0, 5).map(e => `<li>${e.image ? `<a class="ev-thumb" href="/events/#${e.slug}"><img src="${e.image}" alt="" loading="lazy" width="96" height="64"></a>` : `<div class="date">${dateChip(e)}</div>`}<div><strong><a href="/events/#${e.slug}">${esc(e.title)}</a></strong><span>${fmtShort(e.start)}${e.end && e.end !== e.start ? " - " + fmtShort(e.end) : ""} &middot; ${esc(e.venue)}</span></div></li>`).join("")}</ul>
-    <a class="btn btn-ghost" href="/submit-event/">Submit an event</a></div>
-    <div class="explore"><h3>Explore Alpharetta</h3><ul>${[["/avalon/", "Avalon guide", "Restaurants, shops, parking"], ["/halcyon/", "Halcyon guide", "Dining, happy hours, events"], ["/avalon/christmas/", "Christmas at Avalon", "Tree lighting, ice skating"], ["/restaurants/", "Restaurants", places.filter(p => p.cat === "restaurants").length + " places to eat"], ["/things-to-do/", "Things to do", "Parks, trails, family fun"], ["/services/", "Local services", "Plumbers, dentists, vets"], ["/add-your-business/", "Add your business", "Free or Featured"]].map(([u, t, d]) => `<li><a href="${u}"><strong>${t}</strong><span>${d}</span></a></li>`).join("")}</ul></div>
-    ${sponsor("rect")}
-  </aside></div>
+<section class="m-hero"${heroImg ? ` style="background-image:url(${heroImg})"` : ""}><div class="wrap"><div class="m-kicker">Alpharetta, Georgia</div>
+  <h1>Find the best of Alpharetta</h1>
+  <p>${places.length}+ restaurants, shops and local businesses across Alpharetta, GA, plus what's happening this week.</p>
+  <form class="m-search" role="search" action="/directory/" method="get"><label>${hi("srch")}<span class="sr">Search</span><input name="q" type="search" placeholder="Search sushi, plumbers, parks..."></label><button type="submit">Search</button></form>
+  <div class="m-chips"><a class="hot" href="/events/">This weekend</a><a href="/restaurants/">Restaurants</a>${season.length ? `<a href="/blog/${season[0].slug}/">Holiday events</a>` : ""}<a href="/avalon/">Avalon</a><a href="/halcyon/">Halcyon</a><a href="/things-to-do/">Things to do</a><a href="/services/">Home services</a></div>
 </div></section>
 
-<section class="block" id="directory"><div class="wrap">
-  <div class="sec-head"><h2>The Alpharetta directory</h2><a href="/directory/">Browse everything</a></div>
-  <div class="cats">${CATS.filter(c => counts[c.id]).slice(0, 7).map(c => `<a class="cat" href="/directory/?cat=${c.id}"><svg viewBox="0 0 64 64"><use href="#logo"/></svg><div><strong>${c.label}</strong><span>${counts[c.id]} places</span></div></a>`).join("")}<a class="cat" href="/add-your-business/"><svg viewBox="0 0 64 64"><use href="#logo"/></svg><div><strong>Add your business</strong><span>Free listing</span></div></a></div>
-  <div class="sec-head" style="margin-top:48px"><h2 style="font-size:26px">Local favorites</h2><a href="/add-your-business/">Add your business</a></div>
-  <div class="listings">${featured.map(listingCard).join("")}</div>
+${events.length ? `<section class="m-sec" id="events"><div class="wrap"><div class="m-head"><h2>Happening this week</h2><a href="/events/">All events</a></div><div class="m-row">${events.slice(0, 4).map(evCard).join("")}</div></div></section>` : ""}
+
+<section class="m-sec" id="directory"><div class="wrap"><div class="m-head"><h2>Browse the directory</h2><a href="/directory/">See all ${places.length}</a></div>
+  <div class="m-cats">${homeCats.map(c => `<a class="m-cat" href="/directory/?cat=${c[2]}"><i>${hi(c[0])}</i><strong>${c[1]}</strong><span>${counts[c[2]]} places</span></a>`).join("")}<a class="m-cat" href="/directory/"><i>${hi("more")}</i><strong>All categories</strong><span>${places.length} places</span></a></div>
+</div></section>
+
+<section class="m-sec" id="areas"><div class="wrap"><div class="m-head"><h2>Explore by area</h2><a href="/areas/">All areas</a></div>
+  <div class="m-areas">${homeAreas.map((a, n) => `<a class="m-ar${n ? "" : " big"}" href="${a[1]}">${cv(a[2]) ? `<img src="${cv(a[2])}" alt="" loading="lazy" width="800" height="450">` : ""}<div><strong>${a[0]}</strong><span>${a[3]}</span></div></a>`).join("")}<a class="m-ar all" href="/areas/"><div><strong>Windward, North Point, Crabapple and more</strong></div></a></div>
+</div></section>
+
+<section class="m-sec alt"><div class="wrap"><div class="m-head"><h2>Featured local businesses</h2><a href="/add-your-business/">Get Featured</a></div>
+  <div class="m-row">${spot.map(p => `<a class="m-fc" href="/places/${p.slug}/"><span class="bd">${p.premium ? "Featured" : "Local favorite"}</span><strong>${esc(p.name)}</strong><span>${esc(p.type)} &middot; ${esc(p.area || "Alpharetta")}</span></a>`).join("")}<a class="m-fc you" href="/add-your-business/"><span class="bd">Your spot</span><strong>Your business here</strong><span>Top of your category, with photos.</span><em>From $19/month</em></a></div>
+</div></section>
+
+<section class="m-sec" id="news"><div class="wrap"><div class="m-head"><h2>Latest from Alpharetta</h2><a href="/blog/">All news and guides</a></div>
+  <div class="m-news"><a class="m-ld" href="/blog/${hLead.slug}/"><div class="ph">${coverImg(hLead, false)}</div><div class="tg">${esc(hLead.category)}</div><h3>${esc(hLead.h1)}</h3><p>${esc(hLead.description)}</p></a>
+  <div class="m-sd">${hSide.map(p => `<a href="/blog/${p.slug}/"><div class="ph">${coverImg(p)}</div><div><div class="tg">${esc(p.category)}</div><h4>${esc(p.h1)}</h4></div></a>`).join("")}</div></div>
+  <ul class="m-more">${hMore.map(p => `<li><a href="/blog/${p.slug}/">${esc(p.h1)}</a><span>${fmtDate(p.published)}</span></li>`).join("")}</ul>
+  ${season.length > 1 ? `<div class="m-season"><div><div class="m-kicker">Holiday guide 2026</div><h2>Christmas in Alpharetta</h2><p>Tree lightings, ice skating, lights and what's open, all in one place.</p></div><ul>${season.map(p => `<li><a href="/blog/${p.slug}/">${esc(p.h1.split(":")[0])}</a></li>`).join("")}</ul></div>` : ""}
 </div></section>
 
 <section class="block equine" id="districts"><div class="wrap">
