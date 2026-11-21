@@ -1974,5 +1974,81 @@
         "url": "https://www.awesomealpharetta.com/lights-on-the-loop-2026/"
       }
     ]
+  },
+  {
+    "slug": "santa-photos-alpharetta-ga-2026",
+    "title": "Santa Photos in Alpharetta, GA (2026): Dates, Times & Prices",
+    "seoTitle": "Santa Photos in Alpharetta, GA (2026): Dates, Hours & Prices",
+    "h1": "Santa Photos in Alpharetta, GA (2026): Dates, Times and Prices",
+    "description": "Where to get Santa photos in Alpharetta in 2026: Santa at Avalon ($40 to $50), The North Point Pole at North Point Mall ($39.99 to $64.99), free photos downtown Dec. 5, Halcyon Holiday Magic, pet photos, sensory-friendly sessions and Santa breakfasts.",
+    "category": "Events",
+    "published": "2026-11-21",
+    "updated": "2026-11-21",
+    "readMins": 6,
+    "coverPrompt": "Photorealistic wide 16:9 cozy Santa's cottage photo set at an upscale outdoor shopping district at dusk, a red velvet armchair beside a decorated Christmas tree with warm string lights, wrapped presents and a softly glowing wooden cottage, an empty chair awaiting visitors, light winter haze, warm charcoal and gold tones, editorial magazine style, no text, no logos, no readable signs, no recognizable real people",
+    "faq": [
+      {
+        "q": "Where can I get Santa photos in Alpharetta in 2026?",
+        "a": "Santa at Avalon in Palmer Plaza (Nov. 23 to Dec. 24), The North Point Pole at North Point Mall (Nov. 21 to Dec. 24), free Pictures with Santa at the Alpharetta Welcome Center on Dec. 5, and Halcyon Holiday Magic on Dec. 5."
+      },
+      {
+        "q": "How much are Santa photos at Avalon?",
+        "a": "Avalon's packages are $40 for five digital photos, $45 with prints, $45 with eight printed Christmas cards, and $50 for the Value Bundle with digital photos, prints, cards and wallets."
+      },
+      {
+        "q": "How much are Santa photos at North Point Mall?",
+        "a": "The North Point Pole packages are $39.99 (C), $49.99 (B), $54.99 (A) and $64.99 (A+), the same for Traditional Santa, Santa Paws and Silent Santa sessions."
+      },
+      {
+        "q": "Are there free Santa photos in Alpharetta?",
+        "a": "Yes. The Alpharetta Convention and Visitors Bureau hosts Free Pictures with Santa on Saturday, Dec. 5, 2026, from 10 a.m. to noon at 178 S. Main St., Suite 200. Don't wear green (green screen) and leave pets at home."
+      },
+      {
+        "q": "Can I take my dog to see Santa in Alpharetta?",
+        "a": "Yes. Avalon offers walk-up Pet Portraits with Santa on Tuesdays from 6 to 8 p.m., and North Point Mall offers Santa Paws sessions you can book online."
+      },
+      {
+        "q": "Is Santa at Avalon open on Christmas Eve?",
+        "a": "Yes, from 10 a.m. to 5 p.m. on Dec. 24, walk-ups only. Santa's cottage is closed on Thanksgiving."
+      }
+    ],
+    "sources": [
+      {
+        "name": "Experience Avalon: Santa at Avalon",
+        "url": "https://experienceavalon.com/events/santa-at-avalon/"
+      },
+      {
+        "name": "Experience Avalon: Breakfast with Santa",
+        "url": "https://experienceavalon.com/events/breakfast-with-santa/"
+      },
+      {
+        "name": "Experience Avalon: Story Time with Santa",
+        "url": "https://experienceavalon.com/events/story-time-with-santa/"
+      },
+      {
+        "name": "North Point: The North Point Pole",
+        "url": "https://northpointmall.com/events/north-point-the-north-point-pole"
+      },
+      {
+        "name": "Souvenir Photograph: North Point Mall booking",
+        "url": "https://www.spphotostation.com/book/NORTH-POINT-MALL"
+      },
+      {
+        "name": "Awesome Alpharetta: Santa Sightings",
+        "url": "https://www.awesomealpharetta.com/santa-sightings/"
+      },
+      {
+        "name": "Halcyon: Halcyon Holiday Magic",
+        "url": "https://www.visithalcyon.com/events/halcyon-holiday-magic/"
+      },
+      {
+        "name": "Halcyon: HOBNOB's Brunch with the Grinch",
+        "url": "https://www.visithalcyon.com/events/hobnobs-brunch-with-the-grinch/"
+      },
+      {
+        "name": "Dave & Buster's: Breakfast with Santa",
+        "url": "https://www.daveandbusters.com/us/en/holidaydeals/breakfast-with-santa"
+      }
+    ]
   }
 ]
