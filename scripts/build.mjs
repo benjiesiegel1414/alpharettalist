@@ -187,6 +187,7 @@ const HOME_ICONS = {
 };
 const tabbar = (urlPath) => { const ic = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${HOME_ICONS[k]}</svg>`; const t = [["/", "home", "Home"], ["/restaurants/", "eat", "Eat"], ["/events/", "cal", "Events"], ["/areas/", "pin", "Areas"], ["/directory/", "srch", "Search"]]; return `<nav class="tabbar" aria-label="Quick links">${t.map(x => `<a href="${x[0]}"${(x[0] === "/" ? urlPath === "/" : urlPath.startsWith(x[0])) ? ' class="on" aria-current="page"' : ""}>${ic(x[1])}${x[2]}</a>`).join("")}</nav>`; };
 
+const ADSENSE_CLIENT = "ca-pub-9929351005136304";
 function layout({ title, description, urlPath, body, jsonld = [], ogType = "website", noindex = false, article = null, image = "", sponsors = true, bodyClass = "", ads = false }) {
   const ogImg = image ? SITE + image : SITE + "/assets/og.jpg";
   const canonical = SITE + urlPath;
@@ -224,6 +225,7 @@ ${article ? `<meta property="article:published_time" content="${article.publishe
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=${ASSET_V}">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>
 ${ld}
 </head>
 <body${bodyClass ? ` class="${bodyClass}"` : ""}>
@@ -1140,6 +1142,7 @@ ${posts.map(p => `<item><title>${esc(p.title)}</title><link>${SITE}/blog/${p.slu
 </channel></rss>
 `);
 write("CNAME", "alpharettalist.com\n");
+write("ads.txt", "google.com, pub-9929351005136304, DIRECT, f08c47fec0fb94c0\n");
 write(".nojekyll", "");
 // Search suggestions for the header search box: [title, url, label, extra keywords]
 {
