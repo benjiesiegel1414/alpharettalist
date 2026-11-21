@@ -231,6 +231,7 @@ ${sprite}
 <a class="sr" href="#main">Skip to content</a>
 <header class="site"><div class="wrap">
   ${logo(false)}
+  <form class="hsearch" role="search" action="/directory/" method="get"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg><span class="sr">Search Alpharetta</span><input name="q" type="search" placeholder="Search Alpharetta..." autocomplete="off"></label></form>
   <nav class="main" id="mainnav" aria-label="Main">${NAV.map(([h, l]) => `<a href="${h}"${h === "/advertise/" ? ' class="nav-ad"' : ""}${urlPath.startsWith(h) ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
   <a class="btn btn-primary header-cta" href="/add-your-business/">Add your business</a>
   <button class="menu-toggle" aria-expanded="false" aria-controls="mainnav">Menu</button>

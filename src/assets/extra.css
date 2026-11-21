@@ -423,3 +423,25 @@
 @media print{.tabbar{display:none}}
   .pl-main,.pl-main>*{min-width:0}
   .pl-main .table-wrap,.pl-section .table-wrap{overflow-x:auto;max-width:100%}
+
+/* Sticky header search */
+.hsearch{flex:1 1 170px;max-width:250px;min-width:150px}
+.hsearch label{display:flex;align-items:center;gap:8px;background:#F7F4EC;border:1px solid var(--line);border-radius:999px;padding:0 14px;height:40px;color:#6B6155}
+.hsearch label:focus-within{border-color:#C9A24B;background:#fff;box-shadow:0 0 0 3px rgba(201,162,75,.18)}
+.hsearch svg{width:17px;height:17px;flex:none}
+.hsearch input{border:0;outline:0;background:none;font:400 14.5px var(--sans);color:var(--ink);width:100%;min-width:0;padding:0}
+header.site .wrap{gap:20px}
+header.site .brand,header.site .brand-name,nav.main a,.header-cta{white-space:nowrap;flex-shrink:0}
+nav.main{flex-shrink:0}
+@media (min-width:861px){nav.main{gap:15px;font-size:14px}.hsearch{max-width:190px}header.site .wrap{gap:16px}header.site .brand-name{font-size:23px}.header-cta{padding:11px 13px;font-size:13.5px}}
+@media (max-width:1200px) and (min-width:861px){.header-cta{display:none}}
+@media (max-width:1000px){
+ header.site .wrap{flex-wrap:wrap;height:auto;row-gap:0;padding-top:12px;padding-bottom:10px}
+ .hsearch{order:5;flex:1 0 100%;max-width:none;margin-top:10px}
+ nav.main a{padding:10px 0}
+}
+@media (max-width:860px){
+ .hsearch input{font-size:16px}
+ nav.main.open{top:100%}
+ .prose h2{scroll-margin-top:130px}
+}
