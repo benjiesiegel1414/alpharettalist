@@ -317,8 +317,8 @@ ${events.length ? `<section class="m-sec" id="events"><div class="wrap"><div cla
   <div class="m-areas">${homeAreas.map((a, n) => `<a class="m-ar${n ? "" : " big"}" href="${a[1]}">${cv(a[2]) ? `<img src="${cv(a[2])}" alt="" loading="lazy" width="800" height="450">` : ""}<div><strong>${a[0]}</strong><span>${a[3]}</span></div></a>`).join("")}<a class="m-ar all" href="/areas/"><div><strong>Windward, North Point, Crabapple and more</strong></div></a></div>
 </div></section>
 
-<section class="m-sec alt"><div class="wrap"><div class="m-head"><h2>Featured local businesses</h2><a href="/add-your-business/">Get Featured</a></div>
-  <div class="m-row">${paid.slice(0, 4).map(p => `<a class="m-fc" href="/places/${p.slug}/"><span class="bd">Featured</span><strong>${esc(p.name)}</strong><span>${esc(p.type)} &middot; ${esc(p.area || "Alpharetta")}</span></a>`).join("")}${Array.from({ length: Math.max(0, 4 - paid.length) }, () => `<a class="m-fc you" href="/add-your-business/"><span class="bd">Open spot</span><strong>Your business here</strong><span>Top of your category, with photos.</span><em>$19/month</em></a>`).join("")}</div>
+<section class="m-sec alt" id="featured"><div class="wrap"><div class="m-head"><h2>Featured local businesses</h2><a href="/advertise/#featured-spots">Get Featured</a></div>
+  <div class="m-row">${paid.slice(0, 4).map(p => `<a class="m-fc" href="/places/${p.slug}/"><span class="bd">Featured</span><strong>${esc(p.name)}</strong><span>${esc(p.type)} &middot; ${esc(p.area || "Alpharetta")}</span></a>`).join("")}${Array.from({ length: Math.max(0, 4 - paid.length) }, () => `<a class="m-fc you" href="/advertise/#featured-spots"><span class="bd">Open spot</span><strong>Your business here</strong><span>Top of your category, with photos.</span><em>$19/month</em></a>`).join("")}</div>
 </div></section>
 
 <section class="m-sec" id="news"><div class="wrap"><div class="m-head"><h2>Latest from Alpharetta</h2><a href="/blog/">All news and guides</a></div>
@@ -994,6 +994,7 @@ formPage({
 // ---------- Advertise ----------
 {
   const crumbs = [["Home", "/"], ["Advertise", "/advertise/"]];
+  const spotsOpen = Math.max(0, 4 - places.filter(p => p.premium).length);
   const nPlaces = places.length, nEvents = events.length;
   const subj = encodeURIComponent("Advertising on Alpharetta List");
   const mailBtn = (cls = "btn btn-primary") => `<a class="${cls}" href="mailto:${MAIL}?subject=${subj}">Email ${MAIL}</a>`;
@@ -1010,6 +1011,29 @@ formPage({
   <div class="head-stats"><span><b>${nPlaces}</b> local listings</span><span><b>${CATS.filter(c => places.some(p => p.cat === c.id)).length}</b> categories</span><span><b>${nEvents}</b> upcoming events</span></div>`) + `
 <section class="wrap ad-sec">
   <div class="ad-intro"><p class="lede">Alpharetta List is the independent local guide to Alpharetta, Georgia. When someone looks up the best sushi near Avalon, a plumber in North Fulton or what's happening downtown this weekend, they land on our pages. Sponsoring Alpharetta List puts your business right where those decisions get made.</p></div>
+  <div class="spot-box" id="featured-spots">
+    <div class="spot-copy">
+      <div class="spot-kicker">${spotsOpen > 0 ? `${spotsOpen} of 4 spots open` : "All 4 spots taken"} &middot; Buy online</div>
+      <h2>Homepage Featured spots</h2>
+      <p class="spot-price"><b>$19</b><span>/month</span><em>Cancel anytime</em></p>
+      <p><strong>What it is:</strong> one of only four business cards in the &ldquo;Featured local businesses&rdquo; row on the Alpharetta List homepage. Your card shows your business name, what you do and your area, and links to your own Featured page.</p>
+      <p><strong>Where it is:</strong> on the <a href="/#featured">homepage</a>, right under &ldquo;Explore by area&rdquo; and above the latest news. On phones it is a swipeable row. It is the first place on the site where visitors see local businesses.</p>
+      <ul class="spot-list">${["A homepage spot, one of only four", "<strong>Pinned to the top</strong> of your category in the directory", "Your own page with logo and <strong>up to 10 photos</strong>", "Book now button, social links and a specials box", "Mentions in related Alpharetta guides"].map(t => `<li>${t}</li>`).join("")}</ul>
+      <a class="btn btn-primary spot-btn" href="${STRIPE_MONTHLY}" rel="noopener">Claim a Featured spot for $19/month</a>
+      <p class="spot-fine">Secure checkout by Stripe. Right after checkout you'll add your details, logo and photos, and your listing usually goes live within the hour. ${spotsOpen > 0 ? "Homepage spots are first come, first served." : "The four homepage spots are full right now, so new Featured businesses get everything else and the next homepage spot that opens."}</p>
+    </div>
+    <div class="spot-map" aria-hidden="true">
+      <div class="sm-bar"></div>
+      <div class="sm-hero"><i></i><b></b></div>
+      <div class="sm-row"><span></span><span></span><span></span><span></span></div>
+      <div class="sm-label">Events and directory</div>
+      <div class="sm-areas"><span></span><span></span><span></span></div>
+      <div class="sm-feat"><em>Featured local businesses</em><div><span>Your business</span><span></span><span></span><span></span></div></div>
+      <div class="sm-label">Latest news</div>
+      <div class="sm-news"><span></span><span></span></div>
+      <p>Where your card appears on the homepage</p>
+    </div>
+  </div>
   <h2 class="ad-h">Why sponsor Alpharetta List</h2>
   <div class="ad-grid">
     ${card("High-intent local readers", "Our visitors aren't scrolling past. They're looking for a place to eat, a service to hire or something to do in Alpharetta, right now.")}
@@ -1019,7 +1043,7 @@ formPage({
   <h2 class="ad-h">Ways to sponsor</h2>
   <div class="ad-grid ad-grid-2">
     ${card("Directory sponsor", "Become the presenting sponsor of the Alpharetta List directory or one category, like Eat and Drink, Home services or Health and medical, with your brand at the top of the page.")}
-    ${card("Featured listing", "Pin your business to the top of its category with a highlighted card, your logo and a direct link to your site or booking page.")}
+    ${card("Featured listing", "Pin your business to the top of its category with your logo, photos and a booking button. $19/month, and you can <a href=\"#featured-spots\">buy it online</a> in two minutes.")}
     ${card("Sponsored guide", "A dedicated, clearly labeled article about your business, menu, opening or offer, written for local readers and promoted across the site.")}
     ${card("Events calendar sponsor", "Promote your event or venue at the top of the Alpharetta events calendar, one of the most-visited pages for things to do.")}
   </div>
