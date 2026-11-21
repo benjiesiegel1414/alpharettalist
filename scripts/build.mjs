@@ -288,7 +288,7 @@ const add = (urlPath, html, priority = "0.7", lastmod = BUILD_DATE) => { write(u
   const lead = posts[0], minis = posts.slice(1, 3), rest = posts.slice(3, 9);
   const hi = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${HOME_ICONS[k]}</svg>`;
   const cv = (slug) => fs.existsSync(path.join(SRC, "covers", slug + ".jpg")) ? `/assets/covers/${slug}.jpg` : "";
-  const heroImg = ["christmas-lights-near-alpharetta-ga-2026", "best-restaurants-downtown-alpharetta-ga"].map(cv).find(Boolean) || "";
+  const heroImg = ["home-hero", "best-restaurants-downtown-alpharetta-ga"].map(cv).find(Boolean) || ""; // home-hero.jpg: Alpharetta City Hall, softened
   const homeCats = [["eat", "Restaurants", "restaurants"], ["fun", "Things to do", "things-to-do"], ["park", "Parks and trails", "parks"], ["shop", "Shopping", "shopping"], ["home", "Home services", "home"], ["health", "Health", "health"], ["beauty", "Beauty and spas", "beauty"]].filter(c => counts[c[2]]);
   const homeAreas = [["Avalon", "/avalon/", "avalon-on-ice-skating-alpharetta-2026", "Shops, dining, ice rink"], ["Downtown Alpharetta", "/areas/downtown-alpharetta/", "best-restaurants-downtown-alpharetta-ga", "City Center and Town Green"], ["Halcyon", "/halcyon/", "halcyon-alpharetta-guide-restaurants-shops-things-to-do", "Dining and the Greenway"], ["Big Creek Greenway", "/places/big-creek-greenway/", "big-creek-greenway-alpharetta-guide", "Trails and parks"]];
   const paid = places.filter(p => p.premium);
