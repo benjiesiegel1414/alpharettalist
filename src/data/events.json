@@ -447,5 +447,25 @@
   "time": "6 p.m. (doors 5:30 p.m.)",
   "desc": "A full performance of Handel's Messiah with the St. Aidan's Choir, the Trey Clegg Chamber Singers, Orchestra Symphoria Atlanta and professional vocal soloists, conducted by Trey Clegg. At 13560 Cogburn Road in Milton, a few minutes north of Alpharetta, with free parking.",
   "url": "https://www.eventbrite.com/e/st-aidans-presents-handels-messiah-tickets-2004042130961"
+ },
+ {
+  "slug": "next-level-junior-classic-football-exhibition-2026",
+  "title": "Next Level Junior Classic Football Exhibition",
+  "start": "2026-12-21",
+  "end": "2026-12-21",
+  "venue": "Alpharetta High School",
+  "time": "1 p.m. kickoff",
+  "desc": "High school juniors put their position coaching and film study into practice in the closing football exhibition of the Next Level Junior Classic, hosted by Our Vision Sports Education Foundation at Alpharetta High School, 3595 Webb Bridge Road. Open to the public. Admission is $15 per person and parking is free.",
+  "url": "https://www.ourvisionfoundation.com/nljc/"
+ },
+ {
+  "slug": "next-level-freshman-sophomore-classic-football-exhibition-2026",
+  "title": "Next Level Freshman/Sophomore Classic Football Exhibition",
+  "start": "2026-12-28",
+  "end": "2026-12-28",
+  "venue": "Alpharetta High School",
+  "time": "1 p.m. kickoff",
+  "desc": "High school freshmen and sophomores wrap up a weekend of football instruction and film study with an on-field exhibition, hosted by Our Vision Sports Education Foundation at Alpharetta High School, 3595 Webb Bridge Road. Open to the public. Admission is $15 per person and parking is free.",
+  "url": "https://www.ourvisionfoundation.com/next-level-classic/"
  }
 ]
