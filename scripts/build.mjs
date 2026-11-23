@@ -841,7 +841,7 @@ const bizCoreFields = (descHint, minWords) => `
   <label>Category *<select name="category" required><option value="">Choose one</option>${CATS.filter(c => !["coming-soon", "nearby"].includes(c.id)).map(c => `<option value="${c.id}">${c.label}</option>`).join("")}</select></label></div>
   <div class="row"><label>Type of business *<input name="subcategory" required maxlength="60" placeholder="e.g. Sushi restaurant, HVAC, Pediatric dentist"></label>
   <label>Phone *<input name="phone" type="tel" required placeholder="(770) 555-0123"></label></div>
-  <label>Street address *<input name="address" required placeholder="123 Main St, Alpharetta, GA 30009"><span class="hint">Must be in or near Alpharetta, GA, including the ZIP code.</span></label>
+  <label>Street address *<input name="address" required placeholder="123 Main St, Alpharetta, GA 30009"><span class="hint">Within about 50 miles of Alpharetta, GA. Include the ZIP code.</span></label>
   <label>Website<input name="website" type="url" placeholder="https://"></label>
   ${hoursInputs()}
   <label>Description * <span class="hint">${descHint} <span class="wc" data-min="${minWords}">0 words</span></span><textarea name="description" required data-minwords="${minWords}"></textarea></label>`;

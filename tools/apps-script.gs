@@ -23,7 +23,10 @@ var HEADERS = {
   Featured: ["timestamp", "approved", "review_notes", "plan", "session_id", "business_name", "category", "subcategory", "address", "phone", "website", "hours", "description", "deals", "booking_url", "facebook", "instagram", "mention_in", "existing_listing", "contact_name", "email", "logo_id", "photo_ids", "page"],
   Events: ["timestamp", "approved", "review_notes", "event_name", "start_date", "end_date", "start_time", "venue", "address", "link", "description", "email", "page"]
 };
-var LOCAL_ZIPS = ["30004", "30005", "30009", "30022", "30023", "30024", "30028", "30040", "30041", "30075", "30076", "30077", "30092", "30097", "30098", "30350", "30328", "30338"];
+// Service area: roughly 50 miles around Alpharetta (metro Atlanta and north Georgia), matched by ZIP code prefix.
+var LOCAL_ZIP_PREFIXES = ["300", "301", "302", "303", "305", "311", "399"];
+var LOCAL_ZIPS_EXTRA = ["30620", "30622", "30655", "30656", "30666", "30680"]; // Barrow and Walton county edge
+function inServiceArea_(zip) { return !!zip && (LOCAL_ZIP_PREFIXES.indexOf(zip.slice(0, 3)) > -1 || LOCAL_ZIPS_EXTRA.indexOf(zip) > -1); }
 var BANNED = /\b(casino|gambl\w*|porn\w*|escorts?|xxx|viagra|cialis|onlyfans|payday loans?|crypto giveaway|forex signals?|bitcoin double|weed delivery|hookups?|adult massage|happy ending|body rub|replica watch\w*|essay writing|seo backlinks? package|sex|sexy|nude|nudes|naked|erotic\w*|fetish\w*|nsfw|strip club|gentlem[ae]n'?s club|sugar daddy|cam girls?|f+u+c+k\w*|shit\w*|bitch\w*|nazi\w*|guns? for sale|ammo for sale)\b/i;
 
 function setup() {
@@ -103,7 +106,7 @@ function contentProblems_(p, minWords, maxWords) {
   var zip = (String(p.address || "").match(/\b(\d{5})\b(?!.*\b\d{5}\b)/) || [])[1];
   if (name.length < 2 || name.length > 80) problems.push("business name missing or too long");
   if (!p.address || !/\bGA\b|Georgia/i.test(p.address)) problems.push("address is not in Georgia");
-  else if (!zip || LOCAL_ZIPS.indexOf(zip) === -1) problems.push("ZIP " + (zip || "missing") + " is outside the Alpharetta area");
+  else if (!inServiceArea_(zip)) problems.push("ZIP " + (zip || "missing") + " is more than about 50 miles from Alpharetta");
   if (digits.length !== 10) problems.push("phone number is not a 10-digit US number");
   if (words < minWords) problems.push("description is under " + minWords + " words");
   if (words > maxWords) problems.push("description is over " + maxWords + " words");
