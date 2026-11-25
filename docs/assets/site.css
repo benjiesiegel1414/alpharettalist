@@ -713,5 +713,9 @@ form.has-sg{position:relative}
 .spot-map p{margin:2px 0 0;text-align:center;font-size:12px;color:#6B6155}
 @media (max-width:860px){.spot-box{grid-template-columns:1fr;padding:24px 20px;gap:26px;margin:24px 0 34px}.spot-box h2{font-size:28px}.spot-btn{width:100%}.spot-map{max-width:360px;margin:0 auto;width:100%}}
 
+.form-done{background:#EEF6EE;border:1px solid #9CC79C;border-radius:14px;padding:22px 24px;margin:10px 0 20px;outline:0}
+.form-done strong{display:block;font-family:var(--serif);font-size:22px;font-weight:500;color:#1F4D2A;margin-bottom:6px}.form-done p{margin:0;color:#2B4A32}
+button[disabled]{opacity:.6;cursor:progress}
+
 .foot-h{font-size:14px;color:#fff;margin:0 0 14px;font-weight:600;font-family:var(--sans)}
 .h4{font-family:var(--serif);font-weight:500;font-size:22px;margin:2px 0 0;line-height:1.2}

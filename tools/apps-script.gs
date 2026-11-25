@@ -69,6 +69,10 @@ function doPost(e) {
     var header = sh.getLastRow() ? sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0] : (HEADERS[tab] || ["timestamp", "approved", "review_notes"]);
     if (!sh.getLastRow()) sh.appendRow(header);
 
+    // Repeat clicks: the same business from the same email (or the same Stripe checkout) is recorded and emailed once.
+    if (tab === "Businesses" && columnHas_(sh, header, "business_name", p.business_name) && columnHas_(sh, header, "email", p.email)) return out_("ok");
+    if (tab === "Featured" && p.session_id && columnHas_(sh, header, "session_id", p.session_id) && columnHas_(sh, header, "business_name", p.business_name)) return out_("ok");
+
     if (tab === "Featured") {
       var folder = photoFolder_().createFolder(String(p.business_name || "Business").slice(0, 60) + " " + Utilities.formatDate(new Date(), "America/New_York", "yyyy-MM-dd HHmm"));
       folder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);

@@ -129,20 +129,32 @@
   // Forms: post to Apps Script endpoint, or fall back to a pre-filled email
   Array.prototype.slice.call(document.querySelectorAll("form[data-wl-form]")).forEach(function(form){
     var status = form.querySelector(".status");
+    var btn = form.querySelector('button[type=submit], input[type=submit]');
+    var sending = false;
     form.addEventListener("submit", function(e){
       e.preventDefault();
+      if (sending) return; // one submission per click, even if the button is pressed again
       if (form.querySelector(".hp input") && form.querySelector(".hp input").value) return; // spam trap
       var data = new FormData(form);
       data.append("form_type", form.dataset.wlForm);
       data.append("page", location.pathname);
+      var label = btn ? (btn.tagName === "INPUT" ? btn.value : btn.textContent) : "";
+      var setBtn = function(t, off){ if (!btn) return; btn.disabled = off; if (btn.tagName === "INPUT") btn.value = t; else btn.textContent = t; };
+      sending = true; setBtn("Sending...", true);
+      if (status) status.textContent = "Sending your submission. This can take a few seconds.";
       var done = function(){
-        if (status) status.textContent = form.dataset.success || "Thank you, we received your submission.";
-        form.reset();
+        var msg = form.dataset.success || "Thank you, we received your submission.";
+        var box = document.createElement("div");
+        box.className = "form-done"; box.setAttribute("role", "status"); box.tabIndex = -1;
+        box.innerHTML = "<strong>Got it. Your submission was received.</strong><p></p>";
+        box.querySelector("p").textContent = msg + " You only need to submit once.";
+        form.parentNode.insertBefore(box, form);
+        form.hidden = true;
+        box.scrollIntoView({ block: "center" }); box.focus({ preventScroll: true });
       };
+      var fail = function(){ sending = false; setBtn(label, false); if (status) status.textContent = "Something went wrong. Please try again."; };
       if (cfg.formEndpoint) {
-        fetch(cfg.formEndpoint, { method: "POST", mode: "no-cors", body: data })
-          .then(done)
-          .catch(function(){ if (status) status.textContent = "Something went wrong. Please try again."; });
+        fetch(cfg.formEndpoint, { method: "POST", mode: "no-cors", body: data }).then(done).catch(fail);
       } else {
         var lines = [];
         data.forEach(function(v, k){ if (k !== "website_url_hp") lines.push(k + ": " + v); });
