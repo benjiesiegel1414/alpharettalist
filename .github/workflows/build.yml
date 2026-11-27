@@ -4,7 +4,8 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: "17 * * * *"   # every hour, pulls approved submissions (free and Featured listings) from Google Sheets
+    # GitHub often skips scheduled runs under load, so ask for one every 15 minutes; new listings go live on the next run that happens.
+    - cron: "7,22,37,52 * * * *"   # pulls approved submissions (free and Featured listings) from Google Sheets
   workflow_dispatch:
 
 permissions:
